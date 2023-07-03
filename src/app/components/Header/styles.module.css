@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  height: 56px;
+  justify-content: center;
+  width: 100%;
+}
+
+.content_wrapper {
+  align-items: center;
+  border: 1px solid red;
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  max-width: 1280px; /* chakra-ui xl default breakpoint */
+  padding: 0 16px;
+  width: 100%;
+}
