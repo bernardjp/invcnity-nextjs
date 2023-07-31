@@ -1,6 +1,8 @@
+'use client';
 import './global.css';
 import { StyleProviders } from '@/style/StyleProvider';
 import Header from './components/Header';
+import { RecoilRoot } from 'recoil';
 
 export const metadata = {
   title: 'IN/VCNITY',
@@ -15,10 +17,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <StyleProviders>
-          <Header />
-          {children}
-        </StyleProviders>
+        <RecoilRoot>
+          <StyleProviders>
+            <Header />
+            {children}
+          </StyleProviders>
+        </RecoilRoot>
       </body>
     </html>
   );
