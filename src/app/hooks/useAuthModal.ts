@@ -1,11 +1,13 @@
 import { useRecoilState } from 'recoil';
-import { authModalAtom } from '@/recoil/AuthModalAtom';
+import { authModalAtom, ViewType } from '@/recoil/AuthModalAtom';
 
 export const useAuthModal = () => {
   const [modalState, setModalState] = useRecoilState(authModalAtom);
 
   const closeModal = () => setModalState((prev) => ({ ...prev, open: false }));
-  const openModal = () => setModalState((prev) => ({ ...prev, open: true }));
+  const openModal = (view: ViewType) => setModalState({ view, open: true });
+  const changeView = (view: ViewType) =>
+    setModalState((prev) => ({ ...prev, view }));
 
-  return { modalState, setModalState, closeModal, openModal };
+  return { modalState, changeView, closeModal, openModal };
 };
