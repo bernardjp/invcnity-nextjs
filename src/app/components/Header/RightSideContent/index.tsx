@@ -11,7 +11,8 @@ const RightSideContent: React.FC = () => {
     <Flex alignItems="center" gap={4}>
       <Link href="listas">Listas</Link>
       <Link href="propiedades">Propiedades</Link>
-      <Button onClick={() => openModal()}>Sign Up</Button>
+      <Button onClick={() => openModal('login')}>Login</Button>
+      <Button onClick={() => openModal('signup')}>Sign Up</Button>
     </Flex>
   );
 };
