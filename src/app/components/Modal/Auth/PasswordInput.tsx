@@ -1,24 +1,48 @@
 import { useState } from 'react';
-import { Button, Input, InputGroup, InputRightElement } from '@chakra-ui/react';
+import { Button, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import StyledInput from './StyledInput';
+import { useAuthModal } from '@/app/hooks/useAuthModal';
 
-function PasswordInput(): React.ReactElement {
+type PropsType = {
+  name: 'password' | 'confirmPassword';
+  placeholder: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+};
+
+function PasswordInput(props: PropsType): React.ReactElement {
+  const { name, placeholder, onChange } = props;
+
+  const { modalState } = useAuthModal();
   const [show, setShow] = useState(false);
+
   const handleClick = () => setShow(!show);
 
   return (
     <InputGroup size="md">
-      <Input
-        pr="4.5rem"
+      <StyledInput
         type={show ? 'text' : 'password'}
-        placeholder="Enter password"
+        name={name}
+        placeholder={placeholder}
+        onChange={onChange}
       />
-      <InputRightElement width="4.5rem">
-        <Button h="1.75rem" size="sm" onClick={handleClick}>
-          {/*show ? 'Hide' : 'Show'*/}
-          {show ? <ViewOffIcon /> : <ViewIcon />}
-        </Button>
-      </InputRightElement>
+      {modalState.view === 'login' && (
+        <InputRightElement width="3rem">
+          <Button
+            h="1.75rem"
+            size="md"
+            variant="ghost"
+            padding={0}
+            onClick={handleClick}
+          >
+            {show ? (
+              <ViewOffIcon boxSize={5} color="gray.400" />
+            ) : (
+              <ViewIcon boxSize={5} color="gray.400" />
+            )}
+          </Button>
+        </InputRightElement>
+      )}
     </InputGroup>
   );
 }
