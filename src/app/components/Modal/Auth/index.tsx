@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import AuthInputs from './AuthInputs';
 import AuthFooter from './AuthFooter';
+import OAuthButtons from './OAuthButtons';
 import { useAuthModal } from '@/app/hooks/useAuthModal';
 
 const modalTitle = {
@@ -43,7 +44,7 @@ function AuthModal(): React.ReactElement {
           <ModalCloseButton borderRadius={50} />
 
           <ModalBody paddingInline={16}>
-            {/* <OauthButtons /> */}
+            <OAuthButtons />
             <AuthInputs />
             {/* <ResetPassword /> */}
           </ModalBody>
