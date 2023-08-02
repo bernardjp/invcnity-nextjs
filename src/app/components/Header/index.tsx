@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './styles.module.css';
 import RightSideContent from './RightSideContent';
 import LeftSideContent from './LeftSideContent';
-import AuthModal from '../Modal/Auth/AuthModal';
+import AuthModal from '../Modal/Auth';
 
 const Header: React.FC = () => {
   return (
