@@ -1,0 +1,67 @@
+'use client';
+import React from 'react';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react';
+import AuthInputs from './AuthInputs';
+import AuthFooter from './AuthFooter';
+import { useAuthModal } from '@/app/hooks/useAuthModal';
+
+const modalTitle = {
+  login: 'Login in',
+  signup: 'Create an account',
+  resetPassword: 'Reset password',
+};
+
+function AuthModal(): React.ReactElement {
+  const { modalState, closeModal } = useAuthModal();
+
+  return (
+    <>
+      <Modal
+        isOpen={modalState.open}
+        motionPreset="slideInBottom"
+        closeOnOverlayClick={false}
+        onClose={() => closeModal()}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            marginBottom={4}
+          >
+            {modalTitle[modalState.view]}
+          </ModalHeader>
+          <ModalCloseButton borderRadius={50} />
+
+          <ModalBody paddingInline={16}>
+            {/* <OauthButtons /> */}
+            <AuthInputs />
+            {/* <ResetPassword /> */}
+          </ModalBody>
+
+          <ModalFooter
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            paddingInline={16}
+            paddingTop={1}
+            paddingBottom={10}
+          >
+            <AuthFooter />
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+}
+
+export default AuthModal;
