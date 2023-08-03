@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
-import { Button, Stack } from '@chakra-ui/react';
+import { Button, Stack, Text } from '@chakra-ui/react';
 import StyledInput from './StyledInput';
 import PasswordInput from './PasswordInput';
 import { useAuthModal } from '@/app/hooks/useAuthModal';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { auth } from '@/firebase/clientApp';
+import { SignUpValidation, validateSignUpForm } from './utils/validation';
+import { FIREBASE_ERRORS } from '@/firebase/errors';
 
 function SignUp(): React.ReactElement {
   const { closeModal } = useAuthModal(); // Placeholder functionality
   const [signupForm, setSignupForm] = useState({
     email: '',
-    username: '',
     password: '',
     confirmPassword: '',
   });
+  const [createUserWithEmailAndPassword, user, loading, userError] =
+    useCreateUserWithEmailAndPassword(auth);
+  const [formError, setFormError] = useState<SignUpValidation | null>(null);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const formValues = {
@@ -21,38 +27,54 @@ function SignUp(): React.ReactElement {
     setSignupForm(formValues);
   };
 
-  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
+  const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('signed in:', signupForm);
-    closeModal(); // Placeholder functionality
+    setFormError(null); // Reset the validation errors.
+
+    const { email, password, confirmPassword } = signupForm;
+    const formValidation = validateSignUpForm(email, password, confirmPassword);
+
+    if (formValidation.isValidated) {
+      createUserWithEmailAndPassword(email, password);
+    } else {
+      setFormError(formValidation);
+    }
   };
 
   return (
     <form onSubmit={onSubmitHandler}>
       <Stack>
         <StyledInput
-          type="text"
+          type="email"
           name="email"
           placeholder="Enter email"
-          onChange={onChangeHandler}
-        />
-        <StyledInput
-          type="text"
-          name="username"
-          placeholder="Enter username"
+          validation={formError?.email}
           onChange={onChangeHandler}
         />
         <PasswordInput
           name="password"
           placeholder="Enter password"
+          validation={formError?.password}
           onChange={onChangeHandler}
         />
         <PasswordInput
           name="confirmPassword"
           placeholder="Confirm password"
+          validation={formError?.confirmPassword}
           onChange={onChangeHandler}
         />
-        <Button borderRadius={50} colorScheme="blue" type="submit" width="100%">
+        {userError && (
+          <Text textAlign="center" fontSize={14} color="red.400">
+            {FIREBASE_ERRORS[userError.message as keyof typeof FIREBASE_ERRORS]}
+          </Text>
+        )}
+        <Button
+          isLoading={loading}
+          borderRadius={50}
+          colorScheme="blue"
+          type="submit"
+          width="100%"
+        >
           Sign Up
         </Button>
       </Stack>

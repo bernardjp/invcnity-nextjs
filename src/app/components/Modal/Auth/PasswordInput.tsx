@@ -3,15 +3,17 @@ import { Button, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import StyledInput from './StyledInput';
 import { useAuthModal } from '@/app/hooks/useAuthModal';
+import { AuthValidation } from './utils/validation';
 
 type PropsType = {
   name: 'password' | 'confirmPassword';
   placeholder: string;
+  validation?: AuthValidation;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 function PasswordInput(props: PropsType): React.ReactElement {
-  const { name, placeholder, onChange } = props;
+  const { name, placeholder, validation, onChange } = props;
 
   const { modalState } = useAuthModal();
   const [show, setShow] = useState(false);
@@ -24,6 +26,7 @@ function PasswordInput(props: PropsType): React.ReactElement {
         type={show ? 'text' : 'password'}
         name={name}
         placeholder={placeholder}
+        validation={validation}
         onChange={onChange}
       />
       {modalState.view === 'login' && (
