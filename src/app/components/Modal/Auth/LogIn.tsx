@@ -7,7 +7,7 @@ import { useAuthModal } from '@/app/hooks/useAuthModal';
 function Login(): React.ReactElement {
   const { closeModal } = useAuthModal(); // Placeholder functionality
   const [loginForm, setLoginForm] = useState({
-    username: '',
+    email: '',
     password: '',
   });
 
@@ -30,8 +30,8 @@ function Login(): React.ReactElement {
       <Stack>
         <StyledInput
           type="text"
-          name="username"
-          placeholder="Enter username"
+          name="email"
+          placeholder="Enter email"
           onChange={onChangeHandler}
         />
         <PasswordInput
