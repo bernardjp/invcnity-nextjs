@@ -8,6 +8,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Text,
 } from '@chakra-ui/react';
 import AuthInputs from './AuthInputs';
 import AuthFooter from './AuthFooter';
@@ -32,19 +33,28 @@ function AuthModal(): React.ReactElement {
         onClose={() => closeModal()}
       >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent mx={{ base: 4, md: 0 }} borderRadius={12}>
           <ModalHeader
             display="flex"
             alignItems="center"
             justifyContent="center"
-            marginBottom={4}
+            mb={4}
           >
             {modalTitle[modalState.view]}
           </ModalHeader>
           <ModalCloseButton borderRadius={50} />
 
-          <ModalBody paddingInline={16}>
+          <ModalBody paddingInline={{ base: 12, md: 16 }}>
             <OAuthButtons />
+            <Text
+              color="gray.400"
+              fontWeight="bold"
+              fontSize={12}
+              my={3}
+              textAlign="center"
+            >
+              OR
+            </Text>
             <AuthInputs />
             {/* <ResetPassword /> */}
           </ModalBody>
