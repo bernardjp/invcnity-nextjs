@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -14,6 +14,8 @@ import AuthInputs from './AuthInputs';
 import AuthFooter from './AuthFooter';
 import OAuthButtons from './OAuthButtons';
 import { useAuthModal } from '@/app/hooks/useAuthModal';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '@/firebase/clientApp';
 
 const modalTitle = {
   login: 'Login in',
@@ -23,6 +25,11 @@ const modalTitle = {
 
 function AuthModal(): React.ReactElement {
   const { modalState, closeModal } = useAuthModal();
+  const [user] = useAuthState(auth);
+
+  useEffect(() => {
+    if (user) closeModal();
+  }, [user, closeModal]);
 
   return (
     <>

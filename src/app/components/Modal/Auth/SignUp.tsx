@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import { Button, Stack, Text } from '@chakra-ui/react';
 import StyledInput from './StyledInput';
 import PasswordInput from './PasswordInput';
-import { useAuthModal } from '@/app/hooks/useAuthModal';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/clientApp';
 import { SignUpValidation, validateSignUpForm } from './utils/validation';
 import { FIREBASE_ERRORS } from '@/firebase/errors';
 
 function SignUp(): React.ReactElement {
-  const { closeModal } = useAuthModal(); // Placeholder functionality
   const [signupForm, setSignupForm] = useState({
     email: '',
     password: '',
