@@ -10,6 +10,12 @@ export type SignUpValidation = {
   isValidated: boolean;
 };
 
+export type LoginValidation = {
+  email: AuthValidation;
+  password: AuthValidation;
+  isValidated: boolean;
+};
+
 function validateEmail(email: string): AuthValidation {
   const EMAIL_REGEX = /^[\w\-\.]{3,64}@([\w-]+\.)+[\w-]{2,}$/gm;
   const isValidated = EMAIL_REGEX.test(email);
@@ -86,6 +92,22 @@ export function validateSignUpForm(
     email: emailValidation,
     password: passwordValidation,
     confirmPassword: confirmationValidation,
+    isValidated,
+  };
+}
+
+export function validateLoginForm(
+  email: string,
+  password: string
+): LoginValidation {
+  const emailValidation = validateEmail(email);
+  const passwordValidation = validatePassword(password);
+  const isValidated =
+    emailValidation.isValidated && passwordValidation.isValidated;
+
+  return {
+    email: emailValidation,
+    password: passwordValidation,
     isValidated,
   };
 }
