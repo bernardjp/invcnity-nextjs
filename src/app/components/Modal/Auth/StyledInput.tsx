@@ -6,7 +6,7 @@ type StyledInputProps = {
   type: 'text' | 'email' | 'password';
   name: 'email' | 'username' | 'password' | 'confirmPassword';
   placeholder: string;
-  validation?: AuthValidation;
+  validation: AuthValidation | undefined;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 

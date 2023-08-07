@@ -16,7 +16,7 @@ export type LoginValidation = {
   isValidated: boolean;
 };
 
-function validateEmail(email: string): AuthValidation {
+export function validateEmail(email: string): AuthValidation {
   const EMAIL_REGEX = /^[\w\-\.]{3,64}@([\w-]+\.)+[\w-]{2,}$/gm;
   const isValidated = EMAIL_REGEX.test(email);
 

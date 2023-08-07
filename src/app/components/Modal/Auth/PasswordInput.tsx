@@ -5,14 +5,14 @@ import StyledInput from './StyledInput';
 import { useAuthModal } from '@/app/hooks/useAuthModal';
 import { AuthValidation } from './utils/validation';
 
-type PropsType = {
+type PasswordInputProps = {
   name: 'password' | 'confirmPassword';
   placeholder: string;
-  validation?: AuthValidation;
+  validation: AuthValidation | undefined;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-function PasswordInput(props: PropsType): React.ReactElement {
+function PasswordInput(props: PasswordInputProps): React.ReactElement {
   const { name, placeholder, validation, onChange } = props;
 
   const { modalState } = useAuthModal();
