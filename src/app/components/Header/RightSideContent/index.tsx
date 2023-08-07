@@ -1,11 +1,8 @@
 'use client';
 import React from 'react';
-import { Flex, Button } from '@chakra-ui/react';
-import Link from 'next/link';
-import { useAuthModal } from '@/app/hooks/useAuthModal';
-import { useSignOut } from 'react-firebase-hooks/auth';
 import { User } from 'firebase/auth';
-import { auth } from '@/firebase/clientApp';
+import Navbar from './Navbar';
+import Dropdown from './Dropdown';
 
 type PropsType = {
   user: User | null | undefined;
@@ -13,26 +10,12 @@ type PropsType = {
 
 const RightSideContent: React.FC<PropsType> = (props: PropsType) => {
   const { user } = props;
-  const { openModal } = useAuthModal();
-  const [signOut] = useSignOut(auth);
-
-  const logoutHandler = () => signOut();
 
   return (
-    <Flex alignItems="center" gap={4}>
-      {user ? (
-        <>
-          <Link href="listas">Listas</Link>
-          <Link href="propiedades">Propiedades</Link>
-          <Button onClick={logoutHandler}>Logout</Button>
-        </>
-      ) : (
-        <>
-          <Button onClick={() => openModal('login')}>Login</Button>
-          <Button onClick={() => openModal('signup')}>Sign Up</Button>
-        </>
-      )}
-    </Flex>
+    <>
+      <Navbar user={user} />
+      <Dropdown user={user} />
+    </>
   );
 };
 export default RightSideContent;
