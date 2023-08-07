@@ -67,11 +67,16 @@ function SignUp(): React.ReactElement {
           </Text>
         )}
         <Button
+          mt={1}
           isLoading={loading}
           borderRadius={50}
-          colorScheme="blue"
+          color="white"
+          backgroundColor="teal.500"
           type="submit"
           width="100%"
+          _hover={{
+            backgroundColor: 'teal.400',
+          }}
         >
           Sign Up
         </Button>

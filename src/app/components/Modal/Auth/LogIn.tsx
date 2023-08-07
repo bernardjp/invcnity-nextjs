@@ -35,9 +35,7 @@ function Login(): React.ReactElement {
 
     if (loginValidation.isValidated) {
       signInWithEmailAndPassword(email, password);
-      console.log('logged in');
     } else {
-      console.log('login invalidated');
       setFormValidation(loginValidation);
     }
   };
@@ -64,11 +62,16 @@ function Login(): React.ReactElement {
           </Text>
         )}
         <Button
+          mt={1}
           isLoading={loading}
           borderRadius={50}
-          colorScheme="blue"
+          color="white"
+          backgroundColor="teal.500"
           type="submit"
           width="100%"
+          _hover={{
+            backgroundColor: 'teal.400',
+          }}
         >
           Login
         </Button>
