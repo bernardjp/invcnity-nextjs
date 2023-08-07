@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect } from 'react';
 import {
+  Flex,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -9,10 +10,12 @@ import {
   ModalBody,
   ModalCloseButton,
   Text,
+  Button,
 } from '@chakra-ui/react';
 import AuthInputs from './AuthInputs';
 import AuthFooter from './AuthFooter';
 import OAuthButtons from './OAuthButtons';
+import ResetPassword from './ResetPassword';
 import { useAuthModal } from '@/app/hooks/useAuthModal';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/clientApp';
@@ -24,7 +27,7 @@ const modalTitle = {
 };
 
 function AuthModal(): React.ReactElement {
-  const { modalState, closeModal } = useAuthModal();
+  const { modalState, closeModal, changeView } = useAuthModal();
   const [user] = useAuthState(auth);
 
   useEffect(() => {
@@ -52,29 +55,62 @@ function AuthModal(): React.ReactElement {
           <ModalCloseButton borderRadius={50} />
 
           <ModalBody paddingInline={{ base: 12, md: 16 }}>
-            <OAuthButtons />
-            <Text
-              color="gray.400"
-              fontWeight="bold"
-              fontSize={12}
-              my={3}
-              textAlign="center"
-            >
-              OR
-            </Text>
-            <AuthInputs />
-            {/* <ResetPassword /> */}
+            {modalState.view === 'resetPassword' ? (
+              <ResetPassword />
+            ) : (
+              <>
+                <OAuthButtons />
+                <Text
+                  color="gray.400"
+                  fontWeight="bold"
+                  fontSize={12}
+                  my={3}
+                  textAlign="center"
+                >
+                  OR
+                </Text>
+                <AuthInputs />
+              </>
+            )}
           </ModalBody>
 
           <ModalFooter
             display="flex"
             flexDirection="column"
             alignItems="center"
+            fontSize={13}
             paddingInline={16}
-            paddingTop={1}
-            paddingBottom={10}
+            paddingTop={0}
+            paddingBottom={8}
+            gap={1}
           >
-            <AuthFooter />
+            {modalState.view === 'resetPassword' ? (
+              <Flex>
+                <Button
+                  mr={1}
+                  colorScheme="teal"
+                  fontWeight="bold"
+                  fontSize="inherit"
+                  variant="link"
+                  onClick={() => changeView('login')}
+                >
+                  LOG IN
+                </Button>
+                -
+                <Button
+                  ml={1}
+                  colorScheme="teal"
+                  fontWeight="bold"
+                  fontSize="inherit"
+                  variant="link"
+                  onClick={() => changeView('signup')}
+                >
+                  SIGN UP
+                </Button>
+              </Flex>
+            ) : (
+              <AuthFooter />
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>
