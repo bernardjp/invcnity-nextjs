@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Button } from '@chakra-ui/react';
+import { Button, Flex } from '@chakra-ui/react';
 import { useAuthModal } from '@/app/hooks/useAuthModal';
 import { ViewType } from '@/recoil/AuthModalAtom';
 
@@ -13,21 +13,33 @@ function AuthFooter(): React.ReactElement {
 
   return (
     <>
-      <Text fontWeight="bold" fontSize={13}>
+      <Flex>
+        Forgot your password?
+        <Button
+          colorScheme="teal"
+          fontSize="inherit"
+          fontWeight="bold"
+          variant="link"
+          onClick={() => changeView('resetPassword')}
+        >
+          Reset
+        </Button>
+      </Flex>
+      <Flex>
         {modalState.view === 'login'
           ? 'First time here?'
           : 'Already have an account?'}
         <Button
-          marginLeft={1}
-          colorScheme="red"
-          fontWeight="inherit"
+          ml={1}
+          colorScheme="teal"
+          fontWeight="bold"
           fontSize="inherit"
           variant="link"
           onClick={() => onChangeView(modalState.view)}
         >
           {modalState.view === 'login' ? 'SIGN UP' : 'LOG IN'}
         </Button>
-      </Text>
+      </Flex>
     </>
   );
 }

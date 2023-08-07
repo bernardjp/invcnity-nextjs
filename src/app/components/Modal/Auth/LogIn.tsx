@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
-import { Button, Stack } from '@chakra-ui/react';
+import { Button, Stack, Text } from '@chakra-ui/react';
 import StyledInput from './StyledInput';
 import PasswordInput from './PasswordInput';
-import { useAuthModal } from '@/app/hooks/useAuthModal';
+import { auth } from '@/firebase/clientApp';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { FIREBASE_ERRORS } from '@/firebase/errors';
+import { LoginValidation, validateLoginForm } from './utils/validation';
 
 function Login(): React.ReactElement {
-  const { closeModal } = useAuthModal(); // Placeholder functionality
   const [loginForm, setLoginForm] = useState({
-    username: '',
+    email: '',
     password: '',
   });
+  const [signInWithEmailAndPassword, user, loading, userError] =
+    useSignInWithEmailAndPassword(auth);
+  const [formValidation, setFormValidation] = useState<LoginValidation | null>(
+    null
+  );
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const formValues = {
@@ -21,8 +28,16 @@ function Login(): React.ReactElement {
 
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    console.log('logged in:', loginForm);
-    closeModal(); // Placeholder functionality
+    setFormValidation(null);
+
+    const { email, password } = loginForm;
+    const loginValidation = validateLoginForm(email, password);
+
+    if (loginValidation.isValidated) {
+      signInWithEmailAndPassword(email, password);
+    } else {
+      setFormValidation(loginValidation);
+    }
   };
 
   return (
@@ -30,16 +45,34 @@ function Login(): React.ReactElement {
       <Stack>
         <StyledInput
           type="text"
-          name="username"
-          placeholder="Enter username"
+          name="email"
+          placeholder="Enter email"
+          validation={formValidation?.email}
           onChange={onChangeHandler}
         />
         <PasswordInput
           name="password"
           placeholder="Enter password"
+          validation={formValidation?.password}
           onChange={onChangeHandler}
         />
-        <Button borderRadius={50} colorScheme="blue" type="submit" width="100%">
+        {userError && (
+          <Text textAlign="center" fontSize={14} color="red.400">
+            {FIREBASE_ERRORS[userError.message as keyof typeof FIREBASE_ERRORS]}
+          </Text>
+        )}
+        <Button
+          mt={1}
+          isLoading={loading}
+          borderRadius={50}
+          color="white"
+          backgroundColor="teal.500"
+          type="submit"
+          width="100%"
+          _hover={{
+            backgroundColor: 'teal.400',
+          }}
+        >
           Login
         </Button>
       </Stack>
