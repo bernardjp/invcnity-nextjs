@@ -1,15 +1,21 @@
 import React from 'react';
 import { Button, Image, Stack, Text } from '@chakra-ui/react';
-import { auth } from '@/firebase/clientApp';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { auth } from '@/firebase/clientApp';
 import { FIREBASE_ERRORS } from '@/firebase/errors';
+import { createUserDocument } from '@/firebase/authUtils';
 
 function OAuthButtons(): React.ReactElement {
   const [signInWithGoogle, user, loading, userError] =
     useSignInWithGoogle(auth);
 
-  const googleAuthHandler = () => {
-    signInWithGoogle();
+  const googleAuthHandler = async () => {
+    try {
+      const newUser = await signInWithGoogle();
+      if (newUser) await createUserDocument(newUser);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
