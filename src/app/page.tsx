@@ -1,4 +1,10 @@
+import { Metadata } from 'next';
 import styles from './styles.module.css';
+
+export const metadata: Metadata = {
+  title: 'IN/VCNITY',
+  description: 'One place, all your future vicinities.',
+};
 
 function Home() {
   return (
