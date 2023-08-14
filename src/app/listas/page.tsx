@@ -21,8 +21,12 @@ function ListPage(): React.ReactElement {
       - roles --> { user_id_01: "owner", user_id_02: "editor", user_id_03: "reader" }
 
       Subcollection: (?) 
-      Option 01:
+      Option 01.a:
         - estates_list --> [estate_1.uid, estate_2.iud, ...]
+
+      Option 01.b: Subcollection of Estate_lists
+        - estates_list --> [{ id: estate_1.uid, name }, { id: estate_2.uid, name }, ...]
+      
       Option 02:
         Create "EstateSnippets" with basic info.
         This approach cuts down the amount of queries to DB, but must be updated everytime a new Estate is added.

@@ -3,17 +3,16 @@ import React from 'react';
 import { auth } from '@/firebase/clientApp';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import SignInHero from './SignInHero';
-import Dashboard from './Dashboard';
+import MainDashboard from './MainDashboard';
 
-function ListHandler(): React.ReactElement {
+function ListHandlerPage(): React.ReactElement {
   const [user, loading, error] = useAuthState(auth);
 
   return (
     <>
-      {/* {loading && <div>Loading...</div>} */}
-      {user && !loading ? <Dashboard user={user} /> : <SignInHero />}
+      {user && !loading ? <MainDashboard user={user} /> : <SignInHero />}
       {error && <div>{error.message}</div>}
     </>
   );
 }
-export default ListHandler;
+export default ListHandlerPage;
