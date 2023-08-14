@@ -22,8 +22,8 @@ const Navbar: React.FC<PropsType> = (props: PropsType) => {
     <Flex alignItems="center" gap={4} display={{ base: 'none', md: 'flex' }}>
       {user ? (
         <>
-          <Link href="listas">Listas</Link>
-          <Link href="propiedades">Propiedades</Link>
+          <Link href="/listas">Listas</Link>
+          <Link href="/propiedades">Propiedades</Link>
           <Button onClick={logoutHandler}>Logout</Button>
         </>
       ) : (
