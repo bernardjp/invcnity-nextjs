@@ -1,6 +1,7 @@
 import React from 'react';
 import ListHandler from '../components/ListsHandler';
 import { Metadata } from 'next';
+import ListCreationModal from '../components/Modal/ListCreation';
 
 export const metadata: Metadata = {
   title: 'IN/VCNITY Lists',
@@ -24,8 +25,9 @@ function ListPage(): React.ReactElement {
       Option 01.a:
         - estates_list --> [estate_1.uid, estate_2.iud, ...]
 
-      Option 01.b: Subcollection of Estate_lists
+      Option 01.b: Subcollection of Estate_lists or "ListSnippets"
         - estates_list --> [{ id: estate_1.uid, name }, { id: estate_2.uid, name }, ...]
+            |--> ListSnippet: { id, name, type: ["apartment", "house", "countryside", "vacation"] }
       
       Option 02:
         Create "EstateSnippets" with basic info.
@@ -48,6 +50,7 @@ function ListPage(): React.ReactElement {
 
   return (
     <main>
+      <ListCreationModal />
       <ListHandler />
     </main>
   );

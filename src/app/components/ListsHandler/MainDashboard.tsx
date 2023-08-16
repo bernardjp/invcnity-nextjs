@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { User } from 'firebase/auth';
+import { useCreateResourceModal } from '@/app/hooks/useCreateResourceModal';
 
 type ListDashboardProps = {
   user: User | null | undefined;
@@ -8,6 +9,7 @@ type ListDashboardProps = {
 
 function ListDashboard(props: ListDashboardProps): React.ReactElement {
   const { user } = props;
+  const { openModal } = useCreateResourceModal('list');
 
   return (
     <section>
@@ -22,7 +24,9 @@ function ListDashboard(props: ListDashboardProps): React.ReactElement {
         <Link href="/listas/789" style={{ padding: '1rem' }}>
           List 789
         </Link>
-        <button style={{ padding: '1rem' }}>Add list</button>
+        <button style={{ padding: '1rem' }} onClick={() => openModal()}>
+          Add list
+        </button>
       </div>
     </section>
   );
