@@ -1,14 +1,24 @@
 import React from 'react';
 import { FormControl, FormErrorMessage, Input } from '@chakra-ui/react';
-import { AuthValidation } from './utils/validation';
+import { AuthValidation } from './Auth/utils/validation';
 
-type StyledInputProps = {
+type InputProps = {
   type: 'text' | 'email' | 'password';
-  name: 'email' | 'username' | 'password' | 'confirmPassword';
   placeholder: string;
-  validation: AuthValidation | undefined;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
+
+export type AuthInputProps = InputProps & {
+  name: 'email' | 'username' | 'password' | 'confirmPassword';
+  validation: AuthValidation | undefined;
+};
+
+export type ListInputProps = InputProps & {
+  name: 'name' | 'type' | 'owner';
+  validation: AuthValidation | undefined; // Add ListValidation
+};
+
+type StyledInputProps = AuthInputProps | ListInputProps;
 
 const StyledInput: React.FC<StyledInputProps> = (props: StyledInputProps) => {
   const { type, name, placeholder, validation, onChange } = props;
