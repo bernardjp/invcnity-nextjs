@@ -4,7 +4,7 @@ import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/clientApp';
 import { FIREBASE_ERRORS } from '@/firebase/errors';
 import { AuthValidation, validateEmail } from './utils/validation';
-import StyledInput from './StyledInput';
+import StyledInput from '../StyledInput';
 
 function ResetPassword(): React.ReactElement {
   const [email, setEmail] = useState('');

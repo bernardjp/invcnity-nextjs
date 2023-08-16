@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Stack, Text } from '@chakra-ui/react';
-import StyledInput from './StyledInput';
+import StyledInput from '../StyledInput';
 import PasswordInput from './PasswordInput';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { SignUpValidation, validateSignUpForm } from './utils/validation';

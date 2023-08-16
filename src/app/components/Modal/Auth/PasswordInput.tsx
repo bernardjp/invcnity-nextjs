@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import StyledInput from './StyledInput';
+import StyledInput from '../StyledInput';
 import { useAuthModal } from '@/app/hooks/useAuthModal';
 import { AuthValidation } from './utils/validation';
 
