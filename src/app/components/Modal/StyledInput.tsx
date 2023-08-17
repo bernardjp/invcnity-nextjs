@@ -14,8 +14,8 @@ export type AuthInputProps = InputProps & {
 };
 
 export type ListInputProps = InputProps & {
-  name: 'name' | 'type' | 'owner';
-  validation: AuthValidation | undefined; // Add ListValidation
+  name: 'listName' | 'type' | 'owner';
+  validation: AuthValidation | undefined;
 };
 
 type StyledInputProps = AuthInputProps | ListInputProps;
@@ -31,16 +31,17 @@ const StyledInput: React.FC<StyledInputProps> = (props: StyledInputProps) => {
         pr={type === 'password' ? '3rem' : ''}
         type={type}
         placeholder={placeholder}
+        variant={name === 'listName' ? 'flushed' : 'outline'}
         _placeholder={{ color: 'gray.700' }}
         _hover={{
-          border: '1px solid',
-          borderColor: 'blue.400',
+          border: name === 'listName' ? '' : '1px solid',
+          borderColor: 'teal.400',
         }}
         _focus={{
           bg: 'white',
           outline: 'none',
-          border: '1px solid',
-          borderColor: 'blue.400',
+          border: name === 'listName' ? '' : '1px solid',
+          borderColor: 'teal.400',
         }}
         onChange={onChange}
       />
