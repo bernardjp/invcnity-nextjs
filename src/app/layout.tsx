@@ -3,6 +3,7 @@ import './global.css';
 import { StyleProviders } from '@/style/StyleProvider';
 import Header from './components/Header';
 import { RecoilRoot } from 'recoil';
+import Footer from './components/Footer';
 
 export const metadata = {
   title: 'IN/VCNITY',
@@ -21,6 +22,7 @@ export default function RootLayout({
           <StyleProviders>
             <Header />
             {children}
+            <Footer />
           </StyleProviders>
         </RecoilRoot>
       </body>
