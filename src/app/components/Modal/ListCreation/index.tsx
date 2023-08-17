@@ -5,11 +5,11 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react';
 import { useCreateResourceModal } from '@/app/hooks/useCreateResourceModal';
+import FormInputs from './FormInputs';
 
 function ListCreationModal(): React.ReactElement {
   const { modalState, closeModal } = useCreateResourceModal('list');
@@ -19,39 +19,25 @@ function ListCreationModal(): React.ReactElement {
       <Modal
         isOpen={modalState.list}
         motionPreset="slideInBottom"
+        size={{ base: 'md', md: 'lg' }}
         closeOnOverlayClick={false}
         onClose={() => closeModal()}
       >
         <ModalOverlay />
         <ModalContent mx={{ base: 4, md: 0 }} borderRadius={12}>
           <ModalHeader
-            display="flex"
             alignItems="center"
+            boxShadow="0px 10px 90px -20px rgba(188, 151, 6, 0.35)"
+            display="flex"
             justifyContent="center"
-            mb={4}
           >
             Create a new VCNITY
           </ModalHeader>
           <ModalCloseButton borderRadius={50} />
 
-          <ModalBody paddingInline={{ base: 12, md: 16 }}>
-            {/* Resource Creation Form */}
-            FORM
+          <ModalBody paddingInline={{ base: 12, md: 16 }} paddingBottom={8}>
+            <FormInputs />
           </ModalBody>
-
-          <ModalFooter
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            fontSize={13}
-            paddingInline={16}
-            paddingTop={0}
-            paddingBottom={8}
-            gap={1}
-          >
-            FOOTER
-            {/* Resource Creation Footer */}
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
