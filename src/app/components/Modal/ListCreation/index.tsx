@@ -36,7 +36,7 @@ function ListCreationModal(): React.ReactElement {
           <ModalCloseButton borderRadius={50} />
 
           <ModalBody paddingInline={{ base: 12, md: 16 }} paddingBottom={8}>
-            <FormInputs />
+            <FormInputs closeModal={closeModal} />
           </ModalBody>
         </ModalContent>
       </Modal>

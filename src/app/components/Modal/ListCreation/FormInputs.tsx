@@ -16,9 +16,14 @@ import { collection, doc, runTransaction } from 'firebase/firestore';
 const FORM_DEFAULT_VALUES: ListInfoType = {
   listName: '',
   type: 'apartment',
+  roles: {},
 };
 
-function FormInputs(): React.ReactElement {
+type FormInputProps = {
+  closeModal: () => void;
+};
+
+function FormInputs(props: FormInputProps): React.ReactElement {
   const [listFormData, setListFormData] = useState(FORM_DEFAULT_VALUES);
   const [formError, setFormError] = useState<ListFormValidation | null>(null);
   const [userCredentials] = useAuthState(auth);
@@ -53,7 +58,7 @@ function FormInputs(): React.ReactElement {
     // Add the new List to the List Collection and to the User ListSnippets.
     try {
       // Data to be added to the List Collection
-      const newList = {
+      const newList: ListInfoType = {
         ...listFormData,
         roles: { [userId]: 'owner' },
       };
@@ -62,9 +67,8 @@ function FormInputs(): React.ReactElement {
       await runTransaction(firestore, async (transaction) => {
         transaction.set(listDocRef, newList);
 
-        const listSnippet = {
-          ...listFormData,
-          role: 'owner',
+        const listSnippet: ListInfoType = {
+          ...newList,
           id: listDocRef.id,
         };
         const userDocRef = doc(
@@ -78,6 +82,7 @@ function FormInputs(): React.ReactElement {
 
       setLoading(false);
       setFormError(null);
+      props.closeModal();
     } catch (error) {
       console.log(error);
     }
