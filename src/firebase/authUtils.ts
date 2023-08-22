@@ -1,20 +1,30 @@
 import { UserCredential } from 'firebase/auth';
 import { firestore } from './clientApp';
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
 import { UserDoc } from './customTypes';
 
-export async function createUserDocument(user: UserCredential) {
+export async function createUserDocument(userData: UserCredential) {
+  const { user } = userData;
+
   try {
     const userDoc: UserDoc = {
-      uid: user.user.uid,
-      username: user.user.displayName,
-      email: user.user.email,
-      providerData: user.user.providerData,
+      uid: user.uid,
+      username: user.displayName,
+      email: user.email,
+      providerData: user.providerData,
     };
     // Firestore expects a doc formatted as JSON.
     const convertedDoc = convertToJSON(userDoc);
+    const userRef = doc(firestore, 'users', user.uid);
 
-    const docRef = await addDoc(collection(firestore, 'users'), convertedDoc);
+    await setDoc(userRef, convertedDoc);
   } catch (error) {
     console.log('createUser:', error);
   }
