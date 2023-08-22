@@ -17,9 +17,8 @@ function ListPage(): React.ReactElement {
     LIST (properties):
       - uid --> created by Firebase
       - name --> string
-      - created_by --> user.uid --> note: (optional) this set the role of this user to "owner"
-      (optional):
       - roles --> { user_id_01: "owner", user_id_02: "editor", user_id_03: "reader" }
+      - (optional) created_by --> user.uid --> note: this set the role of this user to "owner"
 
       Subcollection: (?) 
       Option 01.a:
