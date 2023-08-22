@@ -7,6 +7,9 @@ import {
   ListInfoType,
 } from './utils/validation';
 import RadioTypeTabs from './TypeRadioInputs';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth, firestore } from '@/firebase/clientApp';
+import { collection, doc, runTransaction } from 'firebase/firestore';
 // import { FIREBASE_ERRORS } from '@/firebase/errors';
 //import { updateProfile } from 'firebase/auth';
 
@@ -18,6 +21,8 @@ const FORM_DEFAULT_VALUES: ListInfoType = {
 function FormInputs(): React.ReactElement {
   const [listFormData, setListFormData] = useState(FORM_DEFAULT_VALUES);
   const [formError, setFormError] = useState<ListFormValidation | null>(null);
+  const [userCredentials] = useAuthState(auth);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const formValues = {
@@ -30,8 +35,13 @@ function FormInputs(): React.ReactElement {
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormError(null); // Reset the validation errors.
+    setLoading(true);
 
     const { listName, type } = listFormData;
+    const userId = userCredentials?.uid;
+
+    // Validates the states of the current user. Accessing the uid is key to create the list.
+    if (!userId) return;
 
     // Validate the format of the data.
     const formValidation = validateListForm(listName, type);
@@ -40,18 +50,38 @@ function FormInputs(): React.ReactElement {
       return;
     }
 
-    console.log('form is valid:', formValidation.isValidated);
-
     // Add the new List to the List Collection and to the User ListSnippets.
     try {
-      /* FIREBASE LOGIC */
+      // Data to be added to the List Collection
+      const newList = {
+        ...listFormData,
+        roles: { [userId]: 'owner' },
+      };
+      const listDocRef = doc(collection(firestore, 'estate_lists'));
+
+      await runTransaction(firestore, async (transaction) => {
+        transaction.set(listDocRef, newList);
+
+        const listSnippet = {
+          ...listFormData,
+          role: 'owner',
+          id: listDocRef.id,
+        };
+        const userDocRef = doc(
+          firestore,
+          `users/${userId}/listSnippets`,
+          listDocRef.id
+        );
+
+        transaction.set(userDocRef, listSnippet);
+      });
+
+      setLoading(false);
       setFormError(null);
     } catch (error) {
       console.log(error);
     }
   };
-
-  // console.log(listFormData);
 
   return (
     <form onSubmit={onSubmitHandler}>
@@ -84,7 +114,7 @@ function FormInputs(): React.ReactElement {
 
         <Button
           mt={4}
-          // isLoading={loading}
+          isLoading={loading}
           borderRadius={50}
           color="white"
           backgroundColor="teal.500"
