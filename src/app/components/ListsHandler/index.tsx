@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { auth } from '@/firebase/clientApp';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import SignInHero from './SignInHero';
-import MainDashboard from './MainDashboard';
+import ListsDashboard from '../ListsDashboard';
 import { ListInfoType } from '../Modal/ListCreation/utils/validation';
 import { getListSnippets } from '@/firebase/firestoreUtils';
 
@@ -21,7 +21,7 @@ function ListHandlerPage(): React.ReactElement {
   return (
     <>
       {user && !loading ? (
-        <MainDashboard user={user} listSnippets={listData} />
+        <ListsDashboard user={user} listSnippets={listData} />
       ) : (
         <SignInHero />
       )}

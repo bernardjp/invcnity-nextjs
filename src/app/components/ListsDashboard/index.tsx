@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { User } from 'firebase/auth';
 import { useCreateResourceModal } from '@/app/hooks/useCreateResourceModal';
 import { ListInfoType } from '../Modal/ListCreation/utils/validation';
+import ListCard from './ListCard';
 
 type ListDashboardProps = {
   user: User | null | undefined;
@@ -17,17 +18,9 @@ function ListDashboard(props: ListDashboardProps): React.ReactElement {
     <section>
       <h1>Welcome {user?.displayName}</h1>
       <div style={{ display: 'flex', gap: '1rem' }}>
-        {listSnippets!.map((list) => {
-          return (
-            <Link
-              key={list.listName}
-              href={`/listas/${list.id}`}
-              style={{ padding: '1rem' }}
-            >
-              {list.listName}
-            </Link>
-          );
-        })}
+        {listSnippets!.map((list) => (
+          <ListCard key={list.id} list={list} />
+        ))}
         <button style={{ padding: '1rem' }} onClick={() => openModal()}>
           Add list
         </button>

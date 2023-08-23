@@ -1,5 +1,5 @@
 import React from 'react';
-import ListDashboard from '@/app/components/ListsHandler/ListDashboard';
+import EstatesDashboard from '@/app/components/EstatesDashboard';
 
 type Props = {
   params: {
@@ -12,7 +12,7 @@ function ListPage(props: Props) {
     params: { id },
   } = props;
 
-  return <ListDashboard listID={id} />;
+  return <EstatesDashboard listID={id} />;
 }
 
 export default ListPage;
