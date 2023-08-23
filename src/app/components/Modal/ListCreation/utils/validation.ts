@@ -3,17 +3,19 @@ type InputValidation = {
   isValidated: boolean;
 };
 
-export type ListType = 'apartment' | 'house' | 'countryside' | 'vacation';
-
 export type ListFormValidation = {
   listName: InputValidation;
   type: InputValidation;
   isValidated: boolean;
 };
 
+export type ListType = 'apartment' | 'house' | 'countryside' | 'vacation';
+export type ListRoleType = 'owner' | 'editor' | 'reader';
 export type ListInfoType = {
+  id?: string;
   listName: string;
   type: ListType;
+  roles: { [x: string]: ListRoleType };
 };
 
 function validateListName(listName: string): InputValidation {
