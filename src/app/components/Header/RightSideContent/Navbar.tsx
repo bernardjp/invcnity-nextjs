@@ -24,12 +24,18 @@ const Navbar: React.FC<PropsType> = (props: PropsType) => {
         <>
           <Link href="/listas">Listas</Link>
           <Link href="/propiedades">Propiedades</Link>
-          <Button onClick={logoutHandler}>Logout</Button>
+          <Button variant="primaryOutline" onClick={logoutHandler}>
+            Logout
+          </Button>
         </>
       ) : (
         <>
-          <Button onClick={() => openModal('login')}>Login</Button>
-          <Button onClick={() => openModal('signup')}>Sign Up</Button>
+          <Button variant="primaryOutline" onClick={() => openModal('login')}>
+            Login
+          </Button>
+          <Button variant="primary" onClick={() => openModal('signup')}>
+            Sign Up
+          </Button>
         </>
       )}
     </Flex>
