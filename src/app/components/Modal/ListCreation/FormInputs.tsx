@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { Box, Button, Image, Stack, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Stack, Text, VStack } from '@chakra-ui/react';
 import StyledInput from '../StyledInput';
 import {
   validateListForm,
   ListFormValidation,
   ListInfoType,
 } from './utils/validation';
-import RadioTypeTabs from './TypeRadioInputs';
+import RadioTypeTabs from './RadioInputs';
+import FormImage from './FormImage';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, firestore } from '@/firebase/clientApp';
 import { collection, doc, runTransaction } from 'firebase/firestore';
-// import { FIREBASE_ERRORS } from '@/firebase/errors';
-//import { updateProfile } from 'firebase/auth';
 
 const FORM_DEFAULT_VALUES: ListInfoType = {
   listName: '',
@@ -91,11 +90,7 @@ function FormInputs(props: FormInputProps): React.ReactElement {
   return (
     <form onSubmit={onSubmitHandler}>
       <Stack>
-        <Image
-          height="20rem"
-          src={`/images/select-${listFormData.type}.svg`}
-          alt={`${listFormData.type} illustration`}
-        />
+        <FormImage type={listFormData.type} />
 
         <RadioTypeTabs
           defaultValue={FORM_DEFAULT_VALUES.type}
@@ -103,10 +98,14 @@ function FormInputs(props: FormInputProps): React.ReactElement {
         />
 
         <VStack my={4}>
-          <Text w="100%" color="gray.500">
+          <Text
+            w="100%"
+            color="gray.500"
+            textAlign={{ base: 'center', sm: 'left' }}
+          >
             Choose your VCNITY name:
           </Text>
-          <Box w="90%">
+          <Box w={{ base: '100%', sm: '90%' }}>
             <StyledInput
               type="text"
               name="listName"
@@ -118,13 +117,13 @@ function FormInputs(props: FormInputProps): React.ReactElement {
         </VStack>
 
         <Button
-          mt={4}
-          isLoading={loading}
+          backgroundColor="teal.500"
           borderRadius={50}
           color="white"
-          backgroundColor="teal.500"
+          mt={4}
           type="submit"
           width="100%"
+          isLoading={loading}
           _hover={{
             backgroundColor: 'teal.400',
           }}
