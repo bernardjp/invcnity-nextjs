@@ -5,8 +5,21 @@ export default function Footer(): React.ReactElement {
   return (
     <div className={styles.footer}>
       <div className={styles.content_wrapper}>
-        FOOTER{' '}
-        <a href="https://storyset.com/house">All illustrations by Storyset</a>
+        Made with a lot of hard work by&nbsp;
+        <a
+          className={styles.link}
+          href="https://www.linkedin.com/in/juan-pablo-bernard/"
+        >
+          <b>JP Bernard</b>
+        </a>
+        &nbsp;{`\\\\`}&nbsp;All illustrations by&nbsp;
+        <a
+          className={styles.link}
+          href="https://storyset.com/house"
+          target="_blank"
+        >
+          <b>Storyset</b>
+        </a>
       </div>
     </div>
   );
