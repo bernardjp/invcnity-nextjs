@@ -26,22 +26,26 @@ const StyledInput: React.FC<StyledInputProps> = (props: StyledInputProps) => {
   return (
     <FormControl isInvalid={validation?.isValidated === false}>
       <Input
-        backgroundColor="gray.50"
         name={name}
         pr={type === 'password' ? '3rem' : ''}
         type={type}
         placeholder={placeholder}
         variant={name === 'listName' ? 'flushed' : 'outline'}
+        borderBottom="1px solid"
+        borderColor="gray.400"
         _placeholder={{ color: 'gray.700' }}
         _hover={{
-          border: name === 'listName' ? '' : '1px solid',
-          borderColor: 'teal.400',
+          border: name === 'listName' ? '' : '2px solid',
+          borderColor: 'orange',
         }}
         _focus={{
-          bg: 'white',
           outline: 'none',
-          border: name === 'listName' ? '' : '1px solid',
-          borderColor: 'teal.400',
+          border: name === 'listName' ? '' : '2px solid',
+          borderColor: 'orange',
+        }}
+        _focusVisible={{
+          borderBottom: '2px solid',
+          borderColor: 'orange',
         }}
         onChange={onChange}
       />
