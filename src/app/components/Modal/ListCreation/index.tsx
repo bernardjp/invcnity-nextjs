@@ -19,23 +19,38 @@ function ListCreationModal(): React.ReactElement {
       <Modal
         isOpen={modalState.list}
         motionPreset="slideInBottom"
-        size={{ base: 'md', md: 'lg' }}
+        size={{ base: 'sm', md: 'md' }}
         closeOnOverlayClick={false}
         onClose={() => closeModal()}
       >
         <ModalOverlay />
-        <ModalContent mx={{ base: 4, md: 0 }} borderRadius={12}>
+        <ModalContent margin="auto" borderRadius={16}>
           <ModalHeader
             alignItems="center"
+            bgColor="brand.red"
+            border="2px solid white"
+            borderTopLeftRadius="16px"
+            borderTopRightRadius="16px"
             boxShadow="0px 10px 90px -20px rgba(188, 151, 6, 0.35)"
+            color="white"
             display="flex"
             justifyContent="center"
           >
-            Create a new VCNITY
+            New VCNITY
           </ModalHeader>
-          <ModalCloseButton borderRadius={50} />
+          <ModalCloseButton
+            border="1px solid white"
+            borderRadius={50}
+            color="white"
+            right={4}
+            top={4}
+          />
 
-          <ModalBody paddingInline={{ base: 12, md: 16 }} paddingBottom={8}>
+          <ModalBody
+            borderRadius="16px"
+            paddingInline={{ base: 8, md: 12 }}
+            paddingBottom={8}
+          >
             <FormInputs closeModal={closeModal} />
           </ModalBody>
         </ModalContent>
