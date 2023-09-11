@@ -8,6 +8,8 @@ import {
   CardImage,
   CardIcon,
   VariantText,
+  VariantCheckbox,
+  FormImage,
 } from './componentsStyleConfig';
 
 export const theme = extendTheme({
@@ -20,6 +22,7 @@ export const theme = extendTheme({
       yellow: '#ffe9a7',
       teal: '#98D8AA',
       darkTeal: '#00b46f',
+      chocolate: '#6d5555',
     },
   },
   fonts: {
@@ -35,8 +38,10 @@ export const theme = extendTheme({
   components: {
     Button,
     VariantText,
+    VariantCheckbox,
     Tooltip,
     CardImage,
     CardIcon,
+    FormImage,
   },
 });
