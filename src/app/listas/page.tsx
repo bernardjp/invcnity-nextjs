@@ -1,6 +1,7 @@
 import React from 'react';
-import ListHandler from '../components/ListsHandler';
+import styles from './styles.module.css';
 import { Metadata } from 'next';
+import ListHandler from '../components/ListsHandler';
 import ListCreationModal from '../components/Modal/ListCreation';
 
 export const metadata: Metadata = {
@@ -48,7 +49,7 @@ function ListPage(): React.ReactElement {
   */
 
   return (
-    <main>
+    <main className={styles.main}>
       <ListCreationModal />
       <ListHandler />
     </main>
