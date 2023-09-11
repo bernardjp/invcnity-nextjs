@@ -76,7 +76,7 @@ export const CardImage = defineStyleConfig({
     primary: {
       filter: 'hue-rotate(310deg)',
       paddingBottom: '1rem',
-      paddingTop: '2rem',
+      paddingTop: '1rem',
     },
     secondary: {
       filter: 'hue-rotate(95deg) brightness(0.85)',
@@ -121,6 +121,59 @@ export const VariantText = defineStyleConfig({
     tertiary: {
       bg: 'brand.darkOrange',
       color: 'white',
+    },
+  },
+});
+
+export const VariantCheckbox = defineStyleConfig({
+  baseStyle: {
+    borderBottom: '3px solid',
+    borderColor: 'transparent',
+    cursor: 'pointer',
+    fontSize: '1rem',
+    lineHeight: '8',
+    transition: '0.2s',
+  },
+  variants: {
+    primary: {
+      _hover: {
+        borderColor: 'brand.red',
+      },
+      _checked: {
+        borderColor: 'brand.darkRed',
+      },
+    },
+    secondary: {
+      _hover: {
+        borderColor: 'brand.teal',
+      },
+      _checked: {
+        borderColor: 'brand.darkTeal',
+      },
+    },
+    tertiary: {
+      _hover: {
+        borderColor: 'brand.orange',
+      },
+      _checked: {
+        borderColor: 'brand.darkOrange',
+      },
+    },
+  },
+});
+
+export const FormImage = defineStyleConfig({
+  variants: {
+    apartment: {},
+    house: {
+      filter: 'hue-rotate(310deg)',
+    },
+    countryside: {
+      filter: 'hue-rotate(310deg)',
+    },
+    vacation: {
+      filter: 'hue-rotate(95deg) brightness(0.85)',
+      paddingTop: '6rem',
     },
   },
 });
