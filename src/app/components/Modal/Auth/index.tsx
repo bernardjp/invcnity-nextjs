@@ -45,16 +45,20 @@ function AuthModal(): React.ReactElement {
         <ModalOverlay />
         <ModalContent mx={{ base: 4, md: 0 }} borderRadius={12}>
           <ModalHeader
-            display="flex"
             alignItems="center"
+            bgColor="brand.red"
+            borderTopLeftRadius="12px"
+            borderTopRightRadius="12px"
+            color="white"
+            display="flex"
             justifyContent="center"
-            mb={4}
+            mb={6}
           >
             {modalTitle[modalState.view]}
           </ModalHeader>
-          <ModalCloseButton borderRadius={50} />
+          <ModalCloseButton borderRadius={50} top={3.5} color="white" />
 
-          <ModalBody paddingInline={{ base: 12, md: 16 }}>
+          <ModalBody paddingInline={{ base: 8, md: 16 }}>
             {modalState.view === 'resetPassword' ? (
               <ResetPassword />
             ) : (
