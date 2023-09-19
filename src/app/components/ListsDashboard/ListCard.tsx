@@ -1,18 +1,43 @@
 import React from 'react';
-import Link from 'next/link';
-import { ListInfoType } from '../Modal/ListCreation/utils/validation';
+import {
+  ListInfoType,
+  ListRoleType,
+} from '../Modal/ListCreation/utils/validation';
+import Card from '../Card';
 
-function ListCard(props: { list: ListInfoType }): React.ReactElement {
-  const { list } = props;
+type PropType = {
+  list: ListInfoType;
+  userRole?: ListRoleType;
+};
+
+function ListCard(props: PropType): React.ReactElement {
+  const {
+    list: { id, type, listName },
+    userRole,
+  } = props;
+
+  const estates = 0; // Mocked value
 
   return (
-    <Link
-      key={list.listName}
-      href={`/listas/${list.id}`}
-      style={{ padding: '1rem' }}
+    <Card
+      id={id}
+      path="listas"
+      title={listName}
+      type={type}
+      userRole={userRole}
     >
-      {list.listName}
-    </Link>
+      <span>
+        {estates ? (
+          <>
+            <b>{estates}</b> estates in this VCNITY
+          </>
+        ) : (
+          <>
+            This VCNITY is <b>Empty</b>
+          </>
+        )}
+      </span>
+    </Card>
   );
 }
 
