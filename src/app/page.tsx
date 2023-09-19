@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import styles from './styles.module.css';
 
 export const metadata: Metadata = {
   title: 'IN/VCNITY',
@@ -8,9 +7,9 @@ export const metadata: Metadata = {
 
 function Home() {
   return (
-    <main className={styles.main}>
+    <div>
       <h1>IN/VCNITY</h1>
-    </main>
+    </div>
   );
 }
 export default Home;
