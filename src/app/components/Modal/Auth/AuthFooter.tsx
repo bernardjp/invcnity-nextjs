@@ -13,33 +13,61 @@ function AuthFooter(): React.ReactElement {
 
   return (
     <>
-      <Flex>
-        Forgot your password?
-        <Button
-          colorScheme="teal"
-          fontSize="inherit"
-          fontWeight="bold"
-          variant="link"
-          onClick={() => changeView('resetPassword')}
-        >
-          Reset
-        </Button>
-      </Flex>
-      <Flex>
-        {modalState.view === 'login'
-          ? 'First time here?'
-          : 'Already have an account?'}
-        <Button
-          ml={1}
-          colorScheme="teal"
-          fontWeight="bold"
-          fontSize="inherit"
-          variant="link"
-          onClick={() => onChangeView(modalState.view)}
-        >
-          {modalState.view === 'login' ? 'SIGN UP' : 'LOG IN'}
-        </Button>
-      </Flex>
+      {modalState.view === 'resetPassword' ? (
+        <Flex>
+          <Button
+            mr={1}
+            colorScheme="teal"
+            fontWeight="bold"
+            fontSize="inherit"
+            variant="link"
+            onClick={() => changeView('login')}
+          >
+            LOG IN
+          </Button>
+          -
+          <Button
+            ml={1}
+            colorScheme="teal"
+            fontWeight="bold"
+            fontSize="inherit"
+            variant="link"
+            onClick={() => changeView('signup')}
+          >
+            SIGN UP
+          </Button>
+        </Flex>
+      ) : (
+        <>
+          <Flex>
+            Forgot your password?
+            <Button
+              colorScheme="teal"
+              fontSize="inherit"
+              fontWeight="bold"
+              variant="link"
+              onClick={() => changeView('resetPassword')}
+            >
+              Reset
+            </Button>
+          </Flex>
+          <Flex>
+            {modalState.view === 'login'
+              ? 'First time here?'
+              : 'Already have an account?'}
+            <Button
+              ml={1}
+              colorScheme="teal"
+              fontWeight="bold"
+              fontSize="inherit"
+              variant="link"
+              onClick={() => onChangeView(modalState.view)}
+            >
+              {modalState.view === 'login' ? 'SIGN UP' : 'LOG IN'}
+            </Button>
+          </Flex>
+        </>
+      )}
     </>
   );
 }
