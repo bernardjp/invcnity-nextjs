@@ -1,32 +1,31 @@
+'use client';
 import React from 'react';
-import Link from 'next/link';
-import { User } from 'firebase/auth';
-import { useCreateResourceModal } from '@/app/hooks/useCreateResourceModal';
 import { ListInfoType } from '../Modal/ListCreation/utils/validation';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useCollection } from 'react-firebase-hooks/firestore';
+import { auth, firestore } from '@/firebase/clientApp';
+import { collection } from 'firebase/firestore';
 import ListCard from './ListCard';
+import DashboardHandler from '../DashboardHandler';
 
-type ListDashboardProps = {
-  user: User | null | undefined;
-  listSnippets: ListInfoType[];
-};
-
-function ListDashboard(props: ListDashboardProps): React.ReactElement {
-  const { user, listSnippets } = props;
-  const { openModal } = useCreateResourceModal('list');
+function ListsDashboard() {
+  const [user] = useAuthState(auth); // --> At this point the User should be already authenticated
+  const [value, loading, error] = useCollection(
+    collection(firestore, `users/${user?.uid}/listSnippets`)
+  );
 
   return (
-    <section>
-      <h1>Welcome {user?.displayName}</h1>
-      <div style={{ display: 'flex', gap: '1rem' }}>
-        {listSnippets!.map((list) => (
-          <ListCard key={list.id} list={list} />
+    <DashboardHandler loading={loading} error={error?.message}>
+      {value &&
+        value.docs.map((list) => (
+          <ListCard
+            key={list.id}
+            list={list.data() as ListInfoType}
+            userRole={list.data().roles[user!.uid]}
+          />
         ))}
-        <button style={{ padding: '1rem' }} onClick={() => openModal()}>
-          Add list
-        </button>
-      </div>
-    </section>
+    </DashboardHandler>
   );
 }
 
-export default ListDashboard;
+export default ListsDashboard;
