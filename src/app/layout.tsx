@@ -1,8 +1,8 @@
 'use client';
 import './global.css';
+import { RecoilRoot } from 'recoil';
 import { StyleProviders } from '@/style/StyleProvider';
 import Header from './components/Header';
-import { RecoilRoot } from 'recoil';
 import Footer from './components/Footer';
 
 export const metadata = {
@@ -21,7 +21,7 @@ export default function RootLayout({
         <RecoilRoot>
           <StyleProviders>
             <Header />
-            {children}
+            <main>{children}</main>
             <Footer />
           </StyleProviders>
         </RecoilRoot>

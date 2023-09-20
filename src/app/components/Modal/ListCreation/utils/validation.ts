@@ -12,7 +12,7 @@ export type ListFormValidation = {
 export type ListType = 'apartment' | 'house' | 'countryside' | 'vacation';
 export type ListRoleType = 'owner' | 'editor' | 'reader';
 export type ListInfoType = {
-  id?: string;
+  id: string;
   listName: string;
   type: ListType;
   roles: { [x: string]: ListRoleType };

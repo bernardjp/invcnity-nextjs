@@ -6,7 +6,7 @@ import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { SignUpValidation, validateSignUpForm } from './utils/validation';
 import { auth } from '@/firebase/clientApp';
 import { FIREBASE_ERRORS } from '@/firebase/errors';
-import { createUserDocument, verifyUniqueUsername } from '@/firebase/authUtils';
+import { createUserDocument } from '@/firebase/authUtils';
 import { updateProfile } from 'firebase/auth';
 
 const FORM_DEFAULT_VALUES = {
@@ -50,17 +50,18 @@ function SignUp(): React.ReactElement {
     }
 
     // Verifies the uniqueness of the username in the DB.
-    const isUsernameUnique = await verifyUniqueUsername(username);
-    if (!isUsernameUnique) {
-      setFormError({
-        ...formValidation,
-        username: {
-          errorMessage: `Username ${username} already exist. Try another one.`,
-          isValidated: false,
-        },
-      });
-      return;
-    }
+    // NOTE: Obsolete requirement. Firebase rules are not configured to accept this request.
+    // const isUsernameUnique = await verifyUniqueUsername(username);
+    // if (!isUsernameUnique) {
+    //   setFormError({
+    //     ...formValidation,
+    //     username: {
+    //       errorMessage: `Username ${username} already exist. Try another one.`,
+    //       isValidated: false,
+    //     },
+    //   });
+    //   return;
+    // }
 
     // Registers the user in the AuthDB and creates a new user in the DocumentsDB.
     try {

@@ -1,34 +1,24 @@
 import React from 'react';
+import EstateCard from './EstateCard';
+import ListHandler from '../DashboardHandler';
 
 type Props = {
   listID: string;
 };
 
-function Dashboard(props: Props) {
-  const { listID } = props;
+function EstateDashboard(props: Props) {
+  // const { listID } = props;
+  const loading = false;
+  const error = { message: '' };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <h1>IN/VCNITY ID: {listID}</h1>
-      <div style={{ display: 'flex', gap: '1rem' }}>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <h3>Estate name</h3>
-          <span>Price: $100,000.00</span>
-          <span>Location: Brandsen</span>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <h3>Estate name</h3>
-          <span>Price: $100,000.00</span>
-          <span>Location: Brandsen</span>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <h3>Estate name</h3>
-          <span>Price: $100,000.00</span>
-          <span>Location: Brandsen</span>
-        </div>
-      </div>
-    </div>
+    <ListHandler loading={loading} error={error?.message}>
+      <EstateCard />
+      <EstateCard />
+      <EstateCard />
+      <EstateCard />
+    </ListHandler>
   );
 }
 
-export default Dashboard;
+export default EstateDashboard;

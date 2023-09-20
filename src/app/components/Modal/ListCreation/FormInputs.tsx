@@ -13,16 +13,13 @@ import { auth, firestore } from '@/firebase/clientApp';
 import { collection, doc, runTransaction } from 'firebase/firestore';
 
 const FORM_DEFAULT_VALUES: ListInfoType = {
+  id: '',
   listName: '',
   type: 'apartment',
   roles: {},
 };
 
-type FormInputProps = {
-  closeModal: () => void;
-};
-
-function FormInputs(props: FormInputProps): React.ReactElement {
+function FormInputs(props: { closeModal: () => void }): React.ReactElement {
   const [listFormData, setListFormData] = useState(FORM_DEFAULT_VALUES);
   const [formError, setFormError] = useState<ListFormValidation | null>(null);
   const [userCredentials] = useAuthState(auth);

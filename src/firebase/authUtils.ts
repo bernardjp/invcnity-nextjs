@@ -1,13 +1,6 @@
 import { UserCredential } from 'firebase/auth';
 import { firestore } from './clientApp';
-import {
-  collection,
-  doc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-} from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import { UserDoc } from './customTypes';
 
 export async function createUserDocument(userData: UserCredential) {
@@ -30,15 +23,16 @@ export async function createUserDocument(userData: UserCredential) {
   }
 }
 
-export async function verifyUniqueUsername(username: string) {
-  const q = query(
-    collection(firestore, 'users'),
-    where('username', '==', username)
-  );
-  const userDocs = await getDocs(q);
-
-  return userDocs.empty;
-}
+// NOTE:  - Firebase rules are not configured to accept this query.
+//        - This requirement is no longer needed.
+// export async function verifyUniqueUsername(username: string) {
+//   const q = query(
+//     collection(firestore, 'users'),
+//     where('username', '==', username)
+//   );
+//   const userDocs = await getDocs(q);
+//   return userDocs.empty;
+// }
 
 function convertToJSON(user: UserDoc) {
   return JSON.parse(JSON.stringify(user));

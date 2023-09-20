@@ -1,6 +1,12 @@
 import { defineStyleConfig } from '@chakra-ui/react';
 
-export type ThemeVariant = 'primary' | 'secondary' | 'tertiary';
+export type ThemeVariant =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'primaryLight'
+  | 'secondaryLight'
+  | 'tertiaryLight';
 export enum listVariant {
   apartment = 'tertiary',
   house = 'primary',
@@ -9,14 +15,12 @@ export enum listVariant {
 }
 
 export const Button = defineStyleConfig({
-  baseStyle: {
-    borderRadius: 'full',
-  },
   variants: {
     primary: {
       bg: 'brand.red',
       border: '2px solid',
       borderColor: 'brand.red',
+      borderRadius: 'full',
       color: 'white',
       transition: '0.15s',
       _hover: {
@@ -25,9 +29,10 @@ export const Button = defineStyleConfig({
       },
     },
     primaryOutline: {
-      color: 'brand.darkRed',
-      borderColor: 'brand.red',
       border: '2px solid',
+      borderColor: 'brand.red',
+      borderRadius: 'full',
+      color: 'brand.darkRed',
       transition: '0.15s',
       _hover: {
         bg: 'brand.red',
@@ -39,12 +44,14 @@ export const Button = defineStyleConfig({
       bg: 'teal.400',
       border: '2px solid',
       borderColor: 'teal.400',
+      borderRadius: 'full',
       color: 'white',
     },
     secondaryOutline: {
-      color: 'teal.400',
-      borderColor: 'teal.400',
       border: '2px solid',
+      borderColor: 'teal.400',
+      borderRadius: 'full',
+      color: 'teal.400',
     },
   },
 });
@@ -67,22 +74,50 @@ export const Tooltip = defineStyleConfig({
   },
 });
 
+export const CardContainer = defineStyleConfig({
+  baseStyle: {
+    bg: 'white',
+    border: '2px solid',
+    borderRadius: '24px',
+    flexDir: 'column',
+    boxShadow: '0px 10px 35px -20px rgba(0,0,0,0.75)',
+    height: 'fit-content',
+  },
+  variants: {
+    primary: {
+      borderColor: 'brand.red',
+    },
+    secondary: {
+      borderColor: 'brand.teal',
+    },
+    tertiary: {
+      borderColor: 'brand.orange',
+    },
+    list: {
+      borderColor: 'transparent',
+    },
+  },
+});
+
 export const CardImage = defineStyleConfig({
   baseStyle: {
     width: '30rem',
     height: '30rem',
   },
   variants: {
-    primary: {
+    house: {
       filter: 'hue-rotate(310deg)',
-      paddingBottom: '1rem',
-      paddingTop: '1rem',
+      paddingTop: '1.9rem',
     },
-    secondary: {
+    countryside: {
+      filter: 'hue-rotate(310deg)',
+      paddingTop: '3rem',
+    },
+    vacation: {
       filter: 'hue-rotate(95deg) brightness(0.85)',
-      paddingTop: '5rem',
+      paddingTop: '5.7rem',
     },
-    tertiary: {
+    apartment: {
       paddingTop: '2rem',
     },
   },
@@ -93,7 +128,7 @@ export const CardIcon = defineStyleConfig({
     primary: {
       borderColor: 'brand.darkRed',
       filter:
-        'invert(27%) sepia(51%) saturate(2500%) hue-rotate(330deg) brightness(150%) contrast(97%)',
+        'invert(27%) sepia(51%) saturate(2500%) hue-rotate(340deg) brightness(150%) contrast(97%)',
     },
     secondary: {
       borderColor: 'brand.darkTeal',
@@ -121,6 +156,18 @@ export const VariantText = defineStyleConfig({
     tertiary: {
       bg: 'brand.darkOrange',
       color: 'white',
+    },
+    primaryLight: {
+      bg: 'brand.lightRed',
+      color: 'brand.darkChocolate',
+    },
+    secondaryLight: {
+      bg: 'brand.lightTeal',
+      color: 'brand.darkChocolate',
+    },
+    tertiaryLight: {
+      bg: 'brand.lightOrange',
+      color: 'brand.darkChocolate',
     },
   },
 });
