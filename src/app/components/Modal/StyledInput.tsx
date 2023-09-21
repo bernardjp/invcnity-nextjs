@@ -1,27 +1,37 @@
 import React from 'react';
 import { FormControl, FormErrorMessage, Input } from '@chakra-ui/react';
-import { AuthValidation } from './Auth/utils/validation';
 
 type InputProps = {
-  type: 'text' | 'email' | 'password';
+  type: 'text' | 'email' | 'password' | 'number';
+  variant: 'flushed' | 'outline';
   placeholder: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
+export type InputValidation = {
+  errorMessage: string;
+  isValidated: boolean;
+};
+
 export type AuthInputProps = InputProps & {
   name: 'email' | 'username' | 'password' | 'confirmPassword';
-  validation: AuthValidation | undefined;
+  validation?: InputValidation;
 };
 
 export type ListInputProps = InputProps & {
   name: 'listName' | 'type' | 'owner';
-  validation: AuthValidation | undefined;
+  validation?: InputValidation;
 };
 
-type StyledInputProps = AuthInputProps | ListInputProps;
+export type EstateInputProps = InputProps & {
+  name: 'estateName' | 'price' | 'location' | 'locationURL' | 'publicationURL';
+  validation?: InputValidation;
+};
+
+type StyledInputProps = AuthInputProps | ListInputProps | EstateInputProps;
 
 const StyledInput: React.FC<StyledInputProps> = (props: StyledInputProps) => {
-  const { type, name, placeholder, validation, onChange } = props;
+  const { type, variant, name, placeholder, validation, onChange } = props;
 
   return (
     <FormControl isInvalid={validation?.isValidated === false}>
@@ -30,17 +40,17 @@ const StyledInput: React.FC<StyledInputProps> = (props: StyledInputProps) => {
         pr={type === 'password' ? '3rem' : ''}
         type={type}
         placeholder={placeholder}
-        variant={name === 'listName' ? 'flushed' : 'outline'}
+        variant={variant}
         borderBottom="1px solid"
         borderColor="gray.400"
         _placeholder={{ color: 'gray.700' }}
         _hover={{
-          border: name === 'listName' ? '' : '2px solid',
+          border: variant === 'flushed' ? '' : '2px solid',
           borderColor: 'orange',
         }}
         _focus={{
           outline: 'none',
-          border: name === 'listName' ? '' : '2px solid',
+          border: variant === 'flushed' ? '' : '2px solid',
           borderColor: 'orange',
         }}
         _focusVisible={{
