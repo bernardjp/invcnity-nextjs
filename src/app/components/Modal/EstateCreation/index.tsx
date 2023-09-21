@@ -2,6 +2,7 @@
 import React from 'react';
 import { useCreateResourceModal } from '@/app/hooks/useCreateResourceModal';
 import BaseModal from '../BaseModal';
+import FormInputs from './FormInputs';
 
 function EstateCreationModal(): React.ReactElement {
   const { modalState, closeModal } = useCreateResourceModal('estate');
@@ -11,7 +12,7 @@ function EstateCreationModal(): React.ReactElement {
       modalState={modalState.estate}
       onCloseHandler={closeModal}
       title="New Estate"
-      body={<p>CREATE ESTATE INPUTS</p>}
+      body={<FormInputs closeModal={closeModal} />}
     />
   );
 }
