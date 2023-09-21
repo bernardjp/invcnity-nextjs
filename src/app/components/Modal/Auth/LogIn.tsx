@@ -44,6 +44,7 @@ function Login(): React.ReactElement {
     <form onSubmit={onSubmitHandler}>
       <Stack>
         <StyledInput
+          variant="outline"
           type="text"
           name="email"
           placeholder="Enter email"

@@ -104,6 +104,7 @@ function FormInputs(props: { closeModal: () => void }): React.ReactElement {
           </Text>
           <Box w={{ base: '100%', sm: '90%' }}>
             <StyledInput
+              variant="flushed"
               type="text"
               name="listName"
               placeholder="VCNITY name"
