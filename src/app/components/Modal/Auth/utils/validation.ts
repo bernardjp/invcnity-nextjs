@@ -1,23 +1,20 @@
-export type AuthValidation = {
-  errorMessage: string;
-  isValidated: boolean;
-};
+import { InputValidation } from '../../StyledInput';
 
 export type SignUpValidation = {
-  username: AuthValidation;
-  email: AuthValidation;
-  password: AuthValidation;
-  confirmPassword: AuthValidation;
+  username: InputValidation;
+  email: InputValidation;
+  password: InputValidation;
+  confirmPassword: InputValidation;
   isValidated: boolean;
 };
 
 export type LoginValidation = {
-  email: AuthValidation;
-  password: AuthValidation;
+  email: InputValidation;
+  password: InputValidation;
   isValidated: boolean;
 };
 
-function validateUsername(username: string): AuthValidation {
+function validateUsername(username: string): InputValidation {
   const USERNAME_REGEX = /^[a-zA-Z0-9_\.]{6,18}$/gm;
   const isValidated = USERNAME_REGEX.test(username);
 
@@ -36,7 +33,7 @@ function validateUsername(username: string): AuthValidation {
   };
 }
 
-export function validateEmail(email: string): AuthValidation {
+export function validateEmail(email: string): InputValidation {
   const EMAIL_REGEX = /^[\w\-\.]{3,64}@([\w-]+\.)+[\w-]{2,}$/gm;
   const isValidated = EMAIL_REGEX.test(email);
 
@@ -60,7 +57,7 @@ export function validateEmail(email: string): AuthValidation {
   };
 }
 
-function validatePassword(password: string): AuthValidation {
+function validatePassword(password: string): InputValidation {
   const PASSWORD_REGEX =
     /^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)[A-Za-z0-9]{8,32}$/gm;
   const isValidated = PASSWORD_REGEX.test(password);
@@ -83,7 +80,7 @@ function validatePassword(password: string): AuthValidation {
 function validatePasswordConfirmation(
   password: string,
   confirmPassword: string
-): AuthValidation {
+): InputValidation {
   const isValidated = password === confirmPassword;
 
   return {
