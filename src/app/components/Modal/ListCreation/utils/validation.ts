@@ -1,7 +1,4 @@
-type InputValidation = {
-  errorMessage: string;
-  isValidated: boolean;
-};
+import { InputValidation } from '../../StyledInput';
 
 export type ListFormValidation = {
   listName: InputValidation;
