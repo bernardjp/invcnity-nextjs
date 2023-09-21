@@ -3,12 +3,13 @@ import { Button, Stack, Text, Image, Flex } from '@chakra-ui/react';
 import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/clientApp';
 import { FIREBASE_ERRORS } from '@/firebase/errors';
-import { AuthValidation, validateEmail } from './utils/validation';
+import { validateEmail } from './utils/validation';
+import { InputValidation } from '../StyledInput';
 import StyledInput from '../StyledInput';
 
 function ResetPassword(): React.ReactElement {
   const [email, setEmail] = useState('');
-  const [formValidation, setFormValidation] = useState<AuthValidation>();
+  const [formValidation, setFormValidation] = useState<InputValidation>();
   const [sendPasswordResetEmail, sending, error] =
     useSendPasswordResetEmail(auth);
 
@@ -45,6 +46,7 @@ function ResetPassword(): React.ReactElement {
       <form onSubmit={onSubmitHandler}>
         <Stack>
           <StyledInput
+            variant="outline"
             type="text"
             name="email"
             placeholder="Enter email"

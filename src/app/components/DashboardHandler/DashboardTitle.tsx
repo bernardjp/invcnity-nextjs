@@ -69,7 +69,7 @@ function DashboardTitle(props: Props) {
               borderRadius: '24px',
             }}
           >
-            New {type === 'estate' ? 'Estate' : 'VCNITy'}
+            New {type === 'estate' ? 'Estate' : 'VCNITY'}
           </span>
         </Button>
       </div>

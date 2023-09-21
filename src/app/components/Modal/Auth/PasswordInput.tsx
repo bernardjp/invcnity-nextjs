@@ -3,12 +3,12 @@ import { Button, InputGroup, InputRightElement } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import StyledInput from '../StyledInput';
 import { useAuthModal } from '@/app/hooks/useAuthModal';
-import { AuthValidation } from './utils/validation';
+import { InputValidation } from '../StyledInput';
 
 type PasswordInputProps = {
   name: 'password' | 'confirmPassword';
   placeholder: string;
-  validation: AuthValidation | undefined;
+  validation: InputValidation | undefined;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -23,6 +23,7 @@ function PasswordInput(props: PasswordInputProps): React.ReactElement {
   return (
     <InputGroup size="md">
       <StyledInput
+        variant="outline"
         type={show ? 'text' : 'password'}
         name={name}
         placeholder={placeholder}

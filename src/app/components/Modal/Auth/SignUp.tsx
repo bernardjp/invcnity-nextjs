@@ -79,6 +79,7 @@ function SignUp(): React.ReactElement {
     <form onSubmit={onSubmitHandler}>
       <Stack>
         <StyledInput
+          variant="outline"
           type="text"
           name="username"
           placeholder="Enter username"
@@ -86,6 +87,7 @@ function SignUp(): React.ReactElement {
           onChange={onChangeHandler}
         />
         <StyledInput
+          variant="outline"
           type="email"
           name="email"
           placeholder="Enter email"
