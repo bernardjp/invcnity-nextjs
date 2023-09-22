@@ -55,13 +55,17 @@ function FormInputs(props: { closeModal: () => void }): React.ReactElement {
 
     // Add the new Estate to the Estates Collection and to the Estate-List EstateSnippets.
     try {
+      const newEstate = {
+        ...estateFormData,
+        roles: { [userId]: 'owner' },
+      };
       const estateDocRef = doc(collection(firestore, 'estates'));
 
       await runTransaction(firestore, async (transaction) => {
-        transaction.set(estateDocRef, estateFormData);
+        transaction.set(estateDocRef, newEstate);
 
         const estateSnippet: EstateInfoType = {
-          ...estateFormData,
+          ...newEstate,
           id: estateDocRef.id,
         };
         const listDocRef = doc(
@@ -77,6 +81,7 @@ function FormInputs(props: { closeModal: () => void }): React.ReactElement {
       setFormError(null);
       props.closeModal();
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
