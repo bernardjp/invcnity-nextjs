@@ -9,23 +9,13 @@ export const metadata: Metadata = {
   description: 'Dashboard that showcase all your Estates stored in IN/VCNITY.',
 };
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
-function ListPage(props: Props) {
-  const {
-    params: { id },
-  } = props;
-
+function ListPage() {
   return (
     <>
       <EstateCreationModal />
       <section>
         <DashboardTitle type="estate" title="VCNITY Estates" />
-        <EstatesDashboard listID={id} />
+        <EstatesDashboard />
       </section>
     </>
   );
