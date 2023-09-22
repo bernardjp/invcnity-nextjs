@@ -16,11 +16,13 @@ type PropType = {
   type: ListType;
   userRole?: ListRoleType;
   isVisited?: boolean;
+  isFavorite?: boolean;
   children?: React.ReactElement;
 };
 
 function Card(props: PropType): React.ReactElement {
-  const { id, path, title, type, userRole, isVisited, children } = props;
+  const { id, path, title, type, userRole, isVisited, isFavorite, children } =
+    props;
   const variant = listVariant[type];
   const styles = useStyleConfig('CardContainer', {
     variant: path === 'listas' ? 'list' : variant,
@@ -35,7 +37,7 @@ function Card(props: PropType): React.ReactElement {
         transform: 'translate(0, -5px)',
       }}
     >
-      <CardFavoriteIcon variant={variant} />
+      <CardFavoriteIcon variant={variant} isFavorite={isFavorite} />
       {isVisited && <CardUpperTag text="Visited!" variant={variant} />}
       {userRole && <CardRoleIcon userRole={userRole} variant={variant} />}
       <Link href={`/${path}/${id}`}>

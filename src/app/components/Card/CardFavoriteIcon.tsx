@@ -4,11 +4,12 @@ import { ThemeVariant } from '@/style/componentsStyleConfig';
 
 function CardFavoriteIcon(props: {
   variant: ThemeVariant;
+  isFavorite?: boolean;
 }): React.ReactElement {
-  const { variant } = props;
+  const { variant, isFavorite } = props;
   const iconStyles = useStyleConfig('CardIcon', { variant });
 
-  const [isFavorite, setFavorite] = useState(false);
+  const [favoriteVal, setFavorite] = useState(isFavorite);
 
   const onClickHandler = (e: React.MouseEvent<HTMLDivElement>): void => {
     e.stopPropagation();
@@ -37,7 +38,7 @@ function CardFavoriteIcon(props: {
       onClick={onClickHandler}
     >
       <Image
-        src={`/icons/fav-${isFavorite ? 'on' : 'off'}.svg`}
+        src={`/icons/fav-${favoriteVal ? 'on' : 'off'}.svg`}
         alt=""
         width="90%"
         pl="3px"

@@ -1,27 +1,33 @@
 'use client';
 import React from 'react';
 import Card from '../Card';
+import { ListType } from '../Modal/ListCreation/utils/validation';
 
-function EstateCard() {
-  // Mocked data
-  const title = 'Nombre de la publicación';
-  const id = '32165761321';
-  const type = 'vacation';
-  const isVisited = true; // Check from the User data if the location is marked as 'visited'.
+type Props = {
+  id: string;
+  estateName: string;
+  type: ListType;
+  isVisited?: boolean;
+  isFavorite?: boolean;
+  location: string;
+  price: string;
+};
+
+function EstateCard(props: Props) {
+  const { id, estateName, type, isVisited, isFavorite, location, price } =
+    props;
 
   return (
     <Card
       id={id}
       path="propiedades"
-      title={title}
+      title={estateName}
       type={type}
       isVisited={isVisited}
+      isFavorite={isFavorite}
     >
       <>
-        <span style={{ fontWeight: 'bold', fontSize: '18px' }}>
-          $100,000.00
-        </span>
-        |
+        <span style={{ fontWeight: 'bold', fontSize: '18px' }}>${price}</span>|
         <span
           style={{
             inlineSize: '6rem',
@@ -30,7 +36,7 @@ function EstateCard() {
             fontSize: '0.9rem',
           }}
         >
-          San Martin de los Andes
+          {location}
         </span>
       </>
     </Card>
