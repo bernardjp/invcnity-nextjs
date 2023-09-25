@@ -23,11 +23,13 @@ function EstateDashboard() {
               key={estate.id}
               id={estate.id}
               estateName={estateData.estateName}
-              type={'countryside'} // Mocked value
-              isVisited={true} // Mocked value
-              isFavorite={true} // Mocked value
               location={estateData.location}
               price={estateData.price}
+              publicationURL={estateData.publicationURL}
+              locationURL={estateData.locationURL}
+              type={'house'} // Mocked value
+              isVisited={true} // Mocked value
+              isFavorite={true} // Mocked value
             />
           );
         })}

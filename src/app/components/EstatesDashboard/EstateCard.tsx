@@ -10,12 +10,23 @@ type Props = {
   isVisited?: boolean;
   isFavorite?: boolean;
   location: string;
+  locationURL: string;
+  publicationURL: string;
   price: string;
 };
 
 function EstateCard(props: Props) {
-  const { id, estateName, type, isVisited, isFavorite, location, price } =
-    props;
+  const {
+    id,
+    estateName,
+    type,
+    isVisited,
+    isFavorite,
+    location,
+    locationURL,
+    publicationURL,
+    price,
+  } = props;
 
   return (
     <Card
@@ -25,6 +36,8 @@ function EstateCard(props: Props) {
       type={type}
       isVisited={isVisited}
       isFavorite={isFavorite}
+      locationURL={locationURL}
+      publicationURL={publicationURL}
     >
       <>
         <span style={{ fontWeight: 'bold', fontSize: '18px' }}>${price}</span>|
