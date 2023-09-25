@@ -8,12 +8,15 @@ import CardRoleIcon from './CardRoleIcon';
 import CardTitle from './CardTitle';
 import CardFavoriteIcon from './CardFavoriteIcon';
 import CardUpperTag from './CardUpperTag';
+import CardAnchorIcon from './CardAnchorIcon';
 
 type PropType = {
   id: string;
   path: string;
   title: string;
   type: ListType;
+  locationURL?: string;
+  publicationURL?: string;
   userRole?: ListRoleType;
   isVisited?: boolean;
   isFavorite?: boolean;
@@ -21,8 +24,18 @@ type PropType = {
 };
 
 function Card(props: PropType): React.ReactElement {
-  const { id, path, title, type, userRole, isVisited, isFavorite, children } =
-    props;
+  const {
+    id,
+    path,
+    title,
+    type,
+    userRole,
+    isVisited,
+    isFavorite,
+    locationURL,
+    publicationURL,
+    children,
+  } = props;
   const variant = listVariant[type];
   const styles = useStyleConfig('CardContainer', {
     variant: path === 'listas' ? 'list' : variant,
@@ -37,7 +50,23 @@ function Card(props: PropType): React.ReactElement {
         transform: 'translate(0, -5px)',
       }}
     >
-      <CardFavoriteIcon variant={variant} isFavorite={isFavorite} />
+      <Flex position="absolute" left={2} top={2} gap={1} bg="white" zIndex={3}>
+        <CardFavoriteIcon variant={variant} isFavorite={isFavorite} />
+        {publicationURL && (
+          <CardAnchorIcon
+            variant={variant}
+            type="publication"
+            pageURL={publicationURL}
+          />
+        )}
+        {locationURL && (
+          <CardAnchorIcon
+            variant={variant}
+            type="location"
+            pageURL={locationURL}
+          />
+        )}
+      </Flex>
       {isVisited && <CardUpperTag text="Visited!" variant={variant} />}
       {userRole && <CardRoleIcon userRole={userRole} variant={variant} />}
       <Link href={`/${path}/${id}`}>
