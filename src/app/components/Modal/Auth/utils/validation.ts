@@ -95,26 +95,18 @@ export function validateSignUpForm(
   password: string,
   confirmPassword: string
 ): SignUpValidation {
-  const usernameValidation = validateUsername(username);
-  const emailValidation = validateEmail(email);
-  const passwordValidation = validatePassword(password);
-  const confirmationValidation = validatePasswordConfirmation(
-    password,
-    confirmPassword
-  );
-  const isValidated =
-    usernameValidation.isValidated &&
-    emailValidation.isValidated &&
-    passwordValidation.isValidated &&
-    confirmationValidation.isValidated;
-
-  return {
-    username: usernameValidation,
-    email: emailValidation,
-    password: passwordValidation,
-    confirmPassword: confirmationValidation,
-    isValidated,
+  const validation = {
+    username: validateUsername(username),
+    email: validateEmail(email),
+    password: validatePassword(password),
+    confirmPassword: validatePasswordConfirmation(password, confirmPassword),
   };
+
+  const isValidated = Object.keys(validation).every(
+    (val) => validation[val as keyof typeof validation].isValidated === true
+  );
+
+  return { ...validation, isValidated };
 }
 
 export function validateLoginForm(

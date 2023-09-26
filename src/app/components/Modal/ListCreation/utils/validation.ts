@@ -6,15 +6,6 @@ export type ListFormValidation = {
   isValidated: boolean;
 };
 
-export type ListType = 'apartment' | 'house' | 'countryside' | 'vacation';
-export type ListRoleType = 'owner' | 'editor' | 'reader';
-export type ListInfoType = {
-  id: string;
-  listName: string;
-  type: ListType;
-  roles: { [x: string]: ListRoleType };
-};
-
 function validateListName(listName: string): InputValidation {
   const LISTNAME_REGEX = /^[a-zA-ZÀ-ÿ0-9\\u00f1\\u00d1\s\-]{3,32}$/gm;
   const isValidated = LISTNAME_REGEX.test(listName);
@@ -34,7 +25,7 @@ function validateListName(listName: string): InputValidation {
   };
 }
 
-function validateType(type: string): InputValidation {
+export function validateType(type: string): InputValidation {
   const TYPES = ['apartment', 'house', 'countryside', 'vacation'];
   const isValidated = TYPES.includes(type.toLowerCase());
 
