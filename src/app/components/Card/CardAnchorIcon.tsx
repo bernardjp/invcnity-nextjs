@@ -5,11 +5,12 @@ import CardIcon from './CardIcon';
 import Link from 'next/link';
 
 function CardAnchorIcon(props: {
+  label: string;
   pageURL: string;
   type: 'publication' | 'location';
   variant: ThemeVariant;
 }): React.ReactElement {
-  const { pageURL, type, variant } = props;
+  const { label, pageURL, type, variant } = props;
   const linkRef = useRef<HTMLAnchorElement>(null);
 
   const onClickHandler = (e: React.MouseEvent<HTMLDivElement>): void => {
@@ -19,7 +20,7 @@ function CardAnchorIcon(props: {
   };
 
   return (
-    <CardIcon variant={variant} onClickHandler={onClickHandler}>
+    <CardIcon variant={variant} onClickHandler={onClickHandler} label={label}>
       <Link
         href={pageURL}
         ref={linkRef}

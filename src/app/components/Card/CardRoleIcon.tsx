@@ -1,10 +1,11 @@
 import React from 'react';
-import { Flex, Image, Tooltip, useStyleConfig } from '@chakra-ui/react';
+import { Flex, Image, useStyleConfig } from '@chakra-ui/react';
 import { ThemeVariant } from '@/style/componentsStyleConfig';
-import { ListRoleType } from '../Modal/ListCreation/utils/validation';
+import { RoleType } from '@/firebase/customTypes';
+import CardTooltip from './CardTooltip';
 
 type PropType = {
-  userRole?: ListRoleType;
+  userRole?: RoleType;
   variant: ThemeVariant;
 };
 
@@ -13,11 +14,7 @@ function CardRoleIcon(props: PropType): React.ReactElement {
   const iconStyles = useStyleConfig('CardIcon', { variant });
 
   return (
-    <Tooltip
-      variant={variant}
-      label={`Role: ${userRole!.toUpperCase()}`}
-      placement="top"
-    >
+    <CardTooltip variant={variant} label={`Role: ${userRole!.toUpperCase()}`}>
       <Flex
         border="2px solid"
         borderRadius="full"
@@ -40,7 +37,7 @@ function CardRoleIcon(props: PropType): React.ReactElement {
           pt="5px"
         />
       </Flex>
-    </Tooltip>
+    </CardTooltip>
   );
 }
 

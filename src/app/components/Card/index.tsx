@@ -54,6 +54,7 @@ function Card(props: PropType): React.ReactElement {
         <CardFavoriteIcon variant={variant} isFavorite={isFavorite} />
         {publicationURL && (
           <CardAnchorIcon
+            label="Go to PUBLICATION"
             variant={variant}
             type="publication"
             pageURL={publicationURL}
@@ -61,6 +62,7 @@ function Card(props: PropType): React.ReactElement {
         )}
         {locationURL && (
           <CardAnchorIcon
+            label="Go to LOCATION"
             variant={variant}
             type="location"
             pageURL={locationURL}
