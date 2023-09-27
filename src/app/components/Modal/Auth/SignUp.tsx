@@ -8,6 +8,7 @@ import { auth } from '@/firebase/clientApp';
 import { FIREBASE_ERRORS } from '@/firebase/errors';
 import { createUserDocument } from '@/firebase/authUtils';
 import { updateProfile } from 'firebase/auth';
+import StyledSubmitButton from '../StyledSubmitButton';
 
 const FORM_DEFAULT_VALUES = {
   username: '',
@@ -111,20 +112,7 @@ function SignUp(): React.ReactElement {
             {FIREBASE_ERRORS[userError.message as keyof typeof FIREBASE_ERRORS]}
           </Text>
         )}
-        <Button
-          mt={1}
-          isLoading={loading}
-          borderRadius={50}
-          color="white"
-          backgroundColor="teal.500"
-          type="submit"
-          width="100%"
-          _hover={{
-            backgroundColor: 'teal.400',
-          }}
-        >
-          Sign Up
-        </Button>
+        <StyledSubmitButton loading={loading} text="Sign Up" />
       </Stack>
     </form>
   );
