@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { Box, Button, Stack, Text, VStack } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 import StyledInput from '../StyledInput';
-import {
-  validateListForm,
-  ListFormValidation,
-  ListInfoType,
-} from './utils/validation';
+import { validateListForm, ListFormValidation } from './utils/validation';
 import RadioTypeTabs from './RadioInputs';
 import FormImage from './FormImage';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, firestore } from '@/firebase/clientApp';
 import { collection, doc, runTransaction } from 'firebase/firestore';
+import { ListInfoType } from '@/firebase/customTypes';
+import StyledSubmitButton from '../StyledSubmitButton';
+import BaseLabeledInput from '../BaseLabeledInput';
 
 const FORM_DEFAULT_VALUES: ListInfoType = {
   id: '',
@@ -76,11 +75,12 @@ function FormInputs(props: { closeModal: () => void }): React.ReactElement {
         transaction.set(userDocRef, listSnippet);
       });
 
-      setLoading(false);
       setFormError(null);
       props.closeModal();
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -94,40 +94,18 @@ function FormInputs(props: { closeModal: () => void }): React.ReactElement {
           setListFormData={setListFormData}
         />
 
-        <VStack my={4}>
-          <Text
-            w="100%"
-            color="gray.500"
-            textAlign={{ base: 'center', sm: 'left' }}
-          >
-            Choose your VCNITY name:
-          </Text>
-          <Box w={{ base: '100%', sm: '90%' }}>
-            <StyledInput
-              variant="flushed"
-              type="text"
-              name="listName"
-              placeholder="VCNITY name"
-              validation={formError?.listName}
-              onChange={onChangeHandler}
-            />
-          </Box>
-        </VStack>
+        <BaseLabeledInput label="Choose your VCNITY name:">
+          <StyledInput
+            variant="flushed"
+            type="text"
+            name="listName"
+            placeholder="VCNITY name"
+            validation={formError?.listName}
+            onChange={onChangeHandler}
+          />
+        </BaseLabeledInput>
 
-        <Button
-          backgroundColor="teal.500"
-          borderRadius={50}
-          color="white"
-          mt={4}
-          type="submit"
-          width="100%"
-          isLoading={loading}
-          _hover={{
-            backgroundColor: 'teal.400',
-          }}
-        >
-          Create VCNITY
-        </Button>
+        <StyledSubmitButton loading={loading} text="Create VCNITY" />
       </Stack>
     </form>
   );
