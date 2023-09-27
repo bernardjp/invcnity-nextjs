@@ -88,6 +88,7 @@ function FormInputs(props: { closeModal: () => void }): React.ReactElement {
       setFormError(null);
       props.closeModal();
     } catch (error) {
+      setLoading(false);
       console.log(error);
     } finally {
       setLoading(false);
