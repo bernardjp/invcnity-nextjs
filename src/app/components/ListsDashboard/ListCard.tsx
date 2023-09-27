@@ -1,13 +1,10 @@
 import React from 'react';
-import {
-  ListInfoType,
-  ListRoleType,
-} from '../Modal/ListCreation/utils/validation';
+import { ListInfoType, RoleType } from '@/firebase/customTypes';
 import Card from '../Card';
 
 type PropType = {
   list: ListInfoType;
-  userRole?: ListRoleType;
+  userRole?: RoleType;
 };
 
 function ListCard(props: PropType): React.ReactElement {

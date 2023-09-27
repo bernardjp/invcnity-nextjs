@@ -9,7 +9,7 @@ function AuthBody() {
   const { modalState } = useAuthModal();
 
   return (
-    <>
+    <div style={{ marginTop: '1rem' }}>
       {modalState.view === 'resetPassword' ? (
         <ResetPassword />
       ) : (
@@ -27,7 +27,7 @@ function AuthBody() {
           <AuthInputs />
         </>
       )}
-    </>
+    </div>
   );
 }
 

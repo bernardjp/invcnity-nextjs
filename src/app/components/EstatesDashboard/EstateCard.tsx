@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Card from '../Card';
-import { ListType } from '../Modal/ListCreation/utils/validation';
+import { ListType } from '@/firebase/customTypes';
 
 type Props = {
   id: string;
@@ -28,6 +28,11 @@ function EstateCard(props: Props) {
     price,
   } = props;
 
+  const CurrencyFormat = Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+
   return (
     <Card
       id={id}
@@ -40,7 +45,10 @@ function EstateCard(props: Props) {
       publicationURL={publicationURL}
     >
       <>
-        <span style={{ fontWeight: 'bold', fontSize: '18px' }}>${price}</span>|
+        <span style={{ fontWeight: 'bold', fontSize: '18px' }}>
+          {CurrencyFormat.format(Number(price))}
+        </span>
+        |
         <span
           style={{
             inlineSize: '6rem',

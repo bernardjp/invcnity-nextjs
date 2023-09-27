@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Flex, useStyleConfig } from '@chakra-ui/react';
 import { listVariant } from '@/style/componentsStyleConfig';
-import { ListType, ListRoleType } from '../Modal/ListCreation/utils/validation';
+import { ListType, RoleType } from '@/firebase/customTypes';
 import CardImage from './CardImage';
 import CardRoleIcon from './CardRoleIcon';
 import CardTitle from './CardTitle';
@@ -17,7 +17,7 @@ type PropType = {
   type: ListType;
   locationURL?: string;
   publicationURL?: string;
-  userRole?: ListRoleType;
+  userRole?: RoleType;
   isVisited?: boolean;
   isFavorite?: boolean;
   children?: React.ReactElement;
@@ -69,7 +69,7 @@ function Card(props: PropType): React.ReactElement {
       </Flex>
       {isVisited && <CardUpperTag text="Visited!" variant={variant} />}
       {userRole && <CardRoleIcon userRole={userRole} variant={variant} />}
-      <Link href={`/${path}/${id}`}>
+      <Link href={`/${path}/${type}_${id}`}>
         <Flex __css={styles}>
           <Flex
             alignItems="center"

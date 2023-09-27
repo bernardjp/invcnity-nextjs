@@ -6,18 +6,21 @@ import { firestore } from '@/firebase/clientApp';
 import { collection } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useParams } from 'next/navigation';
+import { EstateDoc, ListType } from '@/firebase/customTypes';
 
 function EstateDashboard() {
   const params = useParams();
+  const [type, id] = params.id.split('_');
   const [value, loading, error] = useCollection(
-    collection(firestore, `estate_lists/${params.id}/estateSnippets`)
+    collection(firestore, `estate_lists/${id}/estateSnippets`)
   );
 
   return (
     <ListHandler loading={loading} error={error?.message}>
       {value &&
         value.docs.map((estate) => {
-          const estateData = estate.data();
+          const estateData = estate.data() as EstateDoc;
+
           return (
             <EstateCard
               key={estate.id}
@@ -27,9 +30,9 @@ function EstateDashboard() {
               price={estateData.price}
               publicationURL={estateData.publicationURL}
               locationURL={estateData.locationURL}
-              type={'house'} // Mocked value
-              isVisited={true} // Mocked value
-              isFavorite={true} // Mocked value
+              type={type as ListType}
+              isVisited={estateData.isVisited}
+              isFavorite={estateData.isFavorite}
             />
           );
         })}

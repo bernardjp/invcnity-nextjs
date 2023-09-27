@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { ListInfoType } from '../Modal/ListCreation/utils/validation';
+import { ListInfoType } from '@/firebase/customTypes';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { auth, firestore } from '@/firebase/clientApp';

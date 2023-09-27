@@ -1,4 +1,6 @@
+import { ListType } from '@/firebase/customTypes';
 import { InputValidation } from '../../StyledInput';
+import { validateType } from '../../ListCreation/utils/validation';
 
 export type EstateFormValidation = {
   estateName: InputValidation;
@@ -6,6 +8,7 @@ export type EstateFormValidation = {
   price: InputValidation;
   publicationURL: InputValidation;
   locationURL: InputValidation;
+  type: InputValidation;
   isValidated: boolean;
 };
 export type EstateInfoType = {
@@ -15,6 +18,7 @@ export type EstateInfoType = {
   price: string;
   publicationURL: string;
   locationURL: string;
+  type: ListType;
 };
 
 function validateEstateName(estateName: string): InputValidation {
@@ -92,25 +96,18 @@ function validateURL(url: string): InputValidation {
 export function validateEstateForm(
   estateInfo: EstateInfoType
 ): EstateFormValidation {
-  const estateNameValidation = validateEstateName(estateInfo.estateName);
-  const locationValidation = validateLocation(estateInfo.location);
-  const priceValidation = validatePrice(estateInfo.price);
-  const publicationURLValidation = validateURL(estateInfo.publicationURL);
-  const locationURLValidation = validateURL(estateInfo.locationURL);
-
-  const isValidated =
-    estateNameValidation.isValidated &&
-    locationValidation.isValidated &&
-    priceValidation.isValidated &&
-    publicationURLValidation.isValidated &&
-    locationURLValidation.isValidated;
-
-  return {
-    estateName: estateNameValidation,
-    location: locationValidation,
-    price: priceValidation,
-    publicationURL: publicationURLValidation,
-    locationURL: locationURLValidation,
-    isValidated,
+  const validation = {
+    estateName: validateEstateName(estateInfo.estateName),
+    location: validateLocation(estateInfo.location),
+    price: validatePrice(estateInfo.price),
+    publicationURL: validateURL(estateInfo.publicationURL),
+    locationURL: validateURL(estateInfo.locationURL),
+    type: validateType(estateInfo.type),
   };
+
+  const isValidated = Object.keys(validation).every(
+    (val) => validation[val as keyof typeof validation].isValidated === true
+  );
+
+  return { ...validation, isValidated };
 }

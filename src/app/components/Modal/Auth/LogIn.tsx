@@ -6,6 +6,7 @@ import { auth } from '@/firebase/clientApp';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { FIREBASE_ERRORS } from '@/firebase/errors';
 import { LoginValidation, validateLoginForm } from './utils/validation';
+import StyledSubmitButton from '../StyledSubmitButton';
 
 function Login(): React.ReactElement {
   const [loginForm, setLoginForm] = useState({
@@ -62,19 +63,7 @@ function Login(): React.ReactElement {
             {FIREBASE_ERRORS[userError.message as keyof typeof FIREBASE_ERRORS]}
           </Text>
         )}
-        <Button
-          mt={1}
-          isLoading={loading}
-          type="submit"
-          variant="secondary"
-          width="100%"
-          _hover={{
-            backgroundColor: 'teal.300',
-            borderColor: 'teal.300',
-          }}
-        >
-          Login
-        </Button>
+        <StyledSubmitButton loading={loading} text="Login" />
       </Stack>
     </form>
   );

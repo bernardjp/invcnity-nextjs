@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Box, Button, Stack, Text, VStack } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 import StyledInput from '../StyledInput';
 import {
   validateEstateForm,
@@ -10,6 +10,10 @@ import {
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, firestore } from '@/firebase/clientApp';
 import { collection, doc, runTransaction } from 'firebase/firestore';
+import { ListType } from '@/firebase/customTypes';
+import FormImage from '../ListCreation/FormImage';
+import BaseLabeledInput from '../BaseLabeledInput';
+import StyledSubmitButton from '../StyledSubmitButton';
 
 const FORM_DEFAULT_VALUES: EstateInfoType = {
   id: '',
@@ -18,12 +22,16 @@ const FORM_DEFAULT_VALUES: EstateInfoType = {
   location: '',
   locationURL: '',
   publicationURL: '',
+  type: 'house',
 };
 
 function FormInputs(props: { closeModal: () => void }): React.ReactElement {
-  const params = useParams();
-  const [estateFormData, setEstateFormData] =
-    useState<EstateInfoType>(FORM_DEFAULT_VALUES);
+  const [type, id] = useParams().id.split('_');
+
+  const [estateFormData, setEstateFormData] = useState<EstateInfoType>({
+    ...FORM_DEFAULT_VALUES,
+    type: type as ListType,
+  });
   const [formError, setFormError] = useState<EstateFormValidation | null>(null);
   const [userCredentials] = useAuthState(auth);
   const [loading, setLoading] = useState<boolean>(false);
@@ -70,139 +78,80 @@ function FormInputs(props: { closeModal: () => void }): React.ReactElement {
         };
         const listDocRef = doc(
           firestore,
-          `estate_lists/${params.id}/estateSnippets`,
+          `estate_lists/${id}/estateSnippets`,
           estateDocRef.id
         );
 
         transaction.set(listDocRef, estateSnippet);
       });
 
-      setLoading(false);
       setFormError(null);
       props.closeModal();
     } catch (error) {
       setLoading(false);
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <form onSubmit={onSubmitHandler}>
       <Stack>
-        <VStack mt={4} mb={2}>
-          <Text
-            w="100%"
-            color="gray.500"
-            textAlign={{ base: 'center', sm: 'left' }}
-          >
-            Pick a name:
-          </Text>
-          <Box w={{ base: '100%', sm: '90%' }}>
-            <StyledInput
-              variant="flushed"
-              type="text"
-              name="estateName"
-              placeholder="ESTATE name"
-              validation={formError?.estateName}
-              onChange={onChangeHandler}
-            />
-          </Box>
-        </VStack>
+        <FormImage type={type as ListType} />
 
-        <VStack mb={2}>
-          <Text
-            w="100%"
-            color="gray.500"
-            textAlign={{ base: 'center', sm: 'left' }}
-          >
-            Price:
-          </Text>
-          <Box w={{ base: '100%', sm: '90%' }}>
-            <StyledInput
-              variant="flushed"
-              type="number"
-              name="price"
-              placeholder="U$ 115.000"
-              validation={formError?.price}
-              onChange={onChangeHandler}
-            />
-          </Box>
-        </VStack>
+        <BaseLabeledInput label="Choose a name:">
+          <StyledInput
+            variant="flushed"
+            type="text"
+            name="estateName"
+            placeholder="ESTATE name"
+            validation={formError?.estateName}
+            onChange={onChangeHandler}
+          />
+        </BaseLabeledInput>
+        <BaseLabeledInput label="Price:">
+          <StyledInput
+            variant="flushed"
+            type="number"
+            name="price"
+            placeholder="U$ 115.000"
+            validation={formError?.price}
+            onChange={onChangeHandler}
+          />
+        </BaseLabeledInput>
+        <BaseLabeledInput label="Location:">
+          <StyledInput
+            variant="flushed"
+            type="text"
+            name="location"
+            placeholder="Brandsen"
+            validation={formError?.location}
+            onChange={onChangeHandler}
+          />
+        </BaseLabeledInput>
+        <BaseLabeledInput label="Publication URL:">
+          <StyledInput
+            variant="flushed"
+            type="text"
+            name="publicationURL"
+            placeholder="https://www.mercadolibre.com.ar"
+            validation={formError?.publicationURL}
+            onChange={onChangeHandler}
+          />
+        </BaseLabeledInput>
+        <BaseLabeledInput label="Location URL:">
+          <StyledInput
+            variant="flushed"
+            type="text"
+            name="locationURL"
+            placeholder="https://www.google.com/maps"
+            validation={formError?.locationURL}
+            onChange={onChangeHandler}
+          />
+        </BaseLabeledInput>
 
-        <VStack mb={2}>
-          <Text
-            w="100%"
-            color="gray.500"
-            textAlign={{ base: 'center', sm: 'left' }}
-          >
-            Location:
-          </Text>
-          <Box w={{ base: '100%', sm: '90%' }}>
-            <StyledInput
-              variant="flushed"
-              type="text"
-              name="location"
-              placeholder="Brandsen"
-              validation={formError?.location}
-              onChange={onChangeHandler}
-            />
-          </Box>
-        </VStack>
-
-        <VStack mb={2}>
-          <Text
-            w="100%"
-            color="gray.500"
-            textAlign={{ base: 'center', sm: 'left' }}
-          >
-            Publication URL:
-          </Text>
-          <Box w={{ base: '100%', sm: '90%' }}>
-            <StyledInput
-              variant="flushed"
-              type="text"
-              name="publicationURL"
-              placeholder="https://www.mercadolibre.com.ar"
-              validation={formError?.publicationURL}
-              onChange={onChangeHandler}
-            />
-          </Box>
-        </VStack>
-
-        <VStack mb={2}>
-          <Text
-            w="100%"
-            color="gray.500"
-            textAlign={{ base: 'center', sm: 'left' }}
-          >
-            Location URL:
-          </Text>
-          <Box w={{ base: '100%', sm: '90%' }}>
-            <StyledInput
-              variant="flushed"
-              type="text"
-              name="locationURL"
-              placeholder="https://www.google.com/maps"
-              validation={formError?.locationURL}
-              onChange={onChangeHandler}
-            />
-          </Box>
-        </VStack>
-
-        <Button
-          backgroundColor="teal.500"
-          borderRadius={50}
-          color="white"
-          mt={4}
-          type="submit"
-          width="100%"
-          isLoading={loading}
-          _hover={{
-            backgroundColor: 'teal.400',
-          }}
-        >
-          Create ESTATE
-        </Button>
+        <StyledSubmitButton loading={loading} text="Create Estate" />
       </Stack>
     </form>
   );
