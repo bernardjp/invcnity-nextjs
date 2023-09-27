@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flex, Image, useStyleConfig } from '@chakra-ui/react';
-import { ListType } from './utils/validation';
+import { ListType } from '@/firebase/customTypes';
 
 function FormImage(props: { type: ListType }): React.ReactElement {
   const { type } = props;
@@ -19,7 +19,7 @@ function FormImage(props: { type: ListType }): React.ReactElement {
       <Image
         src={`/images/select-${type}.svg`}
         alt={`${type} illustration`}
-        minWidth={{ base: '15rem', sm: '22rem' }}
+        minWidth="15rem"
         __css={styles}
       />
     </Flex>

@@ -9,7 +9,7 @@ import {
   useRadioGroup,
   useStyleConfig,
 } from '@chakra-ui/react';
-import { ListType, ListInfoType } from './utils/validation';
+import { ListType, ListInfoType } from '@/firebase/customTypes';
 import { listVariant } from '@/style/componentsStyleConfig';
 
 type RadioTypeTabsProps = {
