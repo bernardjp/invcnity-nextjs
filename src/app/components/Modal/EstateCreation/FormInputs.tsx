@@ -2,38 +2,35 @@ import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Stack } from '@chakra-ui/react';
 import StyledInput from '../StyledInput';
-import {
-  validateEstateForm,
-  EstateFormValidation,
-  EstateInfoType,
-} from './utils/validation';
+import { validateEstateForm, EstateFormValidation } from './utils/validation';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, firestore } from '@/firebase/clientApp';
-import { collection, doc, runTransaction } from 'firebase/firestore';
-import { ListType } from '@/firebase/customTypes';
+import { auth } from '@/firebase/clientApp';
+import { ListType, EstateFormInfo } from '@/firebase/customTypes';
 import FormImage from '../ListCreation/FormImage';
 import BaseLabeledInput from '../BaseLabeledInput';
 import StyledSubmitButton from '../StyledSubmitButton';
+import { createEstate } from '@/firebase/firestoreUtils';
 
-const FORM_DEFAULT_VALUES: EstateInfoType = {
-  id: '',
+const FORM_DEFAULT_VALUES: EstateFormInfo = {
   estateName: '',
   price: '',
   location: '',
   locationURL: '',
   publicationURL: '',
   type: 'house',
+  listID: '',
 };
 
 function FormInputs(props: { closeModal: () => void }): React.ReactElement {
   const [type, id] = useParams().id.split('_');
+  const [userCredentials] = useAuthState(auth);
 
-  const [estateFormData, setEstateFormData] = useState<EstateInfoType>({
+  const [estateFormData, setEstateFormData] = useState<EstateFormInfo>({
     ...FORM_DEFAULT_VALUES,
     type: type as ListType,
+    listID: id,
   });
   const [formError, setFormError] = useState<EstateFormValidation | null>(null);
-  const [userCredentials] = useAuthState(auth);
   const [loading, setLoading] = useState<boolean>(false);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -63,28 +60,12 @@ function FormInputs(props: { closeModal: () => void }): React.ReactElement {
 
     // Add the new Estate to the Estates Collection and to the Estate-List EstateSnippets.
     try {
-      const newEstate = {
+      const newEstate: EstateFormInfo = {
         ...estateFormData,
         roles: { [userId]: 'owner' },
       };
-      const estateDocRef = doc(collection(firestore, 'estates'));
 
-      await runTransaction(firestore, async (transaction) => {
-        transaction.set(estateDocRef, newEstate);
-
-        const estateSnippet: EstateInfoType = {
-          ...newEstate,
-          id: estateDocRef.id,
-        };
-        const listDocRef = doc(
-          firestore,
-          `estate_lists/${id}/estateSnippets`,
-          estateDocRef.id
-        );
-
-        transaction.set(listDocRef, estateSnippet);
-      });
-
+      createEstate(newEstate);
       setFormError(null);
       props.closeModal();
     } catch (error) {
