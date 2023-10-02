@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Stack, Text } from '@chakra-ui/react';
+import { Stack, Text } from '@chakra-ui/react';
 import StyledInput from '../StyledInput';
 import PasswordInput from './PasswordInput';
 import { auth } from '@/firebase/clientApp';

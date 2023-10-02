@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Stack, Text } from '@chakra-ui/react';
+import { Stack, Text } from '@chakra-ui/react';
 import StyledInput from '../StyledInput';
 import PasswordInput from './PasswordInput';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
@@ -49,20 +49,6 @@ function SignUp(): React.ReactElement {
       setFormError(formValidation);
       return;
     }
-
-    // Verifies the uniqueness of the username in the DB.
-    // NOTE: Obsolete requirement. Firebase rules are not configured to accept this request.
-    // const isUsernameUnique = await verifyUniqueUsername(username);
-    // if (!isUsernameUnique) {
-    //   setFormError({
-    //     ...formValidation,
-    //     username: {
-    //       errorMessage: `Username ${username} already exist. Try another one.`,
-    //       isValidated: false,
-    //     },
-    //   });
-    //   return;
-    // }
 
     // Registers the user in the AuthDB and creates a new user in the DocumentsDB.
     try {
