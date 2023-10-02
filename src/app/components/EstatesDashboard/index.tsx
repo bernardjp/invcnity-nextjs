@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import EstateCard from './EstateCard';
-import ListHandler from '../DashboardHandler';
+import DashboardHandler from '../DashboardHandler';
 import { firestore } from '@/firebase/clientApp';
 import { collection } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
@@ -16,7 +16,7 @@ function EstateDashboard() {
   );
 
   return (
-    <ListHandler loading={loading} error={error?.message}>
+    <DashboardHandler loading={loading} error={error?.message}>
       {value &&
         value.docs.map((estate) => {
           const estateData = estate.data() as EstateDoc;
@@ -36,7 +36,7 @@ function EstateDashboard() {
             />
           );
         })}
-    </ListHandler>
+    </DashboardHandler>
   );
 }
 
