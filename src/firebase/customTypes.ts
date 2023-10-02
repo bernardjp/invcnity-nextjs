@@ -8,6 +8,10 @@ export type ListInfoType = {
   type: ListType;
   roles: { [x: string]: RoleType };
 };
+export type EstateFormInfo = Omit<
+  EstateDoc,
+  'isVisited' | 'isFavorite' | 'uid'
+>;
 
 export type UserDoc = {
   uid: string;
@@ -22,14 +26,15 @@ export type EstateListDoc = {
 };
 
 export type EstateDoc = {
-  uid: string;
   estateName: string;
+  isFavorite?: boolean;
+  isVisited?: boolean;
+  listID: string;
   location: string;
+  locationURL: string;
   price: string;
   publicationURL: string;
-  locationURL: string;
+  roles?: { [x: string]: RoleType };
   type: ListType;
-  isVisited?: boolean;
-  isFavorite?: boolean;
-  roles: { [x: string]: RoleType };
+  uid: string;
 };
