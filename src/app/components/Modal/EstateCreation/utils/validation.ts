@@ -1,4 +1,4 @@
-import { ListType } from '@/firebase/customTypes';
+import { EstateFormInfo } from '@/firebase/customTypes';
 import { InputValidation } from '../../StyledInput';
 import { validateType } from '../../ListCreation/utils/validation';
 
@@ -10,15 +10,6 @@ export type EstateFormValidation = {
   locationURL: InputValidation;
   type: InputValidation;
   isValidated: boolean;
-};
-export type EstateInfoType = {
-  id: string;
-  estateName: string;
-  location: string;
-  price: string;
-  publicationURL: string;
-  locationURL: string;
-  type: ListType;
 };
 
 function validateEstateName(estateName: string): InputValidation {
@@ -94,7 +85,7 @@ function validateURL(url: string): InputValidation {
 }
 
 export function validateEstateForm(
-  estateInfo: EstateInfoType
+  estateInfo: Omit<EstateFormInfo, 'listID' | 'roles'>
 ): EstateFormValidation {
   const validation = {
     estateName: validateEstateName(estateInfo.estateName),
