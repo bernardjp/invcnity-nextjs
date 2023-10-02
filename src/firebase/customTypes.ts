@@ -2,12 +2,7 @@ import { UserInfo } from 'firebase/auth';
 
 export type ListType = 'apartment' | 'house' | 'countryside' | 'vacation';
 export type RoleType = 'owner' | 'editor' | 'reader';
-export type ListInfoType = {
-  id: string;
-  listName: string;
-  type: ListType;
-  roles: { [x: string]: RoleType };
-};
+export type ListFormInfo = Omit<EstateListDoc, 'isVisited' | 'uid'>;
 export type EstateFormInfo = Omit<
   EstateDoc,
   'isVisited' | 'isFavorite' | 'uid'
@@ -22,7 +17,11 @@ export type UserDoc = {
 };
 
 export type EstateListDoc = {
-  /* *** */
+  isFavorite?: boolean;
+  listName: string;
+  roles: { [x: string]: RoleType };
+  type: ListType;
+  uid: string;
 };
 
 export type EstateDoc = {
