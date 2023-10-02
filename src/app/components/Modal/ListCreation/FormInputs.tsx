@@ -5,23 +5,22 @@ import { validateListForm, ListFormValidation } from './utils/validation';
 import RadioTypeTabs from './RadioInputs';
 import FormImage from './FormImage';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, firestore } from '@/firebase/clientApp';
-import { collection, doc, runTransaction } from 'firebase/firestore';
-import { ListInfoType } from '@/firebase/customTypes';
+import { auth } from '@/firebase/clientApp';
+import { ListFormInfo } from '@/firebase/customTypes';
+import { createEstateList } from '@/firebase/firestoreUtils';
 import StyledSubmitButton from '../StyledSubmitButton';
 import BaseLabeledInput from '../BaseLabeledInput';
 
-const FORM_DEFAULT_VALUES: ListInfoType = {
-  id: '',
+const FORM_DEFAULT_VALUES: ListFormInfo = {
   listName: '',
   type: 'apartment',
   roles: {},
 };
 
 function FormInputs(props: { closeModal: () => void }): React.ReactElement {
+  const [userCredentials] = useAuthState(auth);
   const [listFormData, setListFormData] = useState(FORM_DEFAULT_VALUES);
   const [formError, setFormError] = useState<ListFormValidation | null>(null);
-  const [userCredentials] = useAuthState(auth);
   const [loading, setLoading] = useState<boolean>(false);
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -50,31 +49,13 @@ function FormInputs(props: { closeModal: () => void }): React.ReactElement {
       return;
     }
 
-    // Add the new List to the List Collection and to the User ListSnippets.
+    // Add the new List to the List Collection and to the User's ListSnippets.
     try {
-      // Data to be added to the List Collection
-      const newList: ListInfoType = {
+      const newList: ListFormInfo = {
         ...listFormData,
         roles: { [userId]: 'owner' },
       };
-      const listDocRef = doc(collection(firestore, 'estate_lists'));
-
-      await runTransaction(firestore, async (transaction) => {
-        transaction.set(listDocRef, newList);
-
-        const listSnippet: ListInfoType = {
-          ...newList,
-          id: listDocRef.id,
-        };
-        const userDocRef = doc(
-          firestore,
-          `users/${userId}/listSnippets`,
-          listDocRef.id
-        );
-
-        transaction.set(userDocRef, listSnippet);
-      });
-
+      createEstateList(newList, userId);
       setFormError(null);
       props.closeModal();
     } catch (error) {
