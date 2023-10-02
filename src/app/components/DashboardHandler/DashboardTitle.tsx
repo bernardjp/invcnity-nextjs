@@ -6,10 +6,11 @@ import { useCreateResourceModal } from '@/app/hooks/useCreateResourceModal';
 type Props = {
   type: 'estate' | 'list';
   title: string;
+  menu?: React.ReactNode;
 };
 
 function DashboardTitle(props: Props) {
-  const { type, title } = props;
+  const { type, title, menu } = props;
   const { openModal } = useCreateResourceModal(type);
 
   return (
@@ -22,28 +23,31 @@ function DashboardTitle(props: Props) {
       px="1rem"
       textAlign={{ base: 'center', md: 'left' }}
     >
-      <Flex
-        alignItems="baseline"
-        as="h2"
-        borderBottom="1px dotted grey"
-        flexWrap="wrap"
-        fontSize="2rem"
-        fontWeight="bold"
-        height="fit-content"
-        justifyContent={{ base: 'center', md: 'left' }}
-        width="100%"
-      >
-        This are your{' '}
-        <Box
-          as="span"
-          bg="linear-gradient(70deg, rgb(255, 178, 43) 10%, rgb(255, 113, 97) 38%, rgb(255, 113, 97) 62%, rgb(0, 180, 111) 85%)"
-          bgClip="text"
-          color="transparent"
-          fontSize="2.5rem"
-          ml="0.5rem"
+      <Flex alignItems="center">
+        <Flex
+          alignItems="baseline"
+          as="h2"
+          borderBottom="1px dotted grey"
+          flexWrap="wrap"
+          fontSize="2rem"
+          fontWeight="bold"
+          height="fit-content"
+          justifyContent={{ base: 'center', md: 'left' }}
+          mr="0.8rem"
         >
-          {title}
-        </Box>
+          This are your{' '}
+          <Box
+            as="span"
+            bg="linear-gradient(70deg, rgb(255, 178, 43) 10%, rgb(255, 113, 97) 38%, rgb(255, 113, 97) 62%, rgb(0, 180, 111) 85%)"
+            bgClip="text"
+            color="transparent"
+            fontSize="2.5rem"
+            ml="0.5rem"
+          >
+            {title}
+          </Box>
+        </Flex>
+        {menu}
       </Flex>
 
       <div>
