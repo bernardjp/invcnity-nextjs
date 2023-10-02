@@ -5,19 +5,19 @@ import {
   runTransaction,
 } from 'firebase/firestore';
 import { firestore } from './clientApp';
-import { ListInfoType, EstateFormInfo } from './customTypes';
+import { ListFormInfo, EstateFormInfo } from './customTypes';
 
 function getListSnippets(
   userID: string,
-  stateHandler: React.Dispatch<React.SetStateAction<ListInfoType[]>>
+  stateHandler: React.Dispatch<React.SetStateAction<ListFormInfo[]>>
 ) {
   if (!userID) return;
 
   const unsub = onSnapshot(
     collection(firestore, `users/${userID}/listSnippets`),
     (data) => {
-      let listSnippets: ListInfoType[] = data.docs.map(
-        (list) => list.data() as ListInfoType
+      let listSnippets: ListFormInfo[] = data.docs.map(
+        (list) => list.data() as ListFormInfo
       );
       stateHandler(listSnippets);
     }
@@ -38,6 +38,20 @@ async function createEstate(estateData: EstateFormInfo) {
   });
 }
 
+async function createEstateList(listData: ListFormInfo, userID: string) {
+  await runTransaction(firestore, async (transaction) => {
+    const listDocRef = doc(collection(firestore, 'estate_lists'));
+    transaction.set(listDocRef, listData);
+
+    const userDocRef = doc(
+      firestore,
+      `users/${userID}/listSnippets`,
+      listDocRef.id
+    );
+    transaction.set(userDocRef, listData);
+  });
+}
+
 function deleteList(listID: string, userID: string) {
   /* Delete process:
       1- Delete the EstateSnippets subcollection associated with the List. Alternativatly, delete all the Estate documents associated with the List. (All the Estates must have a reference to the Parent List).
@@ -54,4 +68,10 @@ function deleteEstate(estateID: string, listID: string) {
    */
 }
 
-export { getListSnippets, createEstate, deleteEstate, deleteList };
+export {
+  getListSnippets,
+  createEstate,
+  createEstateList,
+  deleteEstate,
+  deleteList,
+};
