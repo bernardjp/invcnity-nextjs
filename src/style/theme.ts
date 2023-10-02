@@ -11,6 +11,7 @@ import {
   VariantText,
   VariantCheckbox,
   FormImage,
+  VariantMenu,
 } from './componentsStyleConfig';
 
 export const theme = extendTheme({
@@ -50,5 +51,6 @@ export const theme = extendTheme({
     CardImage,
     CardIcon,
     FormImage,
+    VariantMenu,
   },
 });
