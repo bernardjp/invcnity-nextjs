@@ -1,7 +1,5 @@
 import { atom } from 'recoil';
 
-export type ResourceType = 'list' | 'estate';
-
 export interface CreateResourceModal {
   list: boolean;
   estate: boolean;
