@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { Stack } from '@chakra-ui/react';
-import StyledInput from '../StyledInput';
-import { validateListForm, ListFormValidation } from './utils/validation';
-import RadioTypeTabs from './RadioInputs';
-import FormImage from './FormImage';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/clientApp';
 import { ListFormInfo } from '@/firebase/customTypes';
 import { createEstateList } from '@/firebase/firestoreUtils';
+import { validateListForm, ListFormValidation } from './utils/validation';
+import StyledInput from '../StyledInput';
+import FormImage from './FormImage';
+import RadioTypeTabs from './RadioInputs';
 import StyledSubmitButton from '../StyledSubmitButton';
 import BaseLabeledInput from '../BaseLabeledInput';
 
@@ -66,28 +65,26 @@ function FormInputs(props: { closeModal: () => void }): React.ReactElement {
   };
 
   return (
-    <form onSubmit={onSubmitHandler}>
-      <Stack>
-        <FormImage type={listFormData.type} />
-
-        <RadioTypeTabs
-          defaultValue={FORM_DEFAULT_VALUES.type}
-          setListFormData={setListFormData}
+    <form
+      onSubmit={onSubmitHandler}
+      style={{ display: 'flex', flexDirection: 'column' }}
+    >
+      <FormImage type={listFormData.type} />
+      <RadioTypeTabs
+        defaultValue={FORM_DEFAULT_VALUES.type}
+        setListFormData={setListFormData}
+      />
+      <BaseLabeledInput label="Choose your VCNITY name:">
+        <StyledInput
+          variant="flushed"
+          type="text"
+          name="listName"
+          placeholder="VCNITY name"
+          validation={formError?.listName}
+          onChange={onChangeHandler}
         />
-
-        <BaseLabeledInput label="Choose your VCNITY name:">
-          <StyledInput
-            variant="flushed"
-            type="text"
-            name="listName"
-            placeholder="VCNITY name"
-            validation={formError?.listName}
-            onChange={onChangeHandler}
-          />
-        </BaseLabeledInput>
-
-        <StyledSubmitButton loading={loading} text="Create VCNITY" />
-      </Stack>
+      </BaseLabeledInput>
+      <StyledSubmitButton loading={loading} text="Create VCNITY" />
     </form>
   );
 }

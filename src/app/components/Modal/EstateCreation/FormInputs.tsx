@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Stack } from '@chakra-ui/react';
-import StyledInput from '../StyledInput';
-import { validateEstateForm, EstateFormValidation } from './utils/validation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/clientApp';
+import { createEstate } from '@/firebase/firestoreUtils';
 import { ListType, EstateFormInfo } from '@/firebase/customTypes';
+import { validateEstateForm, EstateFormValidation } from './utils/validation';
+import StyledInput from '../StyledInput';
 import FormImage from '../ListCreation/FormImage';
 import BaseLabeledInput from '../BaseLabeledInput';
 import StyledSubmitButton from '../StyledSubmitButton';
-import { createEstate } from '@/firebase/firestoreUtils';
 
 const FORM_DEFAULT_VALUES: EstateFormInfo = {
   estateName: '',
@@ -77,63 +76,62 @@ function FormInputs(props: { closeModal: () => void }): React.ReactElement {
   };
 
   return (
-    <form onSubmit={onSubmitHandler}>
-      <Stack>
-        <FormImage type={type as ListType} />
-
-        <BaseLabeledInput label="Choose a name:">
-          <StyledInput
-            variant="flushed"
-            type="text"
-            name="estateName"
-            placeholder="ESTATE name"
-            validation={formError?.estateName}
-            onChange={onChangeHandler}
-          />
-        </BaseLabeledInput>
-        <BaseLabeledInput label="Price:">
-          <StyledInput
-            variant="flushed"
-            type="number"
-            name="price"
-            placeholder="U$ 115.000"
-            validation={formError?.price}
-            onChange={onChangeHandler}
-          />
-        </BaseLabeledInput>
-        <BaseLabeledInput label="Location:">
-          <StyledInput
-            variant="flushed"
-            type="text"
-            name="location"
-            placeholder="Brandsen"
-            validation={formError?.location}
-            onChange={onChangeHandler}
-          />
-        </BaseLabeledInput>
-        <BaseLabeledInput label="Publication URL:">
-          <StyledInput
-            variant="flushed"
-            type="text"
-            name="publicationURL"
-            placeholder="https://www.mercadolibre.com.ar"
-            validation={formError?.publicationURL}
-            onChange={onChangeHandler}
-          />
-        </BaseLabeledInput>
-        <BaseLabeledInput label="Location URL:">
-          <StyledInput
-            variant="flushed"
-            type="text"
-            name="locationURL"
-            placeholder="https://www.google.com/maps"
-            validation={formError?.locationURL}
-            onChange={onChangeHandler}
-          />
-        </BaseLabeledInput>
-
-        <StyledSubmitButton loading={loading} text="Create Estate" />
-      </Stack>
+    <form
+      onSubmit={onSubmitHandler}
+      style={{ display: 'flex', flexDirection: 'column' }}
+    >
+      <FormImage type={type as ListType} />
+      <BaseLabeledInput label="Choose a name:">
+        <StyledInput
+          variant="flushed"
+          type="text"
+          name="estateName"
+          placeholder="ESTATE name"
+          validation={formError?.estateName}
+          onChange={onChangeHandler}
+        />
+      </BaseLabeledInput>
+      <BaseLabeledInput label="Price:">
+        <StyledInput
+          variant="flushed"
+          type="number"
+          name="price"
+          placeholder="U$ 115.000"
+          validation={formError?.price}
+          onChange={onChangeHandler}
+        />
+      </BaseLabeledInput>
+      <BaseLabeledInput label="Location:">
+        <StyledInput
+          variant="flushed"
+          type="text"
+          name="location"
+          placeholder="Brandsen"
+          validation={formError?.location}
+          onChange={onChangeHandler}
+        />
+      </BaseLabeledInput>
+      <BaseLabeledInput label="Publication URL:">
+        <StyledInput
+          variant="flushed"
+          type="text"
+          name="publicationURL"
+          placeholder="https://www.mercadolibre.com.ar"
+          validation={formError?.publicationURL}
+          onChange={onChangeHandler}
+        />
+      </BaseLabeledInput>
+      <BaseLabeledInput label="Location URL:">
+        <StyledInput
+          variant="flushed"
+          type="text"
+          name="locationURL"
+          placeholder="https://www.google.com/maps"
+          validation={formError?.locationURL}
+          onChange={onChangeHandler}
+        />
+      </BaseLabeledInput>
+      <StyledSubmitButton loading={loading} text="Create Estate" />
     </form>
   );
 }
