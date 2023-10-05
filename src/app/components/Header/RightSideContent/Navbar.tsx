@@ -23,7 +23,6 @@ const Navbar: React.FC<PropsType> = (props: PropsType) => {
       {user ? (
         <>
           <Link href="/listas">Listas</Link>
-          <Link href="/propiedades">Propiedades</Link>
           <Button variant="primaryOutline" onClick={logoutHandler}>
             Logout
           </Button>
