@@ -1,78 +1,41 @@
 'use client';
 import React from 'react';
-import {
-  ChevronRightIcon,
-  ChevronLeftIcon,
-  ExternalLinkIcon,
-  DeleteIcon,
-  EditIcon,
-} from '@chakra-ui/icons';
+import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 import {
   Menu,
   MenuButton,
   IconButton,
   MenuList,
   MenuItem,
-  useMultiStyleConfig,
-  createStylesContext,
+  SystemStyleObject,
 } from '@chakra-ui/react';
-import { useParams } from 'next/navigation';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from '@/firebase/clientApp';
-import { deleteList } from '@/firebase/firestoreUtils';
-import { listVariant } from '@/style/componentsStyleConfig';
-import { ListType } from '@/firebase/customTypes';
 
-type MenuItemProps = {
+export type CustomMenuItemProps = {
   icon: React.ReactElement;
   text: string;
+  style: SystemStyleObject;
   onClickHandler: () => void;
 };
 
-const [StylesProvider, useStyles] = createStylesContext('VariantMenu');
-
-const TitleMenuItem = (props: MenuItemProps) => {
-  const { icon, text, onClickHandler } = props;
-  const styles = useStyles();
-
+const TitleMenuItem = (props: CustomMenuItemProps) => {
+  const { icon, style, text, onClickHandler } = props;
   return (
     <MenuItem
       icon={icon}
       borderRadius="8px"
       onClick={onClickHandler}
-      sx={styles.item}
+      sx={style}
     >
       {text}
     </MenuItem>
   );
 };
 
-function TitleMenu() {
-  const params = useParams();
-  const [type, listID] = params.id.split('_');
-
-  const [userCredentials] = useAuthState(auth);
-  const userID = userCredentials?.uid;
-
-  const variant = listVariant[type as ListType];
-  const styles = useMultiStyleConfig('VariantMenu', { variant });
-
-  const onEditHandler = () => {
-    console.log('Editing List ID:', listID);
-  };
-
-  const onShareHandler = () => {
-    console.log('Sharing List ID:', listID, 'from USER ID:', userID);
-  };
-
-  const onDeleteHandler = () => {
-    try {
-      if (!userID) throw new Error('User not authenticated');
-      deleteList(listID, userID);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+function TitleMenu(props: {
+  children: React.ReactNode;
+  styles: Record<string, SystemStyleObject>;
+}) {
+  const { children, styles } = props;
 
   return (
     <Menu placement="end-start">
@@ -104,23 +67,7 @@ function TitleMenu() {
             zIndex={6}
             sx={styles.list}
           >
-            <StylesProvider value={styles}>
-              <TitleMenuItem
-                icon={<EditIcon />}
-                text="Edit List"
-                onClickHandler={onEditHandler}
-              />
-              <TitleMenuItem
-                icon={<ExternalLinkIcon />}
-                text="Share List"
-                onClickHandler={onShareHandler}
-              />
-              <TitleMenuItem
-                icon={<DeleteIcon />}
-                text="Delete List"
-                onClickHandler={onDeleteHandler}
-              />
-            </StylesProvider>
+            {children}
           </MenuList>
         </>
       )}
@@ -128,4 +75,4 @@ function TitleMenu() {
   );
 }
 
-export default TitleMenu;
+export { TitleMenu, TitleMenuItem };
