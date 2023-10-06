@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import ListCreationModal from '../components/Modal/ListCreation';
 import ListsDashboard from '../components/ListsDashboard';
 import DashboardTitle from '../components/DashboardHandler/DashboardTitle';
+import CreateResourceButton from '../components/DashboardHandler/CreateResourceButton';
 
 export const metadata: Metadata = {
   title: 'IN/VCNITY Lists',
@@ -14,7 +15,10 @@ function ListPage(): React.ReactElement {
     <>
       <ListCreationModal />
       <section>
-        <DashboardTitle type="list" title="VCNITIES" />
+        <DashboardTitle
+          title="VCNITIES"
+          addButton={<CreateResourceButton type="list" />}
+        />
         <ListsDashboard />
       </section>
     </>

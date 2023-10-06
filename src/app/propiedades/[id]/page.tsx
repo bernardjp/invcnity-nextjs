@@ -1,4 +1,7 @@
 import React from 'react';
+import { ListType } from '@/firebase/customTypes';
+import DashboardTitle from '@/app/components/DashboardHandler/DashboardTitle';
+import EstateTitleMenu from '@/app/components/DashboardHandler/EstateTitleMenu';
 
 type Props = {
   params: {
@@ -7,10 +10,19 @@ type Props = {
 };
 
 function EstatesDetailsPage(props: Props) {
-  const {
-    params: { id },
-  } = props;
-  return <div>{`Estate ID ${id} details Page!`}</div>;
+  const { params } = props;
+  const [type, id] = params.id.split('_');
+
+  return (
+    <section>
+      <DashboardTitle
+        title={`Estate details Page!`}
+        menu={
+          <EstateTitleMenu type={type as ListType} id={id} resource="estate" />
+        }
+      />
+    </section>
+  );
 }
 
 export default EstatesDetailsPage;
