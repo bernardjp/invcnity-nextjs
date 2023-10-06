@@ -9,12 +9,12 @@ import {
   useRadioGroup,
   useStyleConfig,
 } from '@chakra-ui/react';
-import { ListType, ListInfoType } from '@/firebase/customTypes';
+import { ListType, ListFormInfo } from '@/firebase/customTypes';
 import { listVariant } from '@/style/componentsStyleConfig';
 
 type RadioTypeTabsProps = {
   defaultValue: ListType;
-  setListFormData: (value: React.SetStateAction<ListInfoType>) => void;
+  setListFormData: (value: React.SetStateAction<ListFormInfo>) => void;
 };
 
 const RADIO_TYPE_OPTIONS: ListType[] = [
@@ -50,7 +50,7 @@ function RadioTypeTabs(props: RadioTypeTabsProps): React.ReactElement {
   const { defaultValue, setListFormData } = props;
 
   const onChange = (value: ListType) => {
-    setListFormData((prev) => ({ ...prev, type: value }));
+    setListFormData((prev: ListFormInfo) => ({ ...prev, type: value }));
   };
 
   const { getRootProps, getRadioProps } = useRadioGroup({

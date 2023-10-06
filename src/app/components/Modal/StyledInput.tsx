@@ -2,10 +2,11 @@ import React from 'react';
 import { FormControl, FormErrorMessage, Input } from '@chakra-ui/react';
 
 type InputProps = {
-  type: 'text' | 'email' | 'password' | 'number';
-  variant: 'flushed' | 'outline';
-  placeholder: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder: string;
+  type: 'text' | 'email' | 'password' | 'number';
+  value?: string;
+  variant: 'flushed' | 'outline';
 };
 
 export type InputValidation = {
@@ -31,18 +32,20 @@ export type EstateInputProps = InputProps & {
 type StyledInputProps = AuthInputProps | ListInputProps | EstateInputProps;
 
 const StyledInput: React.FC<StyledInputProps> = (props: StyledInputProps) => {
-  const { type, variant, name, placeholder, validation, onChange } = props;
+  const { type, variant, name, placeholder, validation, value, onChange } =
+    props;
 
   return (
     <FormControl isInvalid={validation?.isValidated === false}>
       <Input
-        name={name}
-        pr={type === 'password' ? '3rem' : ''}
-        type={type}
-        placeholder={placeholder}
-        variant={variant}
         borderBottom="1px solid"
         borderColor="gray.400"
+        name={name}
+        placeholder={placeholder}
+        pr={type === 'password' ? '3rem' : ''}
+        type={type}
+        value={value}
+        variant={variant}
         _placeholder={{ color: 'gray.700' }}
         _hover={{
           border: variant === 'flushed' ? '' : '2px solid',
