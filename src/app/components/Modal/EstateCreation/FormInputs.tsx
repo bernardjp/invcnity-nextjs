@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/clientApp';
-import { createEstate } from '@/firebase/firestoreUtils';
+import { createEstate, editEstate } from '@/firebase/firestoreUtils';
 import { ListType, EstateFormInfo } from '@/firebase/customTypes';
 import { validateEstateForm, EstateFormValidation } from './utils/validation';
 import StyledInput from '../StyledInput';
@@ -20,15 +20,25 @@ const FORM_DEFAULT_VALUES: EstateFormInfo = {
   listID: '',
 };
 
-function FormInputs(props: { closeModal: () => void }): React.ReactElement {
+type Props = {
+  action: 'create' | 'edit';
+  defaultValues?: EstateFormInfo;
+  closeModal: () => void;
+};
+
+function FormInputs(props: Props): React.ReactElement {
+  const { closeModal, action, defaultValues } = props;
+
   const [type, id] = useParams().id.split('_');
   const [userCredentials] = useAuthState(auth);
+  const [estateFormData, setEstateFormData] = useState<EstateFormInfo>(
+    defaultValues || {
+      ...FORM_DEFAULT_VALUES,
+      type: type as ListType,
+      listID: id,
+    }
+  );
 
-  const [estateFormData, setEstateFormData] = useState<EstateFormInfo>({
-    ...FORM_DEFAULT_VALUES,
-    type: type as ListType,
-    listID: id,
-  });
   const [formError, setFormError] = useState<EstateFormValidation | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -59,14 +69,21 @@ function FormInputs(props: { closeModal: () => void }): React.ReactElement {
 
     // Add the new Estate to the Estates Collection and to the Estate-List EstateSnippets.
     try {
-      const newEstate: EstateFormInfo = {
-        ...estateFormData,
-        roles: { [userId]: 'owner' },
-      };
+      if (action === 'create') {
+        const newEstate: EstateFormInfo = {
+          ...estateFormData,
+          roles: { [userId]: 'owner' },
+        };
+        createEstate(newEstate);
+      }
 
-      createEstate(newEstate);
+      if (action === 'edit') {
+        // the variable 'id' in the execution context points to the estateID because the edit action is only available inside 'propiedades/[id]' route, so 'id' in this case references the estate and not the estate_list.
+        editEstate(estateFormData, id, estateFormData.listID);
+      }
+
       setFormError(null);
-      props.closeModal();
+      closeModal();
     } catch (error) {
       setLoading(false);
       console.log(error);
