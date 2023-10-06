@@ -1,4 +1,4 @@
-import { collection, doc, runTransaction } from 'firebase/firestore';
+import { collection, doc, getDoc, runTransaction } from 'firebase/firestore';
 import { firestore } from './clientApp';
 import { ListFormInfo, EstateFormInfo } from './customTypes';
 
@@ -47,28 +47,42 @@ export async function createEstateList(listData: ListFormInfo, userID: string) {
   });
 }
 
-export async function editList(
+export async function getEstateList(listID: string) {
+  const listDocRef = doc(firestore, 'estate_lists', listID);
+  const docSnapshot = await getDoc(listDocRef);
+
+  if (docSnapshot.exists()) {
+    return docSnapshot.data();
+  } else {
+    throw new Error("The list doesn't exist.");
+  }
+}
+
+export async function getEstate(estateID: string) {
+  const estateDocRef = doc(firestore, 'estates', estateID);
+  const docSnapshot = await getDoc(estateDocRef);
+
+  if (docSnapshot.exists()) {
+    return docSnapshot.data();
+  } else {
+    throw new Error("The estate doesn't exist.");
+  }
+}
+
+export async function editEstateList(
   updatedList: ListFormInfo,
   listID: string,
   userID: string
 ) {
-  /* Edit process:
-      2- Edit the List document itself.
-      3- Edit the ListSnippet in each User associated with the List.
-      console.log('Editing LIST ID:', listID, 'from USER ID:', userID);
-   */
-
   await runTransaction(firestore, async (transaction) => {
     const listDocRef = doc(firestore, 'estate_lists', listID);
     transaction.update(listDocRef, {
-      // Updated DATA.
-      ...updatedList, // this updates ALL the fields, even those not changed.
+      ...updatedList, // NOTE: this updates ALL the fields, even those not changed.
     });
 
     const userDocRef = doc(firestore, `users/${userID}/listSnippets`, listID);
     transaction.update(userDocRef, {
-      // Updated DATA.
-      ...updatedList, // this updates ALL the fields, even those not changed.
+      ...updatedList, // NOTE: this updates ALL the fields, even those not changed.
     });
   });
 }
@@ -78,16 +92,10 @@ export async function editEstate(
   estateID: string,
   listID: string
 ) {
-  /* Edit process:
-      2- Edit the ESTATE document itself.
-      3- Edit the EstateSnippet in each associated List.
-      console.log('Editing ESTATE ID:', estateID, 'from USER ID:', userID);
-   */
   await runTransaction(firestore, async (transaction) => {
     const estateDocRef = doc(firestore, 'estates', estateID);
     transaction.update(estateDocRef, {
-      // Updated DATA.
-      ...updatedEstate, // this updates ALL the fields, even those not changed.
+      ...updatedEstate, // NOTE: this updates ALL the fields, even those not changed.
     });
 
     const listDocRef = doc(
@@ -96,8 +104,7 @@ export async function editEstate(
       estateID
     );
     transaction.update(listDocRef, {
-      // Updated DATA.
-      ...updatedEstate, // this updates ALL the fields, even those not changed.
+      ...updatedEstate, // NOTE: this updates ALL the fields, even those not changed.
     });
   });
 }
