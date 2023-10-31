@@ -1,15 +1,15 @@
 'use client';
 import React from 'react';
-import { Flex, Box } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 
 type Props = {
   title: string;
   menu?: React.ReactNode;
-  addButton?: React.ReactNode;
+  actionButton?: React.ReactNode;
 };
 
 function DashboardTitle(props: Props) {
-  const { title, menu, addButton } = props;
+  const { title, menu, actionButton } = props;
 
   return (
     <Flex
@@ -18,36 +18,28 @@ function DashboardTitle(props: Props) {
       gap="2rem"
       justifyContent={{ base: 'center', md: 'space-between' }}
       mb="1.5rem"
-      px="1rem"
       textAlign={{ base: 'center', md: 'left' }}
     >
       <Flex alignItems="center">
         <Flex
-          alignItems="baseline"
           as="h2"
-          borderBottom="1px dotted grey"
+          bg="linear-gradient(70deg, rgb(255, 178, 43) 10%, rgb(255, 113, 97) 38%, rgb(255, 113, 97) 62%, rgb(0, 180, 111) 85%)"
+          bgClip="text"
+          borderBottom="2px dotted beige"
+          color="transparent"
           flexWrap="wrap"
-          fontSize="2rem"
+          fontSize="2.5rem"
           fontWeight="bold"
+          gap="1rem"
           height="fit-content"
           justifyContent={{ base: 'center', md: 'left' }}
           mr="0.8rem"
         >
-          This are your{' '}
-          <Box
-            as="span"
-            bg="linear-gradient(70deg, rgb(255, 178, 43) 10%, rgb(255, 113, 97) 38%, rgb(255, 113, 97) 62%, rgb(0, 180, 111) 85%)"
-            bgClip="text"
-            color="transparent"
-            fontSize="2.5rem"
-            ml="0.5rem"
-          >
-            {title}
-          </Box>
+          {title}
         </Flex>
         {menu}
       </Flex>
-      {addButton}
+      {actionButton}
     </Flex>
   );
 }
