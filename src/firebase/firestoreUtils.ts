@@ -1,49 +1,26 @@
-import { collection, doc, getDoc, runTransaction } from 'firebase/firestore';
+import {
+  Transaction,
+  WriteBatch,
+  collection,
+  doc,
+  getDoc,
+  runTransaction,
+  writeBatch,
+} from 'firebase/firestore';
 import { firestore } from './clientApp';
 import { ListFormInfo, EstateFormInfo } from './customTypes';
 
-// -- Unsued/Deprecated Implementation --
-// function getListSnippets(
-//   userID: string,
-//   stateHandler: React.Dispatch<React.SetStateAction<ListFormInfo[]>>
-// ) {
-//   if (!userID) return;
-//   const unsub = onSnapshot(
-//     collection(firestore, `users/${userID}/listSnippets`),
-//     (data) => {
-//       let listSnippets: ListFormInfo[] = data.docs.map(
-//         (list) => list.data() as ListFormInfo
-//       );
-//       stateHandler(listSnippets);
-//     }
-//   );
-// }
-
 export async function createEstate(estateData: EstateFormInfo) {
   await runTransaction(firestore, async (transaction) => {
-    const estateDocRef = doc(collection(firestore, 'estates'));
-    transaction.set(estateDocRef, estateData);
-
-    const listDocRef = doc(
-      firestore,
-      `estate_lists/${estateData.listID}/estateSnippets`,
-      estateDocRef.id
-    );
-    transaction.set(listDocRef, estateData);
+    const estateDocRef = createEstateDoc(transaction, estateData);
+    createEstateSnippet(transaction, estateDocRef.id, estateData);
   });
 }
 
 export async function createEstateList(listData: ListFormInfo, userID: string) {
   await runTransaction(firestore, async (transaction) => {
-    const listDocRef = doc(collection(firestore, 'estate_lists'));
-    transaction.set(listDocRef, listData);
-
-    const userDocRef = doc(
-      firestore,
-      `users/${userID}/listSnippets`,
-      listDocRef.id
-    );
-    transaction.set(userDocRef, listData);
+    const listRef = createListDoc(transaction, listData);
+    createListSnippet(transaction, userID, listRef.id, listData);
   });
 }
 
@@ -75,15 +52,8 @@ export async function editEstateList(
   userID: string
 ) {
   await runTransaction(firestore, async (transaction) => {
-    const listDocRef = doc(firestore, 'estate_lists', listID);
-    transaction.update(listDocRef, {
-      ...updatedList, // NOTE: this updates ALL the fields, even those not changed.
-    });
-
-    const userDocRef = doc(firestore, `users/${userID}/listSnippets`, listID);
-    transaction.update(userDocRef, {
-      ...updatedList, // NOTE: this updates ALL the fields, even those not changed.
-    });
+    updateListDoc(transaction, listID, updatedList);
+    updateListSnippet(transaction, userID, listID, updatedList);
   });
 }
 
@@ -93,19 +63,8 @@ export async function editEstate(
   listID: string
 ) {
   await runTransaction(firestore, async (transaction) => {
-    const estateDocRef = doc(firestore, 'estates', estateID);
-    transaction.update(estateDocRef, {
-      ...updatedEstate, // NOTE: this updates ALL the fields, even those not changed.
-    });
-
-    const listDocRef = doc(
-      firestore,
-      `estate_lists/${listID}/estateSnippets`,
-      estateID
-    );
-    transaction.update(listDocRef, {
-      ...updatedEstate, // NOTE: this updates ALL the fields, even those not changed.
-    });
+    updateEstateDoc(transaction, estateID, updatedEstate);
+    updateEstateSnippet(transaction, estateID, listID, updatedEstate);
   });
 }
 
@@ -120,10 +79,123 @@ export function deleteList(listID: string, userID: string) {
   console.log('Deleting LIST ID:', listID, 'from USER ID:', userID);
 }
 
-export function deleteEstate(estateID: string, listID: string) {
-  /* Delete process:
-      1- Delete the EstateSnippet document from the associated List.
-      2- Delete the Estate document itself.
-   */
-  console.log('Deleting ESTATE ID:', estateID, 'from USER ID:', listID);
+export async function deleteEstate(estateID: string, listID: string) {
+  const batch = writeBatch(firestore);
+  deleteEstateDoc(batch, estateID);
+  deleteEstateSnippet(batch, estateID, listID);
+  await batch.commit();
+}
+
+function createEstateDoc(transaction: Transaction, estateData: EstateFormInfo) {
+  const estateDocRef = doc(collection(firestore, 'estates'));
+  transaction.set(estateDocRef, estateData);
+  //  We need to return the document reference becauseit's ID is needed
+  //  to create the EstateSnippet later on the transaction.
+  return estateDocRef;
+}
+
+function createEstateSnippet(
+  transaction: Transaction,
+  estateID: string,
+  estateData: EstateFormInfo
+) {
+  const estateSnippetDocRef = doc(
+    firestore,
+    `estate_lists/${estateData.listID}/estateSnippets`,
+    estateID
+  );
+  transaction.set(estateSnippetDocRef, estateData);
+}
+
+function createListDoc(transaction: Transaction, listData: ListFormInfo) {
+  const listDocRef = doc(collection(firestore, 'estate_lists'));
+  transaction.set(listDocRef, listData);
+  //  We need to return the document reference becauseit's ID is needed
+  //  to create the ListSnippet later on the transaction.
+  return listDocRef;
+}
+
+function createListSnippet(
+  transaction: Transaction,
+  userID: string,
+  listID: string,
+  listData: ListFormInfo
+) {
+  const userDocRef = doc(firestore, `users/${userID}/listSnippets`, listID);
+  transaction.set(userDocRef, listData);
+}
+
+function updateEstateDoc(
+  transaction: Transaction,
+  estateID: string,
+  updatedEstate: EstateFormInfo
+) {
+  const estateDocRef = doc(firestore, 'estates', estateID);
+  transaction.update(estateDocRef, {
+    ...updatedEstate, // NOTE: this updates ALL the fields, even those not changed.
+  });
+}
+
+function updateEstateSnippet(
+  transaction: Transaction,
+  estateID: string,
+  listID: string,
+  updatedEstate: EstateFormInfo
+) {
+  const estateSnippetDocRef = doc(
+    firestore,
+    `estate_lists/${listID}/estateSnippets`,
+    estateID
+  );
+  transaction.update(estateSnippetDocRef, {
+    ...updatedEstate, // NOTE: this updates ALL the fields, even those not changed.
+  });
+}
+
+function updateListDoc(
+  transaction: Transaction,
+  listID: string,
+  updatedList: ListFormInfo
+) {
+  const listDocRef = doc(firestore, 'estate_lists', listID);
+  transaction.update(listDocRef, {
+    ...updatedList, // NOTE: this updates ALL the fields, even those not changed.
+  });
+}
+
+function updateListSnippet(
+  transaction: Transaction,
+  userID: string,
+  listID: string,
+  updatedList: ListFormInfo
+) {
+  const userDocRef = doc(firestore, `users/${userID}/listSnippets`, listID);
+  transaction.update(userDocRef, {
+    ...updatedList, // NOTE: this updates ALL the fields, even those not changed.
+  });
+}
+
+function deleteEstateDoc(batch: WriteBatch, estateID: string) {
+  const estateDocRef = doc(firestore, 'estates', estateID);
+  batch.delete(estateDocRef);
+}
+
+function deleteEstateSnippet(
+  batch: WriteBatch,
+  estateID: string,
+  listID: string
+) {
+  const docRef = doc(
+    firestore,
+    `estate_lists/${listID}/estateSnippets`,
+    estateID
+  );
+  batch.delete(docRef);
+}
+
+function deleteListDoc() {}
+
+function deleteListSnippet(batch: WriteBatch, listID: string, userID: string) {
+  const docRef = doc(firestore, `users/${userID}/listSnippets`, listID);
+  batch.delete(docRef);
 }
