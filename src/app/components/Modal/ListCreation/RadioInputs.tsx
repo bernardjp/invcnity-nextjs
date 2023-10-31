@@ -9,12 +9,13 @@ import {
   useRadioGroup,
   useStyleConfig,
 } from '@chakra-ui/react';
-import { ListType, ListFormInfo } from '@/firebase/customTypes';
+import { ListType } from '@/firebase/customTypes';
 import { listVariant } from '@/style/componentsStyleConfig';
 
 type RadioTypeTabsProps = {
   defaultValue: ListType;
-  setListFormData: (value: React.SetStateAction<ListFormInfo>) => void;
+  isDisabled?: boolean;
+  onChangeHandler: (value: ListType) => void;
 };
 
 const RADIO_TYPE_OPTIONS: ListType[] = [
@@ -35,11 +36,7 @@ function RadioInputTab(props: any): React.ReactElement {
   return (
     <Box as="label" textAlign="center" width={{ base: 'fit-content' }}>
       <input {...input} />
-      <Flex
-        {...checkbox}
-        style={{ textTransform: 'capitalize' }}
-        __css={styles}
-      >
+      <Flex {...checkbox} textTransform="capitalize" __css={styles}>
         {props.children}
       </Flex>
     </Box>
@@ -47,16 +44,11 @@ function RadioInputTab(props: any): React.ReactElement {
 }
 
 function RadioTypeTabs(props: RadioTypeTabsProps): React.ReactElement {
-  const { defaultValue, setListFormData } = props;
-
-  const onChange = (value: ListType) => {
-    setListFormData((prev: ListFormInfo) => ({ ...prev, type: value }));
-  };
-
+  const { defaultValue, isDisabled, onChangeHandler } = props;
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: 'type',
     defaultValue,
-    onChange,
+    onChange: onChangeHandler,
   });
   const group = getRootProps();
 
@@ -67,7 +59,7 @@ function RadioTypeTabs(props: RadioTypeTabsProps): React.ReactElement {
         color="gray.500"
         textAlign={{ base: 'center', sm: 'left' }}
       >
-        Pick a VCNITY type:
+        VCNITY type:
       </Text>
       <Stack
         direction={{ base: 'column', sm: 'row' }}
@@ -76,15 +68,26 @@ function RadioTypeTabs(props: RadioTypeTabsProps): React.ReactElement {
         w="90%"
         {...group}
       >
-        {RADIO_TYPE_OPTIONS.map((type) => {
-          const radio = getRadioProps({ value: type });
+        {isDisabled && (
+          <Flex
+            borderBottom="3px solid"
+            borderColor="transparent"
+            lineHeight={8}
+            textTransform="capitalize"
+          >
+            {defaultValue}
+          </Flex>
+        )}
+        {!isDisabled &&
+          RADIO_TYPE_OPTIONS.map((type) => {
+            const radio = getRadioProps({ value: type });
 
-          return (
-            <RadioInputTab key={type} {...radio}>
-              {type}
-            </RadioInputTab>
-          );
-        })}
+            return (
+              <RadioInputTab key={type} {...radio}>
+                {type}
+              </RadioInputTab>
+            );
+          })}
       </Stack>
     </VStack>
   );
