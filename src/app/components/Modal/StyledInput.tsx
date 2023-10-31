@@ -7,6 +7,7 @@ type InputProps = {
   type: 'text' | 'email' | 'password' | 'number';
   value?: string;
   variant: 'flushed' | 'outline';
+  isDisabled?: boolean;
 };
 
 export type InputValidation = {
@@ -32,8 +33,16 @@ export type EstateInputProps = InputProps & {
 type StyledInputProps = AuthInputProps | ListInputProps | EstateInputProps;
 
 const StyledInput: React.FC<StyledInputProps> = (props: StyledInputProps) => {
-  const { type, variant, name, placeholder, validation, value, onChange } =
-    props;
+  const {
+    type,
+    variant,
+    name,
+    placeholder,
+    validation,
+    value,
+    isDisabled,
+    onChange,
+  } = props;
 
   return (
     <FormControl isInvalid={validation?.isValidated === false}>
@@ -46,10 +55,11 @@ const StyledInput: React.FC<StyledInputProps> = (props: StyledInputProps) => {
         type={type}
         value={value}
         variant={variant}
+        disabled={isDisabled}
         _placeholder={{ color: 'gray.700' }}
         _hover={{
           border: variant === 'flushed' ? '' : '2px solid',
-          borderColor: 'orange',
+          borderColor: isDisabled ? 'inherit' : 'orange',
         }}
         _focus={{
           outline: 'none',
@@ -59,6 +69,10 @@ const StyledInput: React.FC<StyledInputProps> = (props: StyledInputProps) => {
         _focusVisible={{
           borderBottom: '2px solid',
           borderColor: 'orange',
+        }}
+        _disabled={{
+          color: 'inherit',
+          cursor: 'auto',
         }}
         onChange={onChange}
       />
