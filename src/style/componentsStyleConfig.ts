@@ -1,3 +1,4 @@
+import { ListType } from '@/firebase/customTypes';
 import {
   createMultiStyleConfigHelpers,
   defineStyleConfig,
@@ -10,12 +11,12 @@ export type ThemeVariant =
   | 'primaryLight'
   | 'secondaryLight'
   | 'tertiaryLight';
-export enum listVariant {
-  apartment = 'tertiary',
-  house = 'primary',
-  countryside = 'primary',
-  vacation = 'secondary',
-}
+export const listVariant: Record<ListType, ThemeVariant> = {
+  apartment: 'tertiary',
+  house: 'primary',
+  countryside: 'primary',
+  vacation: 'secondary',
+};
 
 export const Button = defineStyleConfig({
   variants: {
@@ -81,6 +82,7 @@ export const CardContainer = defineStyleConfig({
   baseStyle: {
     bg: 'white',
     border: '2px solid',
+    borderColor: 'transparent',
     borderRadius: '24px',
     flexDir: 'column',
     boxShadow: '0px 10px 35px -20px rgba(0,0,0,0.75)',
@@ -95,9 +97,6 @@ export const CardContainer = defineStyleConfig({
     },
     tertiary: {
       borderColor: 'brand.orange',
-    },
-    list: {
-      borderColor: 'transparent',
     },
   },
 });
@@ -213,10 +212,14 @@ export const VariantCheckbox = defineStyleConfig({
 });
 
 export const FormImage = defineStyleConfig({
+  baseStyle: {
+    minWidth: '15rem',
+  },
   variants: {
     apartment: {},
     house: {
       filter: 'hue-rotate(310deg)',
+      minWidth: '20rem',
     },
     countryside: {
       filter: 'hue-rotate(310deg)',
@@ -224,6 +227,7 @@ export const FormImage = defineStyleConfig({
     vacation: {
       filter: 'hue-rotate(95deg) brightness(0.85)',
       paddingTop: '6rem',
+      minWidth: '19rem',
     },
   },
 });
