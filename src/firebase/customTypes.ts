@@ -22,7 +22,7 @@ export type EstateListDoc = {
   listName: string;
   roles: { [x: string]: RoleType };
   type: ListType;
-  uid: string;
+  id: string;
 };
 
 export type EstateDoc = {
@@ -36,5 +36,5 @@ export type EstateDoc = {
   publicationURL: string;
   roles?: { [x: string]: RoleType };
   type: ListType;
-  uid: string;
+  id: string;
 };
