@@ -7,10 +7,9 @@ import DashboardTitle from '@/app/components/DashboardHandler/DashboardTitle';
 import CreateResourceButton from '@/app/components/DashboardHandler/CreateResourceButton';
 import ListTitleMenu from '@/app/components/DashboardHandler/ListTitleMenu';
 import ListCreationModal from '@/app/components/Modal/ListCreation';
-// import TitleMenu from '@/app/components/DashboardHandler/TitleMenu';
 
 export const metadata: Metadata = {
-  title: 'VCNITY Dashboard',
+  title: 'VCNITY Dashboard | IN/V',
   description: 'Dashboard that showcase all your Estates stored in IN/VCNITY.',
 };
 
@@ -26,7 +25,7 @@ function ListPage(props: { params: { id: string } }) {
         <DashboardTitle
           title="VCNITY Estates"
           menu={<ListTitleMenu type={type as ListType} listID={id} />}
-          addButton={<CreateResourceButton type="estate" />}
+          actionButton={<CreateResourceButton type="estate" />}
         />
         <EstatesDashboard />
       </section>
