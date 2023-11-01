@@ -1,9 +1,9 @@
 import React from 'react';
-import { ListInfoType, RoleType } from '@/firebase/customTypes';
+import { EstateListDoc, RoleType } from '@/firebase/customTypes';
 import Card from '../Card';
 
 type PropType = {
-  list: ListInfoType;
+  list: EstateListDoc;
   userRole?: RoleType;
 };
 

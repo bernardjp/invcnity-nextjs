@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { ListFormInfo } from '@/firebase/customTypes';
+import { EstateListDoc } from '@/firebase/customTypes';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { auth, firestore } from '@/firebase/clientApp';
@@ -20,7 +20,7 @@ function ListsDashboard() {
         value.docs.map((list) => (
           <ListCard
             key={list.id}
-            list={list.data() as ListFormInfo}
+            list={list.data() as EstateListDoc}
             userRole={list.data().roles[user!.uid]}
           />
         ))}
