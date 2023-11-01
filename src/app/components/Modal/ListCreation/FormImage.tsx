@@ -19,7 +19,6 @@ function FormImage(props: { type: ListType }): React.ReactElement {
       <Image
         src={`/images/select-${type}.svg`}
         alt={`${type} illustration`}
-        minWidth="15rem"
         __css={styles}
       />
     </Flex>

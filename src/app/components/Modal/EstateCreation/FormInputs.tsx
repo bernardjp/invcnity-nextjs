@@ -19,6 +19,7 @@ const FORM_DEFAULT_VALUES: EstateFormInfo = {
   publicationURL: '',
   type: 'house',
   listID: '',
+  id: '',
 };
 
 type Props = {
@@ -108,6 +109,7 @@ function FormInputs(props: Props): React.ReactElement {
           placeholder="ESTATE name"
           validation={formError?.estateName}
           onChange={onChangeHandler}
+          value={estateFormData.estateName}
         />
       </BaseLabeledInput>
       <BaseLabeledInput label="Price:">
@@ -118,6 +120,7 @@ function FormInputs(props: Props): React.ReactElement {
           placeholder="U$ 115.000"
           validation={formError?.price}
           onChange={onChangeHandler}
+          value={estateFormData.price}
         />
       </BaseLabeledInput>
       <BaseLabeledInput label="Location:">
@@ -128,6 +131,7 @@ function FormInputs(props: Props): React.ReactElement {
           placeholder="Brandsen"
           validation={formError?.location}
           onChange={onChangeHandler}
+          value={estateFormData.location}
         />
       </BaseLabeledInput>
       <BaseLabeledInput label="Publication URL:">
@@ -138,6 +142,7 @@ function FormInputs(props: Props): React.ReactElement {
           placeholder="https://www.mercadolibre.com.ar"
           validation={formError?.publicationURL}
           onChange={onChangeHandler}
+          value={estateFormData.publicationURL}
         />
       </BaseLabeledInput>
       <BaseLabeledInput label="Location URL:">
@@ -148,9 +153,14 @@ function FormInputs(props: Props): React.ReactElement {
           placeholder="https://www.google.com/maps"
           validation={formError?.locationURL}
           onChange={onChangeHandler}
+          value={estateFormData.locationURL}
         />
       </BaseLabeledInput>
-      <StyledSubmitButton loading={loading} text="Create Estate" />
+      <StyledSubmitButton
+        loading={loading}
+        text="Create Estate"
+        type="submit"
+      />
     </form>
   );
 }
