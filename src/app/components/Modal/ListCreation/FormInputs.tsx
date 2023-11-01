@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useParams } from 'next/navigation';
 import { auth } from '@/firebase/clientApp';
-import { ListFormInfo } from '@/firebase/customTypes';
+import { ListFormInfo, ListType } from '@/firebase/customTypes';
 import { createEstateList, editEstateList } from '@/firebase/firestoreUtils';
 import { validateListForm, ListFormValidation } from './utils/validation';
 import StyledInput from '../StyledInput';
@@ -15,6 +15,7 @@ const FORM_DEFAULT_VALUES: ListFormInfo = {
   listName: '',
   type: 'apartment',
   roles: {},
+  id: '',
 };
 
 type Props = {
@@ -25,10 +26,10 @@ type Props = {
 
 function FormInputs(props: Props): React.ReactElement {
   const { closeModal, defaultValues, action } = props;
-  const listID = useParams().id.split('_')[1];
+  const listID = useParams().id?.split('_')[1] || '';
 
   const [userCredentials] = useAuthState(auth);
-  const [listFormData, setListFormData] = useState(
+  const [listFormData, setFormData] = useState(
     defaultValues || FORM_DEFAULT_VALUES
   );
 
@@ -40,7 +41,7 @@ function FormInputs(props: Props): React.ReactElement {
       ...listFormData,
       [e.currentTarget.name]: e.currentTarget.value,
     };
-    setListFormData(formValues);
+    setFormData(formValues);
   };
 
   const onSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -84,6 +85,10 @@ function FormInputs(props: Props): React.ReactElement {
     }
   };
 
+  const radioInputsHandler = (value: ListType) => {
+    setFormData((prev: ListFormInfo) => ({ ...prev, type: value }));
+  };
+
   return (
     <form
       onSubmit={onSubmitHandler}
@@ -92,7 +97,7 @@ function FormInputs(props: Props): React.ReactElement {
       <FormImage type={listFormData.type} />
       <RadioTypeTabs
         defaultValue={listFormData.type}
-        setListFormData={setListFormData}
+        onChangeHandler={radioInputsHandler}
       />
       <BaseLabeledInput label="Choose your VCNITY name:">
         <StyledInput
@@ -108,6 +113,7 @@ function FormInputs(props: Props): React.ReactElement {
       <StyledSubmitButton
         loading={loading}
         text={defaultValues ? 'Update' : 'Create'}
+        type="submit"
       />
     </form>
   );
