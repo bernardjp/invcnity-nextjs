@@ -6,7 +6,7 @@ import DashboardTitle from '../components/DashboardHandler/DashboardTitle';
 import CreateResourceButton from '../components/DashboardHandler/CreateResourceButton';
 
 export const metadata: Metadata = {
-  title: 'IN/VCNITY Lists',
+  title: 'VCNITIES List | IN/V',
   description: 'Dashboard that showcase all your Estates stored in IN/VCNITY.',
 };
 
@@ -17,7 +17,7 @@ function ListPage(): React.ReactElement {
       <section>
         <DashboardTitle
           title="VCNITIES"
-          addButton={<CreateResourceButton type="list" />}
+          actionButton={<CreateResourceButton type="list" />}
         />
         <ListsDashboard />
       </section>
