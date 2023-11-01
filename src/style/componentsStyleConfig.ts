@@ -1,3 +1,5 @@
+import { ListType } from '@/firebase/customTypes';
+
 import {
   createMultiStyleConfigHelpers,
   defineStyleConfig,
@@ -10,12 +12,12 @@ export type ThemeVariant =
   | 'primaryLight'
   | 'secondaryLight'
   | 'tertiaryLight';
-export enum listVariant {
-  apartment = 'tertiary',
-  house = 'primary',
-  countryside = 'primary',
-  vacation = 'secondary',
-}
+export const listVariant: Record<ListType, ThemeVariant> = {
+  apartment: 'tertiary',
+  house: 'primary',
+  countryside: 'primary',
+  vacation: 'secondary',
+};
 
 export const Button = defineStyleConfig({
   variants: {
@@ -81,6 +83,7 @@ export const CardContainer = defineStyleConfig({
   baseStyle: {
     bg: 'white',
     border: '2px solid',
+    borderColor: 'transparent',
     borderRadius: '24px',
     flexDir: 'column',
     boxShadow: '0px 10px 35px -20px rgba(0,0,0,0.75)',
@@ -95,9 +98,6 @@ export const CardContainer = defineStyleConfig({
     },
     tertiary: {
       borderColor: 'brand.orange',
-    },
-    list: {
-      borderColor: 'transparent',
     },
   },
 });
@@ -213,10 +213,14 @@ export const VariantCheckbox = defineStyleConfig({
 });
 
 export const FormImage = defineStyleConfig({
+  baseStyle: {
+    minWidth: '15rem',
+  },
   variants: {
     apartment: {},
     house: {
       filter: 'hue-rotate(310deg)',
+      minWidth: '20rem',
     },
     countryside: {
       filter: 'hue-rotate(310deg)',
@@ -224,6 +228,100 @@ export const FormImage = defineStyleConfig({
     vacation: {
       filter: 'hue-rotate(95deg) brightness(0.85)',
       paddingTop: '6rem',
+      minWidth: '19rem',
+    },
+  },
+});
+
+const menuHelpers = createMultiStyleConfigHelpers(['button', 'list', 'item']);
+export const VariantMenu = menuHelpers.defineMultiStyleConfig({
+  variants: {
+    primary: {
+      button: {
+        borderColor: 'brand.darkRed',
+        color: 'brand.darkRed',
+        _hover: {
+          bg: 'brand.lightRed',
+        },
+        _active: {
+          bg: 'brand.darkRed',
+          color: 'white',
+        },
+      },
+      list: {
+        borderColor: 'brand.darkRed',
+        boxShadow: '0px 4px 16px -7px #8a0000ad',
+      },
+      item: {
+        _hover: {
+          bg: 'brand.lightRed',
+        },
+        _focus: {
+          bg: 'brand.lightRed',
+        },
+        _active: {
+          bg: 'brand.darkRed',
+          color: 'white',
+        },
+      },
+    },
+    secondary: {
+      button: {
+        borderColor: 'brand.darkTeal',
+        color: 'brand.darkTeal',
+        _hover: {
+          bg: 'brand.lightTeal',
+        },
+        _active: {
+          bg: 'brand.darkTeal',
+          color: 'white',
+        },
+      },
+      list: {
+        borderColor: 'brand.darkTeal',
+        boxShadow: '0px 4px 16px -7px #006c49c4',
+      },
+      item: {
+        _hover: {
+          bg: 'brand.lightTeal',
+        },
+        _focus: {
+          bg: 'brand.lightTeal',
+        },
+        _active: {
+          bg: 'brand.darkTeal',
+          color: 'white',
+        },
+      },
+    },
+    tertiary: {
+      button: {
+        borderColor: 'brand.darkOrange',
+        color: 'brand.darkOrange',
+        _hover: {
+          bg: 'brand.lightOrange',
+        },
+        _active: {
+          bg: 'brand.darkOrange',
+          color: 'white',
+        },
+      },
+      list: {
+        borderColor: 'brand.darkOrange',
+        boxShadow: '0px 4px 16px -7px #8e5d00ad',
+      },
+      item: {
+        _hover: {
+          bg: 'brand.lightOrange',
+        },
+        _focus: {
+          bg: 'brand.lightOrange',
+        },
+        _active: {
+          bg: 'brand.darkOrange',
+          color: 'white',
+        },
+      },
     },
   },
 });

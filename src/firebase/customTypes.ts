@@ -1,5 +1,6 @@
 import { UserInfo } from 'firebase/auth';
 
+export type ResourceType = 'estate' | 'list' | 'user';
 export type ListType = 'apartment' | 'house' | 'countryside' | 'vacation';
 export type RoleType = 'owner' | 'editor' | 'reader';
 export type ListFormInfo = Omit<EstateListDoc, 'isVisited' | 'uid'>;
@@ -21,7 +22,7 @@ export type EstateListDoc = {
   listName: string;
   roles: { [x: string]: RoleType };
   type: ListType;
-  uid: string;
+  id: string;
 };
 
 export type EstateDoc = {
@@ -35,5 +36,5 @@ export type EstateDoc = {
   publicationURL: string;
   roles?: { [x: string]: RoleType };
   type: ListType;
-  uid: string;
+  id: string;
 };

@@ -17,7 +17,9 @@ function BaseLabeledInput(props: Props) {
       >
         {label}
       </Text>
-      <Box w={{ base: '100%', sm: '90%' }}>{children}</Box>
+      <Box w="100%" px="1rem">
+        {children}
+      </Box>
     </VStack>
   );
 }

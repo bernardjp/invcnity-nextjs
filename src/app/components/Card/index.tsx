@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import { Flex, useStyleConfig } from '@chakra-ui/react';
-import { listVariant } from '@/style/componentsStyleConfig';
+import { Flex } from '@chakra-ui/react';
+import { ThemeVariant } from '@/style/componentsStyleConfig';
+import { useVariantStyle } from '@/app/hooks/useVariantStyle';
 import { ListType, RoleType } from '@/firebase/customTypes';
 import CardImage from './CardImage';
 import CardRoleIcon from './CardRoleIcon';
@@ -36,9 +37,9 @@ function Card(props: PropType): React.ReactElement {
     publicationURL,
     children,
   } = props;
-  const variant = listVariant[type];
-  const styles = useStyleConfig('CardContainer', {
-    variant: path === 'listas' ? 'list' : variant,
+
+  const { styles, variant } = useVariantStyle('CardContainer', type, {
+    defaultVariant: path === 'listas',
   });
 
   return (
@@ -92,7 +93,11 @@ function Card(props: PropType): React.ReactElement {
             {children}
           </Flex>
           <CardTitle
-            variant={`${variant}${path === 'propiedades' ? 'Light' : ''}`}
+            variant={
+              `${variant}${
+                path === 'propiedades' ? 'Light' : ''
+              }` as ThemeVariant
+            }
             text={title}
           />
         </Flex>

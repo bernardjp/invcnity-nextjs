@@ -41,9 +41,6 @@ function Dropdown(props: DropdownPropType): React.ReactElement {
               <MenuItem>
                 <Link href="listas">Listas</Link>
               </MenuItem>
-              <MenuItem>
-                <Link href="propiedades">Propiedades</Link>
-              </MenuItem>
               <MenuDivider />
               <MenuItem onClick={logoutHandler}>Logout</MenuItem>
             </>
