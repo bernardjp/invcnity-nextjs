@@ -1,7 +1,13 @@
 import React from 'react';
+import { Metadata } from 'next';
 import { ListType } from '@/firebase/customTypes';
-import DashboardTitle from '@/app/components/DashboardHandler/DashboardTitle';
-import EstateTitleMenu from '@/app/components/DashboardHandler/EstateTitleMenu';
+import ContentWrapper from './ContentWrapper';
+import EstateCreationModal from '@/app/components/Modal/EstateCreation';
+
+export const metadata: Metadata = {
+  title: 'Estate Dashboard | IN/V',
+  description: 'Dashboard used to showcase and manage the Estate information.',
+};
 
 type Props = {
   params: {
@@ -11,17 +17,17 @@ type Props = {
 
 function EstatesDetailsPage(props: Props) {
   const { params } = props;
-  const [type, id] = params.id.split('_');
+  const [listType, id] = params.id.split('_');
 
   return (
-    <section>
-      <DashboardTitle
-        title={`Estate details Page!`}
-        menu={
-          <EstateTitleMenu type={type as ListType} id={id} resource="estate" />
-        }
+    <>
+      <EstateCreationModal />
+      <ContentWrapper
+        id={id}
+        resourceType="estate"
+        listType={listType as ListType}
       />
-    </section>
+    </>
   );
 }
 
