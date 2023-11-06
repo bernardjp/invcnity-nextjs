@@ -29,8 +29,9 @@ function CardIcon(props: Props): React.ReactElement {
         width="41px"
         zIndex={5} // The Icon MUST be in front of the card to be clickable
         _hover={{
-          opacity: '1',
           border: '2px solid',
+          cursor: 'pointer',
+          opacity: '1',
         }}
         __css={iconStyles}
         onClick={onClickHandler}
