@@ -17,7 +17,7 @@ function CardFavoriteIcon(props: {
   };
 
   return (
-    <CardIcon variant={variant} onClickHandler={onClickHandler}>
+    <CardIcon label="" variant={variant} onClickHandler={onClickHandler}>
       <Image
         src={`/icons/fav-${favoriteVal ? 'on' : 'off'}.svg`}
         alt=""
