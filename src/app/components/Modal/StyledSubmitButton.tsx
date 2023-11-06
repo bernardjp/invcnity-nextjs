@@ -18,12 +18,14 @@ function StyledSubmitButton(props: Props) {
       boxShadow="0px 4px 15px -5px #49ad87"
       color={type === 'reset' ? '#49ad87' : 'white'}
       mt={4}
+      transition="0.2s"
       type={type}
       width="100%"
       isLoading={loading}
       onClick={onClickHandler}
       _hover={{
         backgroundColor: 'brand.darkTeal',
+        color: 'white',
       }}
     >
       {text}
