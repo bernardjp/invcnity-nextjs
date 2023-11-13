@@ -9,7 +9,6 @@ import StyledInput from '../StyledInput';
 import FormImage from '../ListCreation/FormImage';
 import BaseLabeledInput from '../BaseLabeledInput';
 import StyledSubmitButton from '../StyledSubmitButton';
-import { createEstate } from '@/firebase/firestoreUtils';
 
 const FORM_DEFAULT_VALUES: EstateFormInfo = {
   estateName: '',
@@ -84,7 +83,6 @@ function FormInputs(props: Props): React.ReactElement {
         editEstate(estateFormData, id, estateFormData.listID);
       }
 
-      createEstate(newEstate);
       setFormError(null);
       closeModal();
     } catch (error) {
