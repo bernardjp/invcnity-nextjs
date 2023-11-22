@@ -12,6 +12,7 @@ import RadioTypeTabs from '../Modal/ListCreation/RadioInputs';
 import CardFavoriteIcon from '../Card/CardFavoriteIcon';
 import CardAnchorIcon from '../Card/CardAnchorIcon';
 import { listVariant } from '@/style/componentsStyleConfig';
+import StarRatingSlider from '../StarRatingSlider';
 
 function EstateDetails(props: { estateData: EstateDoc }) {
   const { estateData } = props;
@@ -140,13 +141,8 @@ function EstateDetails(props: { estateData: EstateDoc }) {
               />
             </BaseLabeledInput>
             <BaseLabeledInput label="Rating">
-              <StyledInput
-                type="text"
-                variant="flushed"
-                name="location" // --> Add 'rating' property
-                placeholder="4.68 stars"
-                validation={{ isValidated: true, errorMessage: '' }}
-                value={estateFormData.location}
+              <StarRatingSlider
+                value={estateFormData.rating}
                 onChange={onChangeHandler}
                 isDisabled={isDisabled}
               />
