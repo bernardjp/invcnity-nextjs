@@ -37,4 +37,5 @@ export type EstateDoc = {
   roles?: { [x: string]: RoleType };
   type: ListType;
   id: string;
+  rating?: string;
 };
