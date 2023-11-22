@@ -5,30 +5,34 @@ type Props = {
   min: number;
   max: number;
   hoverValue: number;
-  onHover: React.Dispatch<React.SetStateAction<number>>;
-  onClick: React.Dispatch<React.SetStateAction<number>>;
+  isDisabled: boolean;
+  onHover: (e: number) => void;
+  onClick: (e: number) => void;
 };
 
 function StarRatingInput(props: Props) {
-  const { min, max, hoverValue, onHover, onClick } = props;
+  const { min, max, hoverValue, isDisabled, onHover, onClick } = props;
 
   return (
-    <Flex position="relative">
-      <Flex w="2rem" h="2rem" position="absolute" zIndex={1}>
+    <Flex
+      position="relative"
+      cursor={isDisabled ? 'default' : 'pointer'}
+      w="1.5rem"
+      h="1.5rem"
+    >
+      <Flex w="inherit" h="inherit" position="absolute" zIndex={1}>
         {hoverValue < min && <Image src={`/icons/star-empty.svg`} alt="" />}
         {hoverValue === min && <Image src={`/icons/star-half.svg`} alt="" />}
         {hoverValue >= max && <Image src={`/icons/star-full.svg`} alt="" />}
       </Flex>
-      <Flex h="2rem" justifyContent="center" w="2rem" zIndex={2}>
+      <Flex w="inherit" h="inherit" justifyContent="center" zIndex={2}>
         <Box
-          w="1rem"
-          cursor="pointer"
+          w="50%"
           onClick={() => onClick(min)}
           onMouseOver={() => onHover(min)}
         ></Box>
         <Box
-          w="1rem"
-          cursor="pointer"
+          w="50%"
           onClick={() => onClick(max)}
           onMouseOver={() => onHover(max)}
         ></Box>
