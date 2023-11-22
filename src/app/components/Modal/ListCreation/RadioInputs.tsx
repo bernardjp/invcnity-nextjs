@@ -8,6 +8,7 @@ import {
   useRadio,
   useRadioGroup,
   useStyleConfig,
+  UseRadioProps,
 } from '@chakra-ui/react';
 import { ListType } from '@/firebase/customTypes';
 import { listVariant } from '@/style/componentsStyleConfig';
@@ -25,12 +26,14 @@ const RADIO_TYPE_OPTIONS: ListType[] = [
   'vacation',
 ];
 
-function RadioInputTab(props: any): React.ReactElement {
+function RadioInputTab(
+  props: UseRadioProps & { children: ListType }
+): React.ReactElement {
   const { getInputProps, getRadioProps } = useRadio(props);
   const input = getInputProps();
   const checkbox = getRadioProps();
 
-  const variant = listVariant[props.children as ListType];
+  const variant = listVariant[props.children];
   const styles = useStyleConfig('VariantCheckbox', { variant });
 
   return (
