@@ -2,6 +2,7 @@
 import React from 'react';
 import Card from '../Card';
 import { ListType } from '@/firebase/customTypes';
+import FixedSlider from '../StarRatingSlider/FixedSlider';
 
 type Props = {
   id: string;
@@ -13,6 +14,7 @@ type Props = {
   locationURL: string;
   publicationURL: string;
   price: string;
+  rating?: string;
 };
 
 function EstateCard(props: Props) {
@@ -22,10 +24,10 @@ function EstateCard(props: Props) {
     type,
     isVisited,
     isFavorite,
-    location,
     locationURL,
     publicationURL,
     price,
+    rating,
   } = props;
 
   const CurrencyFormat = Intl.NumberFormat('en-US', {
@@ -57,7 +59,7 @@ function EstateCard(props: Props) {
             fontSize: '0.9rem',
           }}
         >
-          {location}
+          <FixedSlider rating={Number(rating)} />
         </span>
       </>
     </Card>

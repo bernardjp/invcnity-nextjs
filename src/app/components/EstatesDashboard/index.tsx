@@ -33,6 +33,7 @@ function EstateDashboard() {
               type={type as ListType}
               isVisited={estateData.isVisited}
               isFavorite={estateData.isFavorite}
+              rating={estateData.rating}
             />
           );
         })}
