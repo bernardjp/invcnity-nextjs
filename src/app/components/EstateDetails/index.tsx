@@ -39,14 +39,12 @@ function EstateDetails(props: { estateData: EstateDoc }) {
   const [formError, setFormError] = useState<EstateFormValidation | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  // Resets the form to its default values when the it is disabled.
+  // Resets the form to its default values when it's disabled.
   useEffect(() => {
     if (isDisabled) setFormData(estateData);
   }, [isDisabled, estateData]);
 
-  const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const onSubmitHandler = () => {
     setFormError(null); // Reset the validation errors.
     setLoading(true);
 
@@ -128,7 +126,7 @@ function EstateDetails(props: { estateData: EstateDoc }) {
           />
         )}
       </Flex>
-      <form style={{ width: '100%' }} onSubmit={onSubmitHandler}>
+      <form style={{ width: '100%' }}>
         <Flex
           justifyContent="space-between"
           direction={{ base: 'column', md: 'row' }}
@@ -250,6 +248,7 @@ function EstateDetails(props: { estateData: EstateDoc }) {
               loading={loading}
               type={'submit'}
               text="Update Estate"
+              onClickHandler={onSubmitHandler}
             />
           </Flex>
         )}
