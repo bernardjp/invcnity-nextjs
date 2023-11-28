@@ -1,4 +1,5 @@
 import { ListType } from '@/firebase/customTypes';
+import { radioAnatomy } from '@chakra-ui/anatomy';
 
 import {
   createMultiStyleConfigHelpers,
@@ -324,4 +325,35 @@ export const VariantMenu = menuHelpers.defineMultiStyleConfig({
       },
     },
   },
+});
+
+const { definePartsStyle, defineMultiStyleConfig } =
+  createMultiStyleConfigHelpers(radioAnatomy.keys);
+const radioVariants = {
+  primary: definePartsStyle({
+    control: {
+      _checked: {
+        bg: 'brand.red',
+        borderColor: 'brand.red',
+
+        _hover: {
+          bg: 'brand.darkRed',
+          borderColor: 'brand.darkRed',
+        },
+      },
+
+      _disabled: {
+        opacity: '1',
+      },
+    },
+    label: {
+      _disabled: {
+        opacity: '1',
+      },
+    },
+  }),
+};
+
+export const VariantRadioInput = defineMultiStyleConfig({
+  variants: radioVariants,
 });
