@@ -47,7 +47,7 @@ export async function getEstate(estateID: string) {
 }
 
 export async function editEstateList(
-  updatedList: ListFormInfo,
+  updatedList: Partial<ListFormInfo>,
   listID: string,
   userID: string
 ) {
@@ -58,7 +58,7 @@ export async function editEstateList(
 }
 
 export async function editEstate(
-  updatedEstate: EstateFormInfo,
+  updatedEstate: Partial<EstateFormInfo>,
   estateID: string,
   listID: string
 ) {
@@ -128,7 +128,7 @@ function createListSnippet(
 function updateEstateDoc(
   transaction: Transaction,
   estateID: string,
-  updatedEstate: EstateFormInfo
+  updatedEstate: Partial<EstateFormInfo>
 ) {
   const estateDocRef = doc(firestore, 'estates', estateID);
   transaction.update(estateDocRef, {
@@ -140,7 +140,7 @@ function updateEstateSnippet(
   transaction: Transaction,
   estateID: string,
   listID: string,
-  updatedEstate: EstateFormInfo
+  updatedEstate: Partial<EstateFormInfo>
 ) {
   const estateSnippetDocRef = doc(
     firestore,
@@ -155,7 +155,7 @@ function updateEstateSnippet(
 function updateListDoc(
   transaction: Transaction,
   listID: string,
-  updatedList: ListFormInfo
+  updatedList: Partial<ListFormInfo>
 ) {
   const listDocRef = doc(firestore, 'estate_lists', listID);
   transaction.update(listDocRef, {
@@ -167,7 +167,7 @@ function updateListSnippet(
   transaction: Transaction,
   userID: string,
   listID: string,
-  updatedList: ListFormInfo
+  updatedList: Partial<ListFormInfo>
 ) {
   const userDocRef = doc(firestore, `users/${userID}/listSnippets`, listID);
   transaction.update(userDocRef, {
