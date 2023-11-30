@@ -4,6 +4,7 @@ import {
   collection,
   doc,
   getDoc,
+  getDocs,
   runTransaction,
   writeBatch,
 } from 'firebase/firestore';
@@ -68,15 +69,39 @@ export async function editEstate(
   });
 }
 
-export function deleteList(listID: string, userID: string) {
-  /* Delete process:
-      1- Delete the EstateSnippets subcollection associated with the List. Alternativatly, delete all the Estate documents associated with the List. (All the Estates must have a reference to the Parent List).
-        1.1- The deletion of collections and subcollection is meant to be done server-side.
-        The implementation of a API router to handle DELETE request to that particular endpoint is needed. 
-      2- Delete the List document itself.
-      3- Delete the ListSnippet in each User associated with the List.
-   */
-  console.log('Deleting LIST ID:', listID, 'from USER ID:', userID);
+export async function deleteList(listID: string, userID: string) {
+  const batch = writeBatch(firestore);
+  const estateSnippetsRef = collection(
+    firestore,
+    `estate_lists/${listID}/estateSnippets`
+  );
+  const snippetsSnapshot = await getDocs(estateSnippetsRef);
+  let users: string[] = [];
+
+  if (!snippetsSnapshot.empty) {
+    snippetsSnapshot.forEach((doc) => {
+      // Gets all the ids from the users that have access to the list.
+      users = Object.keys(doc.data().roles);
+
+      // 1- Delete the EstateSnippets subcollection associated with the List.
+      deleteEstateSnippet(batch, doc.id, listID);
+
+      // 2- Delete the Estate Document
+      deleteEstateDoc(batch, doc.id);
+    });
+  } else {
+    throw new Error("The list doesn't exist.");
+  }
+
+  // 3- Delete the List document itself.
+  deleteListDoc(batch, listID);
+
+  // 4- Delete the ListSnippet in each User associated with the List.
+  users.forEach((userID) => {
+    deleteListSnippet(batch, listID, userID);
+  });
+
+  await batch.commit();
 }
 
 export async function deleteEstate(estateID: string, listID: string) {
@@ -193,7 +218,10 @@ function deleteEstateSnippet(
   batch.delete(docRef);
 }
 
-function deleteListDoc() {}
+function deleteListDoc(batch: WriteBatch, listID: string) {
+  const listDocRef = doc(firestore, 'estate_lists', listID);
+  batch.delete(listDocRef);
+}
 
 function deleteListSnippet(batch: WriteBatch, listID: string, userID: string) {
   const docRef = doc(firestore, `users/${userID}/listSnippets`, listID);
