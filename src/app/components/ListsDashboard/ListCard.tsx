@@ -5,12 +5,14 @@ import Card from '../Card';
 type PropType = {
   list: EstateListDoc;
   userRole?: RoleType;
+  setFavoriteHandler: (e: boolean) => void;
 };
 
 function ListCard(props: PropType): React.ReactElement {
   const {
     list: { id, type, listName },
     userRole,
+    setFavoriteHandler,
   } = props;
 
   const estates = 0; // Mocked value
@@ -22,6 +24,7 @@ function ListCard(props: PropType): React.ReactElement {
       title={listName}
       type={type}
       userRole={userRole}
+      setFavoriteHandler={setFavoriteHandler}
     >
       <span>
         {estates ? (

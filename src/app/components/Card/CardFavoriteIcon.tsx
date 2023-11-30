@@ -6,20 +6,21 @@ import CardIcon from './CardIcon';
 function CardFavoriteIcon(props: {
   variant: ThemeVariant;
   isFavorite?: boolean;
+  setFavorite: (e: boolean) => void;
 }): React.ReactElement {
-  const { variant, isFavorite } = props;
-
-  const [favoriteVal, setFavorite] = useState(isFavorite);
+  const { variant, isFavorite, setFavorite } = props;
+  const [value, setValue] = useState(Boolean(isFavorite));
 
   const onClickHandler = (e: React.MouseEvent<HTMLDivElement>): void => {
     e.stopPropagation();
-    setFavorite((prev) => !prev);
+    setValue((prev) => !prev);
+    setFavorite(!value);
   };
 
   return (
     <CardIcon label="" variant={variant} onClickHandler={onClickHandler}>
       <Image
-        src={`/icons/fav-${favoriteVal ? 'on' : 'off'}.svg`}
+        src={`/icons/fav-${value ? 'on' : 'off'}.svg`}
         alt=""
         width="80%"
       />
