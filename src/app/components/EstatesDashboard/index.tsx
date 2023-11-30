@@ -7,13 +7,15 @@ import { collection } from 'firebase/firestore';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useParams } from 'next/navigation';
 import { EstateDoc, ListType } from '@/firebase/customTypes';
+import { useFavoriteEstate } from '@/app/hooks/useSetFavorite.';
 
 function EstateDashboard() {
-  const params = useParams();
+  const params: { id: string } = useParams();
   const [type, id] = params.id.split('_');
   const [value, loading, error] = useCollection(
     collection(firestore, `estate_lists/${id}/estateSnippets`)
   );
+  const setFavorite = useFavoriteEstate();
 
   return (
     <DashboardHandler loading={loading} error={error?.message}>
@@ -34,6 +36,9 @@ function EstateDashboard() {
               isVisited={estateData.isVisited}
               isFavorite={estateData.isFavorite}
               rating={estateData.rating}
+              setFavoriteHandler={(isFavorite: boolean) =>
+                setFavorite(estateData.listID, estate.id, isFavorite)
+              }
             />
           );
         })}

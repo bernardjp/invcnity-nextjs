@@ -15,6 +15,7 @@ type Props = {
   publicationURL: string;
   price: string;
   rating?: string;
+  setFavoriteHandler: (e: boolean) => void;
 };
 
 function EstateCard(props: Props) {
@@ -28,6 +29,7 @@ function EstateCard(props: Props) {
     publicationURL,
     price,
     rating,
+    setFavoriteHandler,
   } = props;
 
   const CurrencyFormat = Intl.NumberFormat('en-US', {
@@ -45,6 +47,7 @@ function EstateCard(props: Props) {
       isFavorite={isFavorite}
       locationURL={locationURL}
       publicationURL={publicationURL}
+      setFavoriteHandler={setFavoriteHandler}
     >
       <>
         <span style={{ fontWeight: 'bold', fontSize: '18px' }}>

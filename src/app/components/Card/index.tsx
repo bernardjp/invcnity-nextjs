@@ -22,6 +22,7 @@ type PropType = {
   isVisited?: boolean;
   isFavorite?: boolean;
   children?: React.ReactElement;
+  setFavoriteHandler: (e: boolean) => void;
 };
 
 function Card(props: PropType): React.ReactElement {
@@ -36,6 +37,7 @@ function Card(props: PropType): React.ReactElement {
     locationURL,
     publicationURL,
     children,
+    setFavoriteHandler,
   } = props;
 
   const { styles, variant } = useVariantStyle('CardContainer', type, {
@@ -52,7 +54,11 @@ function Card(props: PropType): React.ReactElement {
       }}
     >
       <Flex position="absolute" left={2} top={2} gap={1} bg="white" zIndex={3}>
-        <CardFavoriteIcon variant={variant} isFavorite={isFavorite} />
+        <CardFavoriteIcon
+          variant={variant}
+          isFavorite={isFavorite}
+          setFavorite={setFavoriteHandler}
+        />
         {publicationURL && (
           <CardAnchorIcon
             label="Go to PUBLICATION"
