@@ -4,10 +4,7 @@ export type ResourceType = 'estate' | 'list' | 'user';
 export type ListType = 'apartment' | 'house' | 'countryside' | 'vacation';
 export type RoleType = 'owner' | 'editor' | 'reader';
 export type ListFormInfo = Omit<EstateListDoc, 'isVisited' | 'uid'>;
-export type EstateFormInfo = Omit<
-  EstateDoc,
-  'isVisited' | 'isFavorite' | 'uid'
->;
+export type EstateFormInfo = Omit<EstateDoc, 'uid'>;
 
 export type UserDoc = {
   uid: string;
