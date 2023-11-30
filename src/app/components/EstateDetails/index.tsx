@@ -7,6 +7,7 @@ import { editEstate } from '@/firebase/firestoreUtils';
 import { auth } from '@/firebase/clientApp';
 import { useDisableForm } from '@/app/hooks/useDisableForm';
 import useFormAlert from '@/app/hooks/useFormAlert';
+import { useFavoriteEstate } from '@/app/hooks/useSetFavorite.';
 import { AlertState } from '@/recoil/FormAlertAtom';
 import { listVariant } from '@/style/componentsStyleConfig';
 import StyledInput from '../Modal/StyledInput';
@@ -25,7 +26,9 @@ import StarRatingSlider from '../StarRatingSlider';
 
 function EstateDetails(props: { estateData: EstateDoc }) {
   const { estateData } = props;
-  const estateID = useParams().id.split('_')[1];
+  const params: { id: string } = useParams();
+  const estateID = params.id.split('_')[1];
+
   const [userCredentials] = useAuthState(auth);
 
   const [estateFormData, setFormData] = useState(estateData);
@@ -33,6 +36,7 @@ function EstateDetails(props: { estateData: EstateDoc }) {
 
   // See if this can be solved with a local context provider.
   const { closeAlert, setAlertState } = useFormAlert();
+  const setFavorite = useFavoriteEstate();
 
   // Form state
   const { isDisabled, toggleDisable } = useDisableForm();
@@ -108,6 +112,9 @@ function EstateDetails(props: { estateData: EstateDoc }) {
         <CardFavoriteIcon
           variant={variant}
           isFavorite={estateFormData.isFavorite}
+          setFavorite={(isFavorite: boolean) =>
+            setFavorite(estateFormData.listID, estateID, isFavorite)
+          }
         />
         {estateFormData.publicationURL && (
           <CardAnchorIcon
