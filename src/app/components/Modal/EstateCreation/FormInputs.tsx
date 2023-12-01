@@ -29,8 +29,9 @@ type Props = {
 
 function FormInputs(props: Props): React.ReactElement {
   const { closeModal, action, defaultValues } = props;
+  const params: { id: string } = useParams();
+  const [type, id] = params.id.split('_');
 
-  const [type, id] = useParams().id.split('_');
   const [userCredentials] = useAuthState(auth);
   const [estateFormData, setEstateFormData] = useState<EstateFormInfo>(
     defaultValues || {

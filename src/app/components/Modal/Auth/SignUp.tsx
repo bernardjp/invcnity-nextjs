@@ -98,7 +98,7 @@ function SignUp(): React.ReactElement {
             {FIREBASE_ERRORS[userError.message as keyof typeof FIREBASE_ERRORS]}
           </Text>
         )}
-        <StyledSubmitButton loading={loading} text="Sign Up" />
+        <StyledSubmitButton loading={loading} text="Sign Up" type="submit" />
       </Stack>
     </form>
   );
