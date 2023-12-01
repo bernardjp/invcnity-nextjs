@@ -7,6 +7,7 @@ import { firestore } from '@/firebase/clientApp';
 import DashboardTitle from '@/app/components/DashboardHandler/DashboardTitle';
 import EstateTitleMenu from '@/app/components/DashboardHandler/EstateTitleMenu';
 import EstateDetails from '@/app/components/EstateDetails';
+import LoadingSkeleton from '@/app/components/EstateDetails/LoadingSkeleton';
 import Link from 'next/link';
 import { Flex } from '@chakra-ui/react';
 import FormAlert from '@/app/components/FormAlert/FormAlert';
@@ -59,7 +60,7 @@ function ContentWrapper(props: Props) {
       />
       <Flex justifyContent="center">
         {estateData && <EstateDetails estateData={estateData} />}
-        {loading && <div>LOADING...</div>} {/* Replace with loading skeleton */}
+        {loading && <LoadingSkeleton />}
         {error && <div>{`Error: ${error}`}</div>}
       </Flex>
     </section>
