@@ -22,7 +22,7 @@ function CreateResourceButton(props: { type: 'estate' | 'list' }) {
         _hover={{
           transform: 'scale(1.02)',
         }}
-        onClick={() => openModal()}
+        onClick={() => openModal('create')}
       >
         <span
           style={{
