@@ -63,7 +63,7 @@ function Login(): React.ReactElement {
             {FIREBASE_ERRORS[userError.message as keyof typeof FIREBASE_ERRORS]}
           </Text>
         )}
-        <StyledSubmitButton loading={loading} text="Login" />
+        <StyledSubmitButton loading={loading} text="Login" type="submit" />
       </Stack>
     </form>
   );
