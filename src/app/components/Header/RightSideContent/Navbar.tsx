@@ -22,7 +22,8 @@ const Navbar: React.FC<PropsType> = (props: PropsType) => {
     <Flex alignItems="center" gap={4} display={{ base: 'none', md: 'flex' }}>
       {user ? (
         <>
-          <Link href="/listas">Listas</Link>
+          <Link href="/listas">Lists</Link>
+          <Link href={`/user/${user.uid}`}>Account</Link>
           <Button variant="primaryOutline" onClick={logoutHandler}>
             Logout
           </Button>
