@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { Flex, Image, Stack } from '@chakra-ui/react';
-import { useParams } from 'next/navigation';
+import { Flex, Image } from '@chakra-ui/react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { UserDoc } from '@/firebase/customTypes';
 import { auth } from '@/firebase/clientApp';
@@ -11,11 +10,14 @@ import { AlertState } from '@/recoil/FormAlertAtom';
 import StyledInput from '../Modal/StyledInput';
 import BaseLabeledInput from '../Modal/BaseLabeledInput';
 import StyledSubmitButton from '../Modal/StyledSubmitButton';
-import { EstateFormValidation } from '../Modal/EstateCreation/utils/validation';
+import {
+  UserValidation,
+  validateUserForm,
+} from '../Modal/Auth/utils/validation';
+import { updateUserAccount } from '@/firebase/authUtils';
 
 function UserDetails(props: { userData: UserDoc }) {
   const { userData } = props;
-  const params: { id: string } = useParams();
   const [userCredentials] = useAuthState(auth);
 
   const { closeAlert, setAlertState } = useFormAlert();
@@ -24,7 +26,7 @@ function UserDetails(props: { userData: UserDoc }) {
 
   // Form state
   const [userFormData, setFormData] = useState(userData);
-  const [formError, setFormError] = useState<EstateFormValidation | null>(null);
+  const [formError, setFormError] = useState<UserValidation | null>(null);
 
   // Resets the form to its default values when it's disabled.
   useEffect(() => {
@@ -40,15 +42,17 @@ function UserDetails(props: { userData: UserDoc }) {
 
     // Validate the format of the data.
     // TO-DO: create function validateUserForm
-    // const formValidation = validateUserForm(userFormData);
-    // if (!formValidation.isValidated) {
-    //   setFormError(formValidation);
-    //   return;
-    // }
+    const formValidation = validateUserForm(
+      userFormData.username!,
+      userFormData.email!
+    );
+    if (!formValidation.isValidated) {
+      setFormError(formValidation);
+      return;
+    }
 
     try {
-      // TO-DO: create editUser function
-      // editUser(userFormData, params.id, userFormData.listID);
+      updateUserAccount(userFormData.username!, userFormData.email!);
       setFormError(null);
       toggleDisable(); // close the "edition mode".
     } catch (error) {
@@ -88,64 +92,77 @@ function UserDetails(props: { userData: UserDoc }) {
       width="100%"
     >
       <form style={{ width: '100%' }}>
-        <Flex
-          justifyContent="space-between"
-          direction={{ base: 'column', md: 'row' }}
-        >
-          <Stack
-            minW="48%"
-            maxH="312px"
-            alignItems="center"
-            justifyContent="center"
-          >
-            {/* set the User Pic */}
+        <Flex direction={{ base: 'column', md: 'row' }} gap="3rem">
+          <Flex maxH="312px" alignItems="center" justifyContent="center">
             <Image
               alt=""
               borderRadius="full"
-              h="200px"
-              w="200px"
-              bg="gray.300"
-              src={userData.providerData[0].photoURL || ''}
+              h={{ base: '150px', md: '100px' }}
+              w={{ base: '150px', md: '100px' }}
+              src={
+                userData.providerData[0].photoURL ||
+                '/images/user-default-pic-color.webp'
+              }
             />
-          </Stack>
-          <Stack justifyContent="end" minW="48%">
-            <BaseLabeledInput label="Username">
-              <StyledInput
-                type="text"
-                variant="flushed"
-                name="username"
-                placeholder="Choose a Username"
-                // validation={formError?.estateName}
-                value={userFormData.username}
-                onChange={onChangeHandler}
-                isDisabled={isDisabled}
-              />
-            </BaseLabeledInput>
-            <BaseLabeledInput label="Email">
-              <StyledInput
-                type="text"
-                variant="flushed"
-                name="email"
-                placeholder=""
-                // validation={formError?.price}
-                value={userFormData.email || ''}
-                onChange={() => {}}
-                isDisabled={true} // The email shouldn't be changed
-              />
-            </BaseLabeledInput>
-            <BaseLabeledInput label="Phone Number">
-              <StyledInput
-                type="text"
-                variant="flushed"
-                name="location" // Change to phoneNumber
-                placeholder="Set your phone nomber"
-                // validation={formError?.location}
-                value={userFormData.providerData[0].phoneNumber || ''}
-                onChange={onChangeHandler}
-                isDisabled={isDisabled}
-              />
-            </BaseLabeledInput>
-          </Stack>
+          </Flex>
+          <Flex
+            justifyContent="end"
+            alignItems="center"
+            w={{ base: '100%', md: '90%' }}
+          >
+            <Flex w="100%" direction={{ base: 'column', md: 'row' }}>
+              <BaseLabeledInput label="Username">
+                <StyledInput
+                  type="text"
+                  variant="flushed"
+                  name="username"
+                  placeholder="Choose a Username"
+                  // validation={formError?.username}
+                  value={userFormData.username || ''}
+                  onChange={onChangeHandler}
+                  isDisabled={isDisabled}
+                />
+              </BaseLabeledInput>
+              <BaseLabeledInput label="Name">
+                <StyledInput
+                  type="text"
+                  variant="flushed"
+                  name="displayName"
+                  placeholder="Choose a Name"
+                  // validation={formError?.displayName}
+                  value={userFormData.providerData[0].displayName || ''}
+                  onChange={onChangeHandler}
+                  isDisabled={isDisabled}
+                />
+              </BaseLabeledInput>
+              <BaseLabeledInput label="Email">
+                {userCredentials?.providerData[0].providerId ===
+                  'google.com' && (
+                  <Image
+                    borderRadius="full"
+                    boxSize="25px"
+                    mr={3}
+                    src="/images/google_logo.png"
+                    alt="google-icon"
+                    mb="4px"
+                  />
+                )}
+                <StyledInput
+                  type="text"
+                  variant="flushed"
+                  name="email"
+                  placeholder=""
+                  validation={formError?.email}
+                  value={userFormData.email || ''}
+                  onChange={() => {}}
+                  isDisabled={
+                    // The email shouldn't be changed if OAuth was used
+                    userCredentials?.providerData[0].providerId != 'password'
+                  }
+                />
+              </BaseLabeledInput>
+            </Flex>
+          </Flex>
         </Flex>
 
         {!isDisabled && (
