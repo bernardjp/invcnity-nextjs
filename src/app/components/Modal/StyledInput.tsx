@@ -16,7 +16,7 @@ export type InputValidation = {
 };
 
 export type AuthInputProps = InputProps & {
-  name: 'email' | 'username' | 'password' | 'confirmPassword';
+  name: 'email' | 'username' | 'password' | 'confirmPassword' | 'displayName';
   validation?: InputValidation;
 };
 

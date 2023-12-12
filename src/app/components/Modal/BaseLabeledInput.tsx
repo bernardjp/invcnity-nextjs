@@ -1,5 +1,5 @@
 import React from 'react';
-import { VStack, Box, Text } from '@chakra-ui/react';
+import { VStack, Text, Flex } from '@chakra-ui/react';
 
 type Props = {
   label: string;
@@ -13,9 +13,9 @@ function BaseLabeledInput(props: Props) {
       <Text w="100%" color="gray.500" textAlign="left">
         {label}
       </Text>
-      <Box w="100%" px="1rem">
+      <Flex w="100%" px="1rem" alignItems="end">
         {children}
-      </Box>
+      </Flex>
     </VStack>
   );
 }
