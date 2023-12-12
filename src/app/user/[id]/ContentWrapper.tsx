@@ -5,7 +5,7 @@ import { useDocument } from 'react-firebase-hooks/firestore';
 import { UserDoc } from '@/firebase/customTypes';
 import { firestore } from '@/firebase/clientApp';
 import DashboardTitle from '@/app/components/DashboardHandler/DashboardTitle';
-import LoadingSkeleton from '@/app/components/EstateDetails/LoadingSkeleton';
+import LoadingSkeleton from '@/app/components/UserDetails/LoadingSkeleton';
 import { Flex } from '@chakra-ui/react';
 import FormAlert from '@/app/components/FormAlert/FormAlert';
 import UserDetails from '@/app/components/UserDetails';
@@ -20,10 +20,10 @@ function ContentWrapper(props: { id: string }) {
     <section>
       <FormAlert />
       <DashboardTitle
-        title={!loading && userData ? userData.username : 'Loading...'}
-        menu={userData && <UserTitleMenu type={'house'} userID={id} />}
+        title={'User Profile'}
+        menu={userData && <UserTitleMenu type={'house'} />}
       />
-      <Flex justifyContent="center">
+      <Flex justifyContent="center" direction="column">
         {userData && <UserDetails userData={userData} />}
         {loading && <LoadingSkeleton />}
         {error && <div>{`Error: ${error}`}</div>}
