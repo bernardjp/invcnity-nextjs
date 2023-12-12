@@ -1,30 +1,37 @@
 'use client';
 import React from 'react';
-import { doc } from 'firebase/firestore';
-import { useDocument } from 'react-firebase-hooks/firestore';
-import { UserDoc } from '@/firebase/customTypes';
-import { firestore } from '@/firebase/clientApp';
+import { EstateListDoc, UserDoc } from '@/firebase/customTypes';
 import DashboardTitle from '@/app/components/DashboardHandler/DashboardTitle';
 import LoadingSkeleton from '@/app/components/UserDetails/LoadingSkeleton';
-import { Flex } from '@chakra-ui/react';
+import { Flex, Stack } from '@chakra-ui/react';
 import FormAlert from '@/app/components/FormAlert/FormAlert';
 import UserDetails from '@/app/components/UserDetails';
 import UserTitleMenu from '@/app/components/DashboardHandler/UserTitleMenu';
+import { useGetUserData } from '@/app/hooks/useGetUserData';
+import ListSnippetsList from '@/app/components/UserDetails/ListSnippetsList';
 
 function ContentWrapper(props: { id: string }) {
   const { id } = props;
-  const [snapshot, loading, error] = useDocument(doc(firestore, 'users', id));
-  const userData = snapshot?.exists() && (snapshot.data() as UserDoc);
+  const { data, loading, error } = useGetUserData(id);
 
   return (
     <section>
       <FormAlert />
       <DashboardTitle
         title={'User Profile'}
-        menu={userData && <UserTitleMenu type={'house'} />}
+        menu={data.user?.exists() && <UserTitleMenu type={'house'} />}
       />
       <Flex justifyContent="center" direction="column">
-        {userData && <UserDetails userData={userData} />}
+        {data.user?.exists() && (
+          <Stack>
+            <UserDetails userData={data.user.data() as UserDoc} />
+            <ListSnippetsList
+              listData={data.listSnippets?.docs.map(
+                (list) => list.data() as EstateListDoc
+              )}
+            />
+          </Stack>
+        )}
         {loading && <LoadingSkeleton />}
         {error && <div>{`Error: ${error}`}</div>}
       </Flex>
