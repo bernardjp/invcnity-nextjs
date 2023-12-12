@@ -14,6 +14,31 @@ export type LoginValidation = {
   isValidated: boolean;
 };
 
+export type UserValidation = {
+  displayName: InputValidation;
+  email: InputValidation;
+  isValidated: boolean;
+};
+
+function validateDisplayName(displayName: string): InputValidation {
+  const USERNAME_REGEX = /^[a-zA-Z0-9_\.]{6,60}$/gm;
+  const isValidated = USERNAME_REGEX.test(displayName);
+
+  if (displayName.trim().length === 0) {
+    return {
+      errorMessage: 'Username is required.',
+      isValidated: false,
+    };
+  }
+
+  return {
+    errorMessage: isValidated
+      ? ''
+      : 'The username must range between 6 and 60 characters long. Only alphabetical characters and spaces are allowed',
+    isValidated: isValidated,
+  };
+}
+
 function validateUsername(username: string): InputValidation {
   const USERNAME_REGEX = /^[a-zA-Z0-9_\.]{6,18}$/gm;
   const isValidated = USERNAME_REGEX.test(username);
@@ -121,6 +146,22 @@ export function validateLoginForm(
   return {
     email: emailValidation,
     password: passwordValidation,
+    isValidated,
+  };
+}
+
+export function validateUserForm(
+  displayName: string,
+  email: string
+): UserValidation {
+  const displayNameValidation = validateDisplayName(displayName);
+  const emailValidation = validateEmail(email);
+  const isValidated =
+    displayNameValidation.isValidated && emailValidation.isValidated;
+
+  return {
+    displayName: displayNameValidation,
+    email: emailValidation,
     isValidated,
   };
 }
