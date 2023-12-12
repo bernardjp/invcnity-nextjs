@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Flex, Image } from '@chakra-ui/react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { UserDoc } from '@/firebase/customTypes';
+import { EstateListDoc, UserDoc } from '@/firebase/customTypes';
 import { auth } from '@/firebase/clientApp';
 import { useDisableForm } from '@/app/hooks/useDisableForm';
 import useFormAlert from '@/app/hooks/useFormAlert';
@@ -16,7 +16,10 @@ import {
 } from '../Modal/Auth/utils/validation';
 import { updateUserAccount } from '@/firebase/authUtils';
 
-function UserDetails(props: { userData: UserDoc }) {
+function UserDetails(props: {
+  userData: UserDoc;
+  listSnippets?: EstateListDoc[];
+}) {
   const { userData } = props;
   const [userCredentials] = useAuthState(auth);
 
