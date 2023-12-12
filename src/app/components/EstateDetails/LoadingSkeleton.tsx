@@ -2,9 +2,9 @@
 import React from 'react';
 import { Flex, Image, Skeleton, SkeletonCircle, Stack } from '@chakra-ui/react';
 
-function LoadingEntry(): React.ReactElement {
+export function LoadingEntry(): React.ReactElement {
   return (
-    <Stack gap="0.5rem" h="4rem">
+    <Stack gap="0.5rem" h="4rem" w="100%">
       <Skeleton
         startColor="brand.lightRed"
         endColor="brand.lightTeal"
@@ -74,7 +74,7 @@ function LoadingDetails(): React.ReactElement {
               <Image
                 h="90%"
                 w="auto"
-                src={`/images/invcnity-logo.webp`}
+                src="/images/invcnity-logo.webp"
                 alt="INVCNITY Logo"
                 opacity={0.3}
                 p="2rem 1rem 0 1rem"
