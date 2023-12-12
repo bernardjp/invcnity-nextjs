@@ -6,20 +6,14 @@ import { listVariant } from '@/style/componentsStyleConfig';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { ListType } from '@/firebase/customTypes';
 import { auth } from '@/firebase/clientApp';
-import { useCreateResourceModal } from '@/app/hooks/useCreateResourceModal';
 import { CustomMenuItemProps, TitleMenu, TitleMenuItem } from './TitleMenu';
 import useFormAlert from '@/app/hooks/useFormAlert';
 import { useDisableForm } from '@/app/hooks/useDisableForm';
 
-type Props = {
-  type: ListType;
-  userID: string;
-};
-
-function UserTitleMenu(props: Props) {
-  const { type, userID } = props;
+function UserTitleMenu(props: { type: ListType }) {
+  const { type } = props;
   const [userCredentials] = useAuthState(auth);
-  // const userID = userCredentials?.uid;
+  const userID = userCredentials?.uid;
 
   const variant = listVariant[type];
   const styles = useMultiStyleConfig('VariantMenu', { variant });
@@ -69,7 +63,7 @@ function UserTitleMenu(props: Props) {
   const itemsData: Omit<CustomMenuItemProps, 'style'>[] = [
     {
       icon: <EditIcon />,
-      text: 'Edit User',
+      text: isDisabled ? 'Edit Profile' : 'Close Edition',
       onClickHandler: onEditHandler,
     },
     {
