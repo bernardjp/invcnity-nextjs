@@ -53,31 +53,33 @@ function Card(props: PropType): React.ReactElement {
         transform: 'translate(0, -5px)',
       }}
     >
-      <Flex position="absolute" left={2} top={2} gap={1} bg="white" zIndex={3}>
-        <CardFavoriteIcon
-          variant={variant}
-          isFavorite={isFavorite}
-          setFavorite={setFavoriteHandler}
-        />
-        {publicationURL && (
-          <CardAnchorIcon
-            label="Go to PUBLICATION"
+      <Flex justifyContent="space-between" position="absolute" p={2} w="100%">
+        <Flex gap={1} bg="white" zIndex={3}>
+          <CardFavoriteIcon
             variant={variant}
-            type="publication"
-            pageURL={publicationURL}
+            isFavorite={isFavorite}
+            setFavorite={setFavoriteHandler}
           />
-        )}
-        {locationURL && (
-          <CardAnchorIcon
-            label="Go to LOCATION"
-            variant={variant}
-            type="location"
-            pageURL={locationURL}
-          />
-        )}
+          {publicationURL && (
+            <CardAnchorIcon
+              label="Go to PUBLICATION"
+              variant={variant}
+              type="publication"
+              pageURL={publicationURL}
+            />
+          )}
+          {locationURL && (
+            <CardAnchorIcon
+              label="Go to LOCATION"
+              variant={variant}
+              type="location"
+              pageURL={locationURL}
+            />
+          )}
+        </Flex>
+        {userRole && <CardRoleIcon userRole={userRole} variant={variant} />}
       </Flex>
       {isVisited && <CardUpperTag text="Visited!" variant={variant} />}
-      {userRole && <CardRoleIcon userRole={userRole} variant={variant} />}
       <Link href={`/${path}/${type}_${id}`}>
         <Flex __css={styles}>
           <Flex
