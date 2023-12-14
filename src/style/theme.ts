@@ -13,6 +13,7 @@ import {
   FormImage,
   VariantMenu,
   VariantRadioInput,
+  SnippetContainer,
 } from './componentsStyleConfig';
 
 export const theme = extendTheme({
@@ -53,6 +54,7 @@ export const theme = extendTheme({
     CardIcon,
     FormImage,
     VariantMenu,
+    SnippetContainer,
     Radio: VariantRadioInput,
   },
 });
