@@ -1,19 +1,24 @@
 import { EstateListDoc } from '@/firebase/customTypes';
-import { Stack } from '@chakra-ui/react';
+import { Flex, Stack } from '@chakra-ui/react';
 import React from 'react';
+import ListSnippet from './ListSnippet';
+import DashboardTitle from '../DashboardHandler/DashboardTitle';
 
 export default function ListSnippetsList(props: {
   listData?: EstateListDoc[];
+  userID: string;
 }) {
-  const { listData } = props;
+  const { listData, userID } = props;
 
   return (
     <Stack>
-      <h3>VCNITIES Created</h3>
-      <ul>
+      <DashboardTitle title="VCNITIES Created" />
+      <Flex w="100%" gap="2rem">
         {listData &&
-          listData.map((list) => <li key={list.id}>{list.listName}</li>)}
-      </ul>
+          listData.map((list) => (
+            <ListSnippet key={list.id} listData={list} userID={userID} />
+          ))}
+      </Flex>
     </Stack>
   );
 }

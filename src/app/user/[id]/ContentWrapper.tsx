@@ -23,12 +23,13 @@ function ContentWrapper(props: { id: string }) {
       />
       <Flex justifyContent="center" direction="column">
         {data.user?.exists() && (
-          <Stack>
+          <Stack gap="4rem">
             <UserDetails userData={data.user.data() as UserDoc} />
             <ListSnippetsList
               listData={data.listSnippets?.docs.map(
                 (list) => list.data() as EstateListDoc
               )}
+              userID={data.user.id}
             />
           </Stack>
         )}
