@@ -147,6 +147,35 @@ export const CardIcon = defineStyleConfig({
   },
 });
 
+export const SnippetContainer = defineStyleConfig({
+  variants: {
+    primary: {
+      bg: 'brand.lightRed',
+      borderColor: 'brand.darkRed',
+      _active: {
+        bg: 'brand.red',
+        color: 'white',
+      },
+    },
+    secondary: {
+      bg: 'brand.lightTeal',
+      borderColor: 'brand.darkTeal',
+      _active: {
+        bg: 'brand.teal',
+        color: 'white',
+      },
+    },
+    tertiary: {
+      bg: 'brand.lightOrange',
+      borderColor: 'brand.darkOrange',
+      _active: {
+        bg: 'brand.orange',
+        color: 'white',
+      },
+    },
+  },
+});
+
 export const VariantText = defineStyleConfig({
   variants: {
     primary: {
