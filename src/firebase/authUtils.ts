@@ -1,4 +1,10 @@
-import { UserCredential } from 'firebase/auth';
+import {
+  UserCredential,
+  deleteUser,
+  getAuth,
+  updateEmail,
+  updateProfile,
+} from 'firebase/auth';
 import { firestore } from './clientApp';
 import { doc, setDoc } from 'firebase/firestore';
 import { UserDoc } from './customTypes';
@@ -23,16 +29,28 @@ export async function createUserDocument(userData: UserCredential) {
   }
 }
 
-// NOTE:  - Firebase rules are not configured to accept this query.
-//        - This requirement is no longer needed.
-// export async function verifyUniqueUsername(username: string) {
-//   const q = query(
-//     collection(firestore, 'users'),
-//     where('username', '==', username)
-//   );
-//   const userDocs = await getDocs(q);
-//   return userDocs.empty;
-// }
+export async function deleteUserAccount() {
+  const user = getAuth().currentUser;
+  if (!user) return;
+
+  try {
+    deleteUser(user);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function updateUserAccount(displayName: string, email: string) {
+  const user = getAuth().currentUser;
+  if (!user) return;
+
+  try {
+    if (displayName) updateProfile(user, { displayName });
+    if (email) updateEmail(user, email);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 function convertToJSON(user: UserDoc) {
   return JSON.parse(JSON.stringify(user));
