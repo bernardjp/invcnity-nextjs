@@ -31,7 +31,7 @@ export function LoadingEntry(): React.ReactElement {
   );
 }
 
-function LoadingIcon(): React.ReactElement {
+export function LoadingIcon(): React.ReactElement {
   return (
     <SkeletonCircle
       size="10"
