@@ -6,8 +6,6 @@ function LoadingSkeleton(): React.ReactElement {
     <>
       <LoadingCard />
       <LoadingCard />
-      <LoadingCard />
-      <LoadingCard />
     </>
   );
 }
