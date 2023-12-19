@@ -9,34 +9,44 @@ import UserDetails from '@/app/components/UserDetails';
 import UserTitleMenu from '@/app/components/DashboardHandler/UserTitleMenu';
 import { useGetUserData } from '@/app/hooks/useGetUserData';
 import ListSnippetsList from '@/app/components/UserDetails/ListSnippetsList';
+import LoadingSnippetsList from '@/app/components/UserDetails/LoadingSnippet';
 
 function ContentWrapper(props: { id: string }) {
   const { id } = props;
-  const { data, loading, error } = useGetUserData(id);
+  const { data, loading } = useGetUserData(id);
 
   return (
-    <section>
+    <Stack as="section" gap="4rem">
       <FormAlert />
-      <DashboardTitle
-        title={'User Profile'}
-        menu={data.user?.exists() && <UserTitleMenu type={'house'} />}
-      />
-      <Flex justifyContent="center" direction="column">
-        {data.user?.exists() && (
-          <Stack gap="4rem">
-            <UserDetails userData={data.user.data() as UserDoc} />
-            <ListSnippetsList
-              listData={data.listSnippets?.docs.map(
-                (list) => list.data() as EstateListDoc
-              )}
-              userID={data.user.id}
-            />
-          </Stack>
-        )}
-        {loading && <LoadingSkeleton />}
-        {error && <div>{`Error: ${error}`}</div>}
-      </Flex>
-    </section>
+      <>
+        <div>
+          <DashboardTitle
+            title={'User Profile'}
+            menu={data.profile?.exists() && <UserTitleMenu type={'house'} />}
+          />
+          <Flex justifyContent="center" direction="column">
+            {data.profile?.exists() && (
+              <UserDetails userData={data.profile!.data() as UserDoc} />
+            )}
+            {loading && <LoadingSkeleton />}
+          </Flex>
+        </div>
+        <div>
+          <DashboardTitle title={'VCNITIES Created'} />
+          <Flex justifyContent="center" direction="column">
+            {data.profile?.exists() && (
+              <ListSnippetsList
+                listData={data.snippets!.docs.map(
+                  (list) => list.data() as EstateListDoc
+                )}
+                userID={data.profile.id}
+              />
+            )}
+            {loading && <LoadingSnippetsList />}
+          </Flex>
+        </div>
+      </>
+    </Stack>
   );
 }
 
