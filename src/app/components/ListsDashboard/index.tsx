@@ -8,6 +8,7 @@ import { collection } from 'firebase/firestore';
 import ListCard from './ListCard';
 import DashboardHandler from '../DashboardHandler';
 import { useFavoriteList } from '@/app/hooks/useSetFavorite.';
+import EmptyDashboard from '../DashboardHandler/EmptyDashboard';
 
 function ListsDashboard() {
   const [user] = useAuthState(auth); // --> At this point the User should be already authenticated
@@ -18,8 +19,13 @@ function ListsDashboard() {
 
   return (
     <DashboardHandler loading={loading} error={error?.message}>
-      {value &&
-        value.docs.map((list) => (
+      {value?.empty ? (
+        <EmptyDashboard
+          title="This List is Empty."
+          text="Try creating a new VCNITY, and start dreaming about your future!"
+        />
+      ) : (
+        value?.docs.map((list) => (
           <ListCard
             key={list.id}
             list={list.data() as EstateListDoc}
@@ -28,7 +34,8 @@ function ListsDashboard() {
               setFavorite(user!.uid, list.id, isFavorite);
             }}
           />
-        ))}
+        ))
+      )}
     </DashboardHandler>
   );
 }

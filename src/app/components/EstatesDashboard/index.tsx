@@ -8,6 +8,7 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 import { useParams } from 'next/navigation';
 import { EstateDoc, ListType } from '@/firebase/customTypes';
 import { useFavoriteEstate } from '@/app/hooks/useSetFavorite.';
+import EmptyDashboard from '../DashboardHandler/EmptyDashboard';
 
 function EstateDashboard() {
   const params: { id: string } = useParams();
@@ -19,10 +20,14 @@ function EstateDashboard() {
 
   return (
     <DashboardHandler loading={loading} error={error?.message}>
-      {value &&
-        value.docs.map((estate) => {
+      {value?.empty ? (
+        <EmptyDashboard
+          title="This VCNITY is Empty!"
+          text="Try adding a new Estate, and start building up this VCNITY."
+        />
+      ) : (
+        value?.docs.map((estate) => {
           const estateData = estate.data() as EstateDoc;
-
           return (
             <EstateCard
               key={estate.id}
@@ -41,7 +46,8 @@ function EstateDashboard() {
               }
             />
           );
-        })}
+        })
+      )}
     </DashboardHandler>
   );
 }
