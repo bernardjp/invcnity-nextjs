@@ -8,9 +8,9 @@ import DashboardTitle from '@/app/components/DashboardHandler/DashboardTitle';
 import EstateTitleMenu from '@/app/components/DashboardHandler/EstateTitleMenu';
 import EstateDetails from '@/app/components/EstateDetails';
 import LoadingSkeleton from '@/app/components/EstateDetails/LoadingSkeleton';
-import Link from 'next/link';
 import { Flex } from '@chakra-ui/react';
 import FormAlert from '@/app/components/FormAlert/FormAlert';
+import CustomLink from '@/app/components/Utils/CustomLink';
 
 type Props = {
   id: string;
@@ -47,15 +47,16 @@ function ContentWrapper(props: Props) {
           )
         }
         actionButton={
-          <Link
-            href={
+          <CustomLink
+            url={
               estateData
                 ? `/listas/${listType}_${estateData.listID}`
                 : '/listas'
             }
+            variant="primaryOutline"
           >
-            Back to List
-          </Link>
+            Go Back
+          </CustomLink>
         }
       />
       <Flex justifyContent="center">

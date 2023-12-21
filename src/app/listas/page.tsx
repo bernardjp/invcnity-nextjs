@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 import ListCreationModal from '../components/Modal/ListCreation';
 import ListsDashboard from '../components/ListsDashboard';
 import DashboardTitle from '../components/DashboardHandler/DashboardTitle';
-import CreateResourceButton from '../components/DashboardHandler/CreateResourceButton';
 
 export const metadata: Metadata = {
   title: 'VCNITIES List | IN/V',
@@ -15,10 +14,7 @@ function ListPage(): React.ReactElement {
     <>
       <ListCreationModal />
       <section>
-        <DashboardTitle
-          title="VCNITIES"
-          actionButton={<CreateResourceButton type="list" />}
-        />
+        <DashboardTitle title="VCNITIES" />
         <ListsDashboard />
       </section>
     </>
