@@ -12,7 +12,10 @@ export type ThemeVariant =
   | 'tertiary'
   | 'primaryLight'
   | 'secondaryLight'
-  | 'tertiaryLight';
+  | 'tertiaryLight'
+  | 'primaryOutline'
+  | 'secondaryOutline'
+  | 'tertiaryOutline';
 export const listVariant: Record<ListType, ThemeVariant> = {
   apartment: 'tertiary',
   house: 'primary',
