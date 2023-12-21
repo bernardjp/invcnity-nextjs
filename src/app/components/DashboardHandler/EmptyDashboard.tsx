@@ -9,6 +9,7 @@ type Props = {
 
 function EmptyDashboard(props: Props) {
   const { title, text, actionCallback } = props;
+    
   return (
     <Flex
       alignItems="center"
