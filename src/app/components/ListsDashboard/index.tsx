@@ -9,6 +9,10 @@ import ListCard from './ListCard';
 import DashboardHandler from '../DashboardHandler';
 import { useFavoriteList } from '@/app/hooks/useSetFavorite.';
 import EmptyDashboard from '../DashboardHandler/EmptyDashboard';
+import { useCreateResourceModal } from '@/app/hooks/useCreateResourceModal';
+import EmptyCard from '../Card/EmptyCard';
+import { Box, Flex, Text } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
 
 function ListsDashboard() {
   const [user] = useAuthState(auth); // --> At this point the User should be already authenticated
@@ -16,6 +20,7 @@ function ListsDashboard() {
     collection(firestore, `users/${user?.uid}/listSnippets`)
   );
   const setFavorite = useFavoriteList();
+  const { openModal } = useCreateResourceModal('list');
 
   return (
     <DashboardHandler loading={loading} error={error?.message}>
@@ -23,18 +28,27 @@ function ListsDashboard() {
         <EmptyDashboard
           title="This List is Empty."
           text="Try creating a new VCNITY, and start dreaming about your future!"
+          actionCallback={() => openModal('create')}
         />
       ) : (
-        value?.docs.map((list) => (
-          <ListCard
-            key={list.id}
-            list={list.data() as EstateListDoc}
-            userRole={list.data().roles[user!.uid]}
-            setFavoriteHandler={(isFavorite: boolean) => {
-              setFavorite(user!.uid, list.id, isFavorite);
-            }}
-          />
-        ))
+        <>
+          {value?.docs.map((list) => (
+            <ListCard
+              key={list.id}
+              list={list.data() as EstateListDoc}
+              userRole={list.data().roles[user!.uid]}
+              setFavoriteHandler={(isFavorite: boolean) => {
+                setFavorite(user!.uid, list.id, isFavorite);
+              }}
+            />
+          ))}
+          <EmptyCard type="house" actionCallback={() => openModal('create')}>
+            <Flex border="2px solid" borderRadius="full" p={2}>
+              <AddIcon boxSize={7} />
+            </Flex>
+            <Text mt={4}>Create a new VCNITY</Text>
+          </EmptyCard>
+        </>
       )}
     </DashboardHandler>
   );
