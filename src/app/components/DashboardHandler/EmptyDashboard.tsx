@@ -1,8 +1,15 @@
 import React from 'react';
-import { Flex, Image, Text } from '@chakra-ui/react';
+import { Button, Flex, Image, Text } from '@chakra-ui/react';
 
-function EmptyDashboard(props: { title: string; text: string }) {
-  const { title, text } = props;
+type Props = {
+  title: string;
+  text: string;
+  actionCallback: () => void;
+};
+
+function EmptyDashboard(props: Props) {
+  const { title, text, actionCallback } = props;
+    
   return (
     <Flex
       alignItems="center"
@@ -26,6 +33,25 @@ function EmptyDashboard(props: { title: string; text: string }) {
           {title}
         </Text>
         <Text fontSize="1.2rem">{text}</Text>
+        <Flex justifyContent="center" mt="1.5rem">
+          <Button
+            bg="transparent"
+            border="2px solid"
+            borderRadius="full"
+            borderColor="brand.lightChocolate"
+            color="brand.chocolate"
+            fontSize="1.3rem"
+            px="1.5rem"
+            width="fit-content"
+            _hover={{
+              bg: 'brand.chocolate',
+              color: 'white',
+            }}
+            onClick={actionCallback}
+          >
+            CREATE!
+          </Button>
+        </Flex>
       </Flex>
     </Flex>
   );

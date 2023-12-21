@@ -14,6 +14,7 @@ import {
   VariantMenu,
   VariantRadioInput,
   SnippetContainer,
+  EmptyCardContainer,
 } from './componentsStyleConfig';
 
 export const theme = extendTheme({
@@ -26,7 +27,7 @@ export const theme = extendTheme({
       darkTeal: '#00b46f',
       lightTeal: '#c5f5e2',
       orange: '#F7D060',
-      darkOrange: '#ffb22b',
+      darkOrange: '#ee9800',
       lightOrange: '#ffecb3',
       yellow: '#ffe9a7',
       chocolate: '#6d5555',
@@ -50,6 +51,7 @@ export const theme = extendTheme({
     VariantCheckbox,
     Tooltip,
     CardContainer,
+    EmptyCardContainer,
     CardImage,
     CardIcon,
     FormImage,

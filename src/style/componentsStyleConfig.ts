@@ -12,7 +12,10 @@ export type ThemeVariant =
   | 'tertiary'
   | 'primaryLight'
   | 'secondaryLight'
-  | 'tertiaryLight';
+  | 'tertiaryLight'
+  | 'primaryOutline'
+  | 'secondaryOutline'
+  | 'tertiaryOutline';
 export const listVariant: Record<ListType, ThemeVariant> = {
   apartment: 'tertiary',
   house: 'primary',
@@ -21,43 +24,92 @@ export const listVariant: Record<ListType, ThemeVariant> = {
 };
 
 export const Button = defineStyleConfig({
+  baseStyle: {
+    border: '2px solid',
+    borderRadius: 'full',
+    transition: '0.15s',
+  },
   variants: {
     primary: {
       bg: 'brand.red',
-      border: '2px solid',
       borderColor: 'brand.red',
-      borderRadius: 'full',
       color: 'white',
-      transition: '0.15s',
       _hover: {
+        bg: 'brand.darkRed',
+        borderColor: 'brand.darkRed',
+      },
+      _active: {
         bg: 'brand.darkRed',
         borderColor: 'brand.darkRed',
       },
     },
     primaryOutline: {
-      border: '2px solid',
       borderColor: 'brand.red',
-      borderRadius: 'full',
       color: 'brand.darkRed',
-      transition: '0.15s',
       _hover: {
         bg: 'brand.red',
         borderColor: 'brand.red',
         color: 'white',
       },
+      _active: {
+        bg: 'brand.darkRed',
+        borderColor: 'brand.darkRed',
+        color: 'white',
+      },
     },
     secondary: {
-      bg: 'teal.400',
-      border: '2px solid',
-      borderColor: 'teal.400',
-      borderRadius: 'full',
+      bg: 'brand.darkTeal',
+      borderColor: 'brand.darkTeal',
       color: 'white',
+      _hover: {
+        bg: 'brand.teal',
+        borderColor: 'brand.teal',
+      },
+      _active: {
+        bg: 'brand.darkTeal',
+        borderColor: 'brand.darkTeal',
+      },
     },
     secondaryOutline: {
-      border: '2px solid',
-      borderColor: 'teal.400',
-      borderRadius: 'full',
-      color: 'teal.400',
+      borderColor: 'brand.darkTeal',
+      color: 'brand.darkTeal',
+      _hover: {
+        bg: 'brand.darkTeal',
+        borderColor: 'brand.darkTeal',
+        color: 'white',
+      },
+      _active: {
+        bg: 'brand.teal',
+        borderColor: 'brand.teal',
+        color: 'white',
+      },
+    },
+    tertiary: {
+      bg: 'brand.darkOrange',
+      borderColor: 'brand.darkOrange',
+      color: 'white',
+      _hover: {
+        bg: 'brand.orange',
+        borderColor: 'brand.orange',
+      },
+      _active: {
+        bg: 'brand.darkOrange',
+        borderColor: 'brand.darkOrange',
+      },
+    },
+    tertiaryOutline: {
+      borderColor: 'brand.darkOrange',
+      color: 'brand.darkOrange',
+      _hover: {
+        bg: 'brand.darkOrange',
+        borderColor: 'brand.darkOrange',
+        color: 'white',
+      },
+      _active: {
+        bg: 'brand.orange',
+        borderColor: 'brand.orange',
+        color: 'white',
+      },
     },
   },
 });
@@ -99,6 +151,32 @@ export const CardContainer = defineStyleConfig({
     },
     tertiary: {
       borderColor: 'brand.orange',
+    },
+  },
+});
+
+export const EmptyCardContainer = defineStyleConfig({
+  variants: {
+    primary: {
+      borderColor: 'brand.darkRed',
+      color: 'brand.darkRed',
+      _hover: {
+        bg: 'brand.lightRed',
+      },
+    },
+    secondary: {
+      borderColor: 'brand.darkTeal',
+      color: 'brand.darkTeal',
+      _hover: {
+        bg: 'brand.lightTeal',
+      },
+    },
+    tertiary: {
+      borderColor: 'brand.darkOrange',
+      color: 'brand.darkOrange',
+      _hover: {
+        bg: 'brand.lightOrange',
+      },
     },
   },
 });

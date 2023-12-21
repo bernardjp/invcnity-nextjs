@@ -14,9 +14,8 @@ function DashboardHandler(props: Props): React.ReactElement {
     <div
       style={{
         display: 'flex',
-        gap: '1rem',
         flexWrap: 'wrap',
-        justifyContent: 'center',
+        gap: '10px',
       }}
     >
       {error && <p>{error}</p>}
