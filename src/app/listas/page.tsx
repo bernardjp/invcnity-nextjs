@@ -11,13 +11,13 @@ export const metadata: Metadata = {
 
 function ListPage(): React.ReactElement {
   return (
-    <>
+    <main>
       <ListCreationModal />
       <section>
         <DashboardTitle title="VCNITIES" />
         <ListsDashboard />
       </section>
-    </>
+    </main>
   );
 }
 

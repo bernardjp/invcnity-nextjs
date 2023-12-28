@@ -16,7 +16,7 @@ export default function RootLayout({
         <RecoilRoot>
           <StyleProviders>
             <Header />
-            <main>{children}</main>
+            <div id="main-page">{children}</div>
             <Footer />
           </StyleProviders>
         </RecoilRoot>
