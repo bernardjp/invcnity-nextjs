@@ -39,7 +39,10 @@ function Dropdown(props: DropdownPropType): React.ReactElement {
           {user ? (
             <>
               <MenuItem>
-                <Link href="listas">Listas</Link>
+                <Link href="listas">Lists</Link>
+              </MenuItem>
+              <MenuItem>
+                <Link href="account">Account</Link>
               </MenuItem>
               <MenuDivider />
               <MenuItem onClick={logoutHandler}>Logout</MenuItem>
