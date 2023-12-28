@@ -15,11 +15,11 @@ function ListPage(props: { params: { id: string } }) {
   const [type, id] = params.id.split('_');
 
   return (
-    <>
+    <main>
       <EstateCreationModal />
       <ListCreationModal />
       <ContentWrapper listID={id} type={type as ListType} />
-    </>
+    </main>
   );
 }
 

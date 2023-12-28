@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 
 function UserPage(): React.ReactElement {
   return (
-    <>
+    <main>
       <section>
         <DashboardTitle title="User Profile" />
       </section>
-    </>
+    </main>
   );
 }
 

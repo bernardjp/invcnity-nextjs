@@ -10,7 +10,11 @@ export const metadata: Metadata = {
 function UserPage(props: { params: { id: string } }) {
   const { params } = props;
 
-  return <ContentWrapper id={params.id} />;
+  return (
+    <main>
+      <ContentWrapper id={params.id} />
+    </main>
+  );
 }
 
 export default UserPage;

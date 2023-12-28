@@ -20,14 +20,14 @@ function EstatesDetailsPage(props: Props) {
   const [listType, id] = params.id.split('_');
 
   return (
-    <>
+    <main>
       <EstateCreationModal />
       <ContentWrapper
         id={id}
         resourceType="estate"
         listType={listType as ListType}
       />
-    </>
+    </main>
   );
 }
 
