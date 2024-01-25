@@ -171,7 +171,7 @@
 
   .contentContainer {
     justify-content: center;
-    padding: 4rem 2rem;
+    padding: 2rem;
 
     .imageContainer {
       align-items: center;
@@ -187,18 +187,70 @@
 }
 
 /* Contact section */
-.contact {
-  composes: wrapper;
-  display: flex;
-  height: 480px; /* placeholder value*/
-  background-color: #ff6d60;
-  color: white;
-}
-
 .contentContainer {
   max-width: 1280px;
   padding: 2rem;
   width: 100%;
+}
+
+.usersComments {
+  composes: wrapper;
+  align-items: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  background-color: #ff6d60;
+
+  .wave {
+    width: 100%;
+    background-color: white;
+  }
+
+  .contentContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .imageContainer {
+    max-width: 410px;
+    width: 100%;
+  }
+
+  .commentsContainer {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  .blockquote {
+    color: beige;
+    font-family: Tahoma, sans-serif;
+    font-size: min(5vw, 1.2rem);
+    margin: 1rem 0;
+    max-width: 540px;
+    width: 80%;
+  }
+  .quote {
+    font-style: italic;
+    margin-bottom: 0;
+  }
+  .quote::before,
+  .quote::after {
+    content: '“';
+    font-family: Georgia;
+    font-size: 6rem;
+    margin: -2rem 0 0 -3.5rem;
+    position: absolute;
+    opacity: 0.5;
+  }
+  .quote::after {
+    content: '”';
+    margin: -1rem -4rem 0 0;
+  }
+  .cite {
+    font-size: 1.5rem;
+  }
 }
 
 @media (max-width: 992px) {
@@ -273,6 +325,14 @@
     }
     .text {
       padding-right: 0;
+    }
+  }
+
+  /* Comments */
+  .usersComments {
+    .contentContainer {
+      flex-direction: column;
+      align-items: center;
     }
   }
 }
