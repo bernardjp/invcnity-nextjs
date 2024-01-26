@@ -20,11 +20,19 @@ function ActionButton({}: Props) {
         </CustomLink>
       ) : (
         <Flex gap={4}>
-          <Button onClick={() => openModal('login')} variant="primaryOutline">
-            <span style={{ fontSize: '1.3rem' }}>Login</span>
-          </Button>
-          <Button onClick={() => openModal('signup')} variant="primary">
-            <span style={{ fontSize: '1.3rem' }}>Sign Up</span>
+          <Button
+            onClick={() => openModal('signup')}
+            variant="primary"
+            p="1.5rem"
+            border="2px solid"
+            borderColor="beige"
+            _hover={{
+              bg: 'beige',
+              color: '#ff6d60',
+              borderColor: '#ff6d60',
+            }}
+          >
+            <span style={{ fontSize: '1.3rem' }}>Get Started!</span>
           </Button>
         </Flex>
       )}
