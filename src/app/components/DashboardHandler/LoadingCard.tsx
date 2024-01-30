@@ -19,7 +19,7 @@ function LoadingCard(): React.ReactElement {
         borderColor="white"
         borderRadius="24px"
         flexDir="column"
-        boxShadow="0px 10px 35px -20px rgba(0,0,0,0.5)"
+        boxShadow="0px 10px 35px -20px rgba(238, 152, 0, 0.5)"
         height="fit-content"
       >
         <Flex

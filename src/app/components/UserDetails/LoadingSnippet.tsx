@@ -6,7 +6,7 @@ function LoadingSnippet() {
   return (
     <Flex
       borderRadius="24px"
-      boxShadow="0px 5px 15px -7px rgba(0,0,0,0.5)"
+      boxShadow="0px 9px 20px -12px rgba(238, 152, 0, 0.5)"
       p="8px 8px 8px 20px"
       bg="white"
       alignItems="center"

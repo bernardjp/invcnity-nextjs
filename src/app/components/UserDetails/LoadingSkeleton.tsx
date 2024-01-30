@@ -11,7 +11,7 @@ function LoadingDetails(): React.ReactElement {
         border="2px solid"
         borderColor="white"
         borderRadius="24px"
-        boxShadow="0px 10px 35px -20px rgba(0,0,0,0.5)"
+        boxShadow="0px 4px 23px -10px rgba(238, 152, 0, 0.3)"
         height="auto"
         p="1.5rem"
         w="100%"

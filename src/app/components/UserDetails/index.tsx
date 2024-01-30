@@ -90,7 +90,7 @@ function UserDetails(props: {
       border="2px solid"
       borderColor={isDisabled ? 'white' : 'brand.teal'}
       borderRadius="24px"
-      boxShadow="0px 10px 20px -3px #6d555552"
+      boxShadow="0px 4px 23px -10px rgba(238, 152, 0, 0.5)"
       padding={{ base: '1rem', sm: '1.5rem' }}
       width="100%"
     >

@@ -52,8 +52,17 @@ function Card(props: PropType): React.ReactElement {
       _hover={{
         transform: 'translate(0, -5px)',
       }}
+      _active={{
+        transform: 'translate(0, 0px)',
+      }}
     >
-      <Flex justifyContent="space-between" position="absolute" p={2} w="100%">
+      <Flex
+        justifyContent="space-between"
+        position="absolute"
+        p={2}
+        w="100%"
+        zIndex={3}
+      >
         <Flex gap={1} bg="white" zIndex={3}>
           <CardFavoriteIcon
             variant={variant}
@@ -81,7 +90,7 @@ function Card(props: PropType): React.ReactElement {
       </Flex>
       {isVisited && <CardUpperTag text="Visited!" variant={variant} />}
       <Link href={`/${path}/${type}_${id}`}>
-        <Flex __css={styles}>
+        <Flex __css={styles} zIndex={2}>
           <Flex
             alignItems="center"
             height="12rem"
