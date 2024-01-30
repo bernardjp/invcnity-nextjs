@@ -5,6 +5,7 @@ import {
   createMultiStyleConfigHelpers,
   defineStyleConfig,
 } from '@chakra-ui/react';
+import { transform } from 'typescript';
 
 export type ThemeVariant =
   | 'primary'
@@ -28,6 +29,9 @@ export const Button = defineStyleConfig({
     border: '2px solid',
     borderRadius: 'full',
     transition: '0.15s',
+    _hover: {
+      transform: 'translate(0, 2px)',
+    },
   },
   variants: {
     primary: {
@@ -139,7 +143,7 @@ export const CardContainer = defineStyleConfig({
     borderColor: 'transparent',
     borderRadius: '24px',
     flexDir: 'column',
-    boxShadow: '0px 10px 35px -20px rgba(0,0,0,0.75)',
+    boxShadow: '0px 10px 35px -20px rgb(238, 152, 0)',
     height: 'fit-content',
   },
   variants: {
