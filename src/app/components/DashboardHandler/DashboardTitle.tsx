@@ -17,7 +17,7 @@ function DashboardTitle(props: Props) {
       flexDirection={{ base: 'column', md: 'row' }}
       gap="2rem"
       justifyContent={{ base: 'center', md: 'space-between' }}
-      mb="1.5rem"
+      mb="0.5rem"
       textAlign={{ base: 'center', md: 'left' }}
     >
       <Flex alignItems="center">
@@ -25,7 +25,6 @@ function DashboardTitle(props: Props) {
           as="h2"
           bg="linear-gradient(70deg, rgb(255, 178, 43) 10%, rgb(255, 113, 97) 38%, rgb(255, 113, 97) 62%, rgb(0, 180, 111) 85%)"
           bgClip="text"
-          borderBottom="2px dotted beige"
           color="transparent"
           flexWrap="wrap"
           fontSize="2.5rem"

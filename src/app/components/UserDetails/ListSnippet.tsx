@@ -17,7 +17,7 @@ function ListSnippet(props: { listData: EstateListDoc; userID: string }) {
         alignItems="center"
         border="2px solid"
         borderRadius="24px"
-        boxShadow="0px 5px 15px -7px rgba(0,0,0,0.5)"
+        boxShadow="0px 9px 20px -12px rgba(238, 152, 0, 0.7)"
         height="fit-content"
         p="6px 6px 6px 20px"
         fontWeight="bold"
@@ -26,7 +26,10 @@ function ListSnippet(props: { listData: EstateListDoc; userID: string }) {
         gap="1rem"
         transition="0.2s"
         _hover={{
-          transform: 'translate(0, -3px)',
+          transform: 'translate(0, -2px)',
+        }}
+        _active={{
+          transform: 'translate(0, 0px)',
         }}
         sx={styles}
       >
