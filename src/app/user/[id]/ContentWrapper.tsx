@@ -36,9 +36,9 @@ function ContentWrapper(props: { id: string }) {
           <Flex justifyContent="center" direction="column">
             {data.profile?.exists() && (
               <ListSnippetsList
-                listData={data.snippets!.docs.map(
-                  (list) => list.data() as EstateListDoc
-                )}
+                listData={data.snippets!.docs.map((list) => {
+                  return { ...list.data(), id: list.id } as EstateListDoc;
+                })}
                 userID={data.profile.id}
               />
             )}
