@@ -15,7 +15,7 @@ function ActionButton({}: Props) {
   return (
     <Flex mt="2rem" justifyContent={{ base: 'center', md: 'flex-start' }}>
       {user ? (
-        <CustomLink url="/listas" variant="primary">
+        <CustomLink url="/listas" variant="neutralOutline">
           <span style={{ fontSize: '1.3rem' }}>Go to VCNITIES</span>
         </CustomLink>
       ) : (
@@ -30,6 +30,12 @@ function ActionButton({}: Props) {
               bg: 'beige',
               color: '#ff6d60',
               borderColor: '#ff6d60',
+              transform: 'translate(0, 2px)',
+            }}
+            _active={{
+              bg: 'brand.darkRed',
+              color: 'white',
+              borderColor: 'white',
             }}
           >
             <span style={{ fontSize: '1.3rem' }}>Get Started!</span>
