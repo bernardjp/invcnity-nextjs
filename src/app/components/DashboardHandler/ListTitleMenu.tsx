@@ -41,7 +41,7 @@ function ListTitleMenu(props: Props) {
   const onDeleteHandler = () => {
     try {
       if (!userID) throw new Error('User not authenticated');
-      deleteList(listID, userID);
+      deleteList(listID);
     } catch (error) {
       console.log(error);
     }

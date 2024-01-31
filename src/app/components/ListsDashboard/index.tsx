@@ -11,7 +11,7 @@ import { useFavoriteList } from '@/app/hooks/useSetFavorite.';
 import EmptyDashboard from '../DashboardHandler/EmptyDashboard';
 import { useCreateResourceModal } from '@/app/hooks/useCreateResourceModal';
 import EmptyCard from '../Card/EmptyCard';
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 
 function ListsDashboard() {
@@ -35,6 +35,7 @@ function ListsDashboard() {
           {value?.docs.map((list) => (
             <ListCard
               key={list.id}
+              id={list.id}
               list={list.data() as EstateListDoc}
               userRole={list.data().roles[user!.uid]}
               setFavoriteHandler={(isFavorite: boolean) => {

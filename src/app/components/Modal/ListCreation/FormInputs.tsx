@@ -15,7 +15,6 @@ const FORM_DEFAULT_VALUES: ListFormInfo = {
   listName: '',
   type: 'apartment',
   roles: {},
-  id: '',
 };
 
 type Props = {
