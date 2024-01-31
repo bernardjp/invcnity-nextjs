@@ -69,37 +69,34 @@ export async function editEstate(
   });
 }
 
-export async function deleteList(listID: string, userID: string) {
+export async function deleteList(listID: string) {
   const batch = writeBatch(firestore);
   const estateSnippetsRef = collection(
     firestore,
     `estate_lists/${listID}/estateSnippets`
   );
   const snippetsSnapshot = await getDocs(estateSnippetsRef);
-  let users: string[] = [];
 
   if (!snippetsSnapshot.empty) {
     snippetsSnapshot.forEach((doc) => {
-      // Gets all the ids from the users that have access to the list.
-      users = Object.keys(doc.data().roles);
-
       // 1- Delete the EstateSnippets subcollection associated with the List.
       deleteEstateSnippet(batch, doc.id, listID);
-
       // 2- Delete the Estate Document
       deleteEstateDoc(batch, doc.id);
     });
-  } else {
-    throw new Error("The list doesn't exist.");
   }
 
-  // 3- Delete the List document itself.
-  deleteListDoc(batch, listID);
-
-  // 4- Delete the ListSnippet in each User associated with the List.
+  // 3.1- Gets all the ids from the users that have access to the list.
+  const listRef = doc(firestore, `estate_lists/${listID}`);
+  const listDoc = await getDoc(listRef);
+  const users = Object.keys(listDoc.get('roles'));
+  // 3.2- Delete the ListSnippet in each User associated with the List.
   users.forEach((userID) => {
     deleteListSnippet(batch, listID, userID);
   });
+
+  // 4- Delete the List document itself.
+  deleteListDoc(batch, listID);
 
   await batch.commit();
 }

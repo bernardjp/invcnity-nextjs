@@ -18,7 +18,7 @@ export type EstateListDoc = {
   listName: string;
   roles: { [x: string]: RoleType };
   type: ListType;
-  id: string;
+  id?: string;
 };
 
 export type EstateDoc = {
