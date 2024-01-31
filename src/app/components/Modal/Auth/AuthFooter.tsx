@@ -42,6 +42,7 @@ function AuthFooter(): React.ReactElement {
           <Flex>
             Forgot your password?
             <Button
+              border="none"
               colorScheme="teal"
               fontSize="inherit"
               fontWeight="bold"
@@ -57,6 +58,7 @@ function AuthFooter(): React.ReactElement {
               : 'Already have an account?'}
             <Button
               ml={1}
+              border="none"
               colorScheme="teal"
               fontWeight="bold"
               fontSize="inherit"

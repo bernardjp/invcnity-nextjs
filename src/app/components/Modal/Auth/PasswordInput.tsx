@@ -33,6 +33,7 @@ function PasswordInput(props: PasswordInputProps): React.ReactElement {
       {modalState.view === 'login' && (
         <InputRightElement width="3rem">
           <Button
+            border="none"
             h="1.75rem"
             size="md"
             variant="ghost"

@@ -16,7 +16,8 @@ export type ThemeVariant =
   | 'tertiaryLight'
   | 'primaryOutline'
   | 'secondaryOutline'
-  | 'tertiaryOutline';
+  | 'tertiaryOutline'
+  | 'neutralOutline';
 export const listVariant: Record<ListType, ThemeVariant> = {
   apartment: 'tertiary',
   house: 'primary',
@@ -113,6 +114,22 @@ export const Button = defineStyleConfig({
         bg: 'brand.orange',
         borderColor: 'brand.orange',
         color: 'white',
+      },
+    },
+    neutralOutline: {
+      borderColor: 'beige',
+      color: 'beige',
+      bg: 'brand.red',
+      padding: '1.5rem',
+      _hover: {
+        borderColor: 'brand.red',
+        color: 'brand.red',
+        bg: 'beige',
+      },
+      _active: {
+        borderColor: 'white',
+        color: 'white',
+        bg: 'brand.darkRed',
       },
     },
   },
