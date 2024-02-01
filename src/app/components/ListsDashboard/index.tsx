@@ -1,9 +1,8 @@
 'use client';
 import React from 'react';
 import { EstateListDoc } from '@/firebase/customTypes';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { auth, firestore } from '@/firebase/clientApp';
+import { firestore } from '@/firebase/clientApp';
 import { collection } from 'firebase/firestore';
 import ListCard from './ListCard';
 import DashboardHandler from '../DashboardHandler';
@@ -13,11 +12,12 @@ import { useCreateResourceModal } from '@/app/hooks/useCreateResourceModal';
 import EmptyCard from '../Card/EmptyCard';
 import { Flex, Text } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
+import { useGetUserID } from '@/app/hooks/useGetUserID';
 
 function ListsDashboard() {
-  const [user] = useAuthState(auth); // --> At this point the User should be already authenticated
+  const userID = useGetUserID();
   const [value, loading, error] = useCollection(
-    collection(firestore, `users/${user?.uid}/listSnippets`)
+    collection(firestore, `users/${userID}/listSnippets`)
   );
   const setFavorite = useFavoriteList();
   const { openModal } = useCreateResourceModal('list');
@@ -37,9 +37,9 @@ function ListsDashboard() {
               key={list.id}
               id={list.id}
               list={list.data() as EstateListDoc}
-              userRole={list.data().roles[user!.uid]}
+              userRole={list.data().roles[userID!]}
               setFavoriteHandler={(isFavorite: boolean) => {
-                setFavorite(user!.uid, list.id, isFavorite);
+                setFavorite(userID!, list.id, isFavorite);
               }}
             />
           ))}
