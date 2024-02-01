@@ -7,6 +7,8 @@ import { useGetUserID } from '@/app/hooks/useGetUserID';
 import { useVariantMultiStyle } from '@/app/hooks/useVariantStyle';
 import { useDisableForm } from '@/app/hooks/useDisableForm';
 import useFormAlert from '@/app/hooks/useFormAlert';
+import { useRouter } from 'next/navigation';
+import { deleteEstate } from '@/firebase/firestoreUtils';
 
 type Props = {
   resource: ResourceType;
@@ -22,6 +24,7 @@ function EstateTitleMenu(props: Props) {
 
   const { isDisabled, toggleDisable } = useDisableForm();
   const { closeAlert, setAlertState } = useFormAlert();
+  const router = useRouter();
 
   const onEditHandler = async () => {
     if (!isDisabled) {
@@ -54,10 +57,10 @@ function EstateTitleMenu(props: Props) {
         title: 'Delete Estate',
         dialog:
           'Are you sure you want to delete this Estate? This action cannot be undone.',
-        submitHandler: () => {
-          // deleteEstate(estateID, listID);
-          console.log('estate deleted');
+        submitHandler: async () => {
+          await deleteEstate(estateID, listID);
           closeAlert();
+          router.replace(`/listas/${type}_${listID}`);
         },
       };
       setAlertState(alertMessage);
