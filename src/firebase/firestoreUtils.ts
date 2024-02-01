@@ -69,8 +69,8 @@ export async function editEstate(
   });
 }
 
-export async function deleteList(listID: string) {
-  const batch = writeBatch(firestore);
+export async function deleteList(listID: string, optionalBatch?: WriteBatch) {
+  const batch = optionalBatch || writeBatch(firestore);
   const estateSnippetsRef = collection(
     firestore,
     `estate_lists/${listID}/estateSnippets`
@@ -105,6 +105,29 @@ export async function deleteEstate(estateID: string, listID: string) {
   const batch = writeBatch(firestore);
   deleteEstateDoc(batch, estateID);
   deleteEstateSnippet(batch, estateID, listID);
+  await batch.commit();
+}
+
+export async function deleteUserData(userID: string) {
+  const batch = writeBatch(firestore);
+  const listSnippetsRef = collection(
+    firestore,
+    `/users/${userID}/listSnippets`
+  );
+  const listSnippetsSnapshot = await getDocs(listSnippetsRef);
+
+  if (!listSnippetsSnapshot.empty) {
+    listSnippetsSnapshot.forEach(async (doc) => {
+      // 1- Delete the ListSnippets subcollection associated with the List.
+      deleteListSnippet(batch, doc.id, userID);
+      // 2- Delete the List Document
+      await deleteList(doc.id, batch);
+    });
+  }
+
+  // 3- Delete the User Document
+  deleteUserDoc(batch, userID);
+
   await batch.commit();
 }
 
@@ -221,6 +244,11 @@ function deleteListDoc(batch: WriteBatch, listID: string) {
 }
 
 function deleteListSnippet(batch: WriteBatch, listID: string, userID: string) {
-  const docRef = doc(firestore, `users/${userID}/listSnippets`, listID);
-  batch.delete(docRef);
+  const snippetDocRef = doc(firestore, `users/${userID}/listSnippets`, listID);
+  batch.delete(snippetDocRef);
+}
+
+function deleteUserDoc(batch: WriteBatch, userID: string) {
+  const userDocRef = doc(firestore, 'users', userID);
+  batch.delete(userDocRef);
 }
