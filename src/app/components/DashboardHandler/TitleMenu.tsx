@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 
 export type CustomMenuItemProps = {
+  disabled?: boolean;
   icon: React.ReactElement;
   text: string;
   style: SystemStyleObject;
@@ -18,13 +19,14 @@ export type CustomMenuItemProps = {
 };
 
 const TitleMenuItem = (props: CustomMenuItemProps) => {
-  const { icon, style, text, onClickHandler } = props;
+  const { disabled, icon, style, text, onClickHandler } = props;
   return (
     <MenuItem
       icon={icon}
       borderRadius="8px"
       onClick={onClickHandler}
       sx={style}
+      isDisabled={disabled}
     >
       {text}
     </MenuItem>

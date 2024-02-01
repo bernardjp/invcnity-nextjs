@@ -57,6 +57,7 @@ function ListTitleMenu(props: Props) {
       onClickHandler: onEditHandler,
     },
     {
+      disabled: true,
       icon: <ExternalLinkIcon />,
       text: 'Share List',
       onClickHandler: onShareHandler,
@@ -73,6 +74,7 @@ function ListTitleMenu(props: Props) {
       {itemsData.map((item: any) => (
         <TitleMenuItem
           key={item.text}
+          disabled={item.disabled}
           icon={item.icon}
           style={styles.item}
           text={item.text}
