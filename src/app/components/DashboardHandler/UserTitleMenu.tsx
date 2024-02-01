@@ -9,6 +9,9 @@ import { auth } from '@/firebase/clientApp';
 import { CustomMenuItemProps, TitleMenu, TitleMenuItem } from './TitleMenu';
 import useFormAlert from '@/app/hooks/useFormAlert';
 import { useDisableForm } from '@/app/hooks/useDisableForm';
+import { useRouter } from 'next/navigation';
+import { deleteUser as deleteUserAccount } from 'firebase/auth';
+import { deleteUserData } from '@/firebase/firestoreUtils';
 
 function UserTitleMenu(props: { type: ListType }) {
   const { type } = props;
@@ -20,6 +23,7 @@ function UserTitleMenu(props: { type: ListType }) {
 
   const { isDisabled, toggleDisable } = useDisableForm();
   const { closeAlert, setAlertState } = useFormAlert();
+  const router = useRouter();
 
   const onEditHandler = async () => {
     if (!isDisabled) {
@@ -48,10 +52,11 @@ function UserTitleMenu(props: { type: ListType }) {
         title: 'Delete Account',
         dialog:
           'Are you sure you want to delete your Account? Every VCNITY and Estate created with this account will be permanently removed from our database. This action cannot be undone.',
-        submitHandler: () => {
-          // deleteUser(userID);
-          console.log('user deleted');
+        submitHandler: async () => {
+          await deleteUserData(userID);
+          await deleteUserAccount(userCredentials); // Check if it auto logs off
           closeAlert();
+          router.replace('/');
         },
       };
       setAlertState(alertMessage);
