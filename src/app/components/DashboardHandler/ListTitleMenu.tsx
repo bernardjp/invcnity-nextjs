@@ -9,6 +9,7 @@ import { deleteList, getEstateList } from '@/firebase/firestoreUtils';
 import { auth } from '@/firebase/clientApp';
 import { useCreateResourceModal } from '@/app/hooks/useCreateResourceModal';
 import { CustomMenuItemProps, TitleMenu, TitleMenuItem } from './TitleMenu';
+import { redirect, useRouter } from 'next/navigation';
 
 type Props = {
   type: ListType;
@@ -24,6 +25,7 @@ function ListTitleMenu(props: Props) {
   const styles = useMultiStyleConfig('VariantMenu', { variant });
 
   const { openModal } = useCreateResourceModal('list');
+  const router = useRouter();
 
   const onEditHandler = async () => {
     try {
@@ -38,10 +40,11 @@ function ListTitleMenu(props: Props) {
     console.log('Sharing List ID:', listID, 'from USER ID:', userID);
   };
 
-  const onDeleteHandler = () => {
+  const onDeleteHandler = async () => {
     try {
       if (!userID) throw new Error('User not authenticated');
-      deleteList(listID);
+      await deleteList(listID);
+      router.replace('/listas');
     } catch (error) {
       console.log(error);
     }
