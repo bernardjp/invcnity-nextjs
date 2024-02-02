@@ -12,12 +12,20 @@ import { Flex } from '@chakra-ui/react';
 import FormAlert from '@/app/components/FormAlert/FormAlert';
 import CustomLink from '@/app/components/Utils/CustomLink';
 import NotFoundWrapper from '@/app/components/ErrorHandling/NotFoundWrapper';
-import { useParams } from 'next/navigation';
 
-function ContentWrapper() {
-  const params: { id: string } = useParams();
-  const [listType, id] = params.id.split('_');
+type DetailsProps = {
+  id: string;
+  params: {
+    name: string;
+    type: string;
+  };
+};
 
+function ContentWrapper(props: DetailsProps) {
+  const {
+    id,
+    params: { name, type },
+  } = props;
   const [snapshot, loading, error] = useDocument(doc(firestore, 'estates', id));
   const estateData = snapshot?.exists() && (snapshot.data() as EstateDoc);
 
@@ -25,11 +33,11 @@ function ContentWrapper() {
     <NotFoundWrapper notFound={Boolean(error?.message)}>
       <FormAlert />
       <DashboardTitle
-        title={!loading && estateData ? estateData.estateName : 'Loading...'}
+        title={!loading && estateData ? name : 'Loading...'}
         menu={
           estateData && (
             <EstateTitleMenu
-              type={listType as ListType}
+              type={type as ListType}
               estateID={id}
               listID={estateData.listID}
               resource={'estate'}
@@ -37,14 +45,7 @@ function ContentWrapper() {
           )
         }
         actionButton={
-          <CustomLink
-            url={
-              estateData
-                ? `/listas/${listType}_${estateData.listID}`
-                : '/listas'
-            }
-            variant="primaryOutline"
-          >
+          <CustomLink url="/listas" variant="primaryOutline">
             Go Back
           </CustomLink>
         }

@@ -9,13 +9,18 @@ export const metadata: Metadata = {
   description: 'Dashboard that showcase all your Estates stored in IN/VCNITY.',
 };
 
-function ListPage() {
+type Props = {
+  params: { id: string };
+  searchParams: { type: string; name: string };
+};
+
+function ListPage({ params, searchParams }: Props) {
   return (
     <main>
       <EstateCreationModal />
       <ListCreationModal />
       <section>
-        <EstatesDashboard />
+        <EstatesDashboard id={params.id} params={searchParams} />
       </section>
     </main>
   );
