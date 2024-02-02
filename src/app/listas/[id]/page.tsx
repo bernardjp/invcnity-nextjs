@@ -1,24 +1,22 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { ListType } from '@/firebase/customTypes';
 import EstateCreationModal from '@/app/components/Modal/EstateCreation';
 import ListCreationModal from '@/app/components/Modal/ListCreation';
-import ContentWrapper from './ContentWrapper';
+import EstatesDashboard from '@/app/components/EstatesDashboard';
 
 export const metadata: Metadata = {
   title: 'VCNITY Dashboard | IN/V',
   description: 'Dashboard that showcase all your Estates stored in IN/VCNITY.',
 };
 
-function ListPage(props: { params: { id: string } }) {
-  const { params } = props;
-  const [type, id] = params.id.split('_');
-
+function ListPage() {
   return (
     <main>
       <EstateCreationModal />
       <ListCreationModal />
-      <ContentWrapper listID={id} type={type as ListType} />
+      <section>
+        <EstatesDashboard />
+      </section>
     </main>
   );
 }
