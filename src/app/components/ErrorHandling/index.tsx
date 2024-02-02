@@ -4,12 +4,19 @@ import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react';
 import CustomLink from '../Utils/CustomLink';
 
 type Props = {
-  actionCallback: () => void;
+  text: {
+    title: string;
+    message: string;
+  };
+  actionButton?: {
+    cb: () => void;
+    text: string;
+  };
   error?: Error & { digest?: string };
 };
 
 function ErrorHandling(props: Props) {
-  const { actionCallback, error } = props;
+  const { text, actionButton, error } = props;
 
   useEffect(() => {
     // Log the error to an error reporting service
@@ -47,16 +54,17 @@ function ErrorHandling(props: Props) {
             fontWeight="bold"
             color="brand.chocolate"
           >
-            Something went wrong!
+            {text.title}
           </Text>
           <Text maxW="410px" w="100%" fontSize="1.2rem" color="brand.chocolate">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. At
-            praesentium consectetur autem ipsa, recusandae corporis.
+            {text.message}
           </Text>
           <Flex gap={4} justifyContent="center" mt="1rem">
-            <Button onClick={actionCallback} variant="tertiary">
-              Try again
-            </Button>
+            {actionButton && (
+              <Button onClick={() => actionButton.cb()} variant="tertiary">
+                {actionButton.text}
+              </Button>
+            )}
             <CustomLink url="/" variant="primaryOutline">
               Go back!
             </CustomLink>
