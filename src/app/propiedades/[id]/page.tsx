@@ -8,12 +8,17 @@ export const metadata: Metadata = {
   description: 'Dashboard used to showcase and manage the Estate information.',
 };
 
-function EstatesDetailsPage() {
+type Props = {
+  params: { id: string };
+  searchParams: { type: string; name: string };
+};
+
+function EstatesDetailsPage({ params, searchParams }: Props) {
   return (
     <main>
       <EstateCreationModal />
       <section>
-        <ContentWrapper />
+        <ContentWrapper id={params.id} params={searchParams} />
       </section>
     </main>
   );

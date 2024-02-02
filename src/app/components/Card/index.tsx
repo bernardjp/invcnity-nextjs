@@ -89,7 +89,7 @@ function Card(props: PropType): React.ReactElement {
         {userRole && <CardRoleIcon userRole={userRole} variant={variant} />}
       </Flex>
       {isVisited && <CardUpperTag text="Visited!" variant={variant} />}
-      <Link href={`/${path}/${type}_${id}`}>
+      <Link href={`/${path}/${id}?type=${type}&name=${title}`}>
         <Flex __css={styles} zIndex={2}>
           <Flex
             alignItems="center"

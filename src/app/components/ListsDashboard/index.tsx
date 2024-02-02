@@ -25,39 +25,45 @@ function ListsDashboard() {
   const { openModal } = useCreateResourceModal('list');
 
   return (
-    <NotFoundWrapper notFound={Boolean(error?.message)}>
-      {value?.empty ? (
-        <EmptyDashboard
-          title="This List is Empty."
-          text="Try creating a new VCNITY, and start dreaming about your future!"
-          actionCallback={() => openModal('create')}
-        />
-      ) : (
-        <>
-          <DashboardTitle title="VCNITIES" />
-          <Flex flexWrap="wrap" gap="10px">
-            {loading && <LoadingSkeleton />}
-            {value?.docs.map((list) => (
-              <ListCard
-                key={list.id}
-                id={list.id}
-                list={list.data() as EstateListDoc}
-                userRole={list.data().roles[userID!]}
-                setFavoriteHandler={(isFavorite: boolean) => {
-                  setFavorite(userID!, list.id, isFavorite);
-                }}
-              />
-            ))}
-            <EmptyCard type="house" actionCallback={() => openModal('create')}>
-              <Flex border="2px solid" borderRadius="full" p={2}>
-                <AddIcon boxSize={7} />
-              </Flex>
-              <Text mt={4}>Create a new VCNITY</Text>
-            </EmptyCard>
-          </Flex>
-        </>
-      )}
-    </NotFoundWrapper>
+    <>
+      <NotFoundWrapper notFound={Boolean(error?.message)}>
+        <DashboardTitle title="VCNITIES" />
+        {value?.empty ? (
+          <EmptyDashboard
+            title="This List is Empty."
+            text="Try creating a new VCNITY, and start dreaming about your future!"
+            actionCallback={() => openModal('create')}
+          />
+        ) : (
+          <>
+            {/* <DashboardTitle title="VCNITIES" /> */}
+            <Flex flexWrap="wrap" gap="10px">
+              {loading && <LoadingSkeleton />}
+              {value?.docs.map((list) => (
+                <ListCard
+                  key={list.id}
+                  id={list.id}
+                  list={list.data() as EstateListDoc}
+                  userRole={list.data().roles[userID!]}
+                  setFavoriteHandler={(isFavorite: boolean) => {
+                    setFavorite(userID!, list.id, isFavorite);
+                  }}
+                />
+              ))}
+              <EmptyCard
+                type="house"
+                actionCallback={() => openModal('create')}
+              >
+                <Flex border="2px solid" borderRadius="full" p={2}>
+                  <AddIcon boxSize={7} />
+                </Flex>
+                <Text mt={4}>Create a new VCNITY</Text>
+              </EmptyCard>
+            </Flex>
+          </>
+        )}
+      </NotFoundWrapper>
+    </>
   );
 }
 
