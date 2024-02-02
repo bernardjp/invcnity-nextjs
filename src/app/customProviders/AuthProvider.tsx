@@ -8,7 +8,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!user) router.replace('/');
+    // console.log('user', user);
+    // if (!user) router.replace('/');
   }, [user, router]);
 
   return <>{children}</>;
