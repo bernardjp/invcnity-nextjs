@@ -65,6 +65,7 @@ function EstateTitleMenu(props: Props) {
       };
       setAlertState(alertMessage);
     } catch (error) {
+      closeAlert();
       console.log(error);
     }
   };
