@@ -2,7 +2,7 @@
 import React from 'react';
 import { doc } from 'firebase/firestore';
 import { useDocument } from 'react-firebase-hooks/firestore';
-import { EstateDoc, ListType, ResourceType } from '@/firebase/customTypes';
+import { EstateDoc, ListType } from '@/firebase/customTypes';
 import { firestore } from '@/firebase/clientApp';
 import DashboardTitle from '@/app/components/DashboardHandler/DashboardTitle';
 import EstateTitleMenu from '@/app/components/DashboardHandler/EstateTitleMenu';
@@ -11,38 +11,28 @@ import LoadingSkeleton from '@/app/components/EstateDetails/LoadingSkeleton';
 import { Flex } from '@chakra-ui/react';
 import FormAlert from '@/app/components/FormAlert/FormAlert';
 import CustomLink from '@/app/components/Utils/CustomLink';
+import NotFoundWrapper from '@/app/components/ErrorHandling/NotFoundWrapper';
+import { useParams } from 'next/navigation';
 
-type Props = {
-  id: string;
-  resourceType: ResourceType;
-  listType: ListType;
-};
+function ContentWrapper() {
+  const params: { id: string } = useParams();
+  const [listType, id] = params.id.split('_');
 
-enum FIREBASE_COLLECTIONS {
-  estate = 'estates',
-  list = 'estate_lists',
-  user = 'users',
-}
-
-function ContentWrapper(props: Props) {
-  const { id, listType = 'house', resourceType } = props;
-  const [snapshot, loading, error] = useDocument(
-    doc(firestore, FIREBASE_COLLECTIONS[resourceType], id)
-  );
+  const [snapshot, loading, error] = useDocument(doc(firestore, 'estates', id));
   const estateData = snapshot?.exists() && (snapshot.data() as EstateDoc);
 
   return (
-    <section>
+    <NotFoundWrapper notFound={Boolean(error?.message)}>
       <FormAlert />
       <DashboardTitle
         title={!loading && estateData ? estateData.estateName : 'Loading...'}
         menu={
           estateData && (
             <EstateTitleMenu
-              type={listType}
+              type={listType as ListType}
               estateID={id}
               listID={estateData.listID}
-              resource={resourceType}
+              resource={'estate'}
             />
           )
         }
@@ -62,9 +52,8 @@ function ContentWrapper(props: Props) {
       <Flex justifyContent="center">
         {estateData && <EstateDetails estateData={estateData} />}
         {loading && <LoadingSkeleton />}
-        {error && <div>{`Error: ${error}`}</div>}
       </Flex>
-    </section>
+    </NotFoundWrapper>
   );
 }
 
