@@ -36,8 +36,11 @@ function ListsDashboard() {
           />
         ) : (
           <>
-            {/* <DashboardTitle title="VCNITIES" /> */}
-            <Flex flexWrap="wrap" gap="10px">
+            <Flex
+              flexWrap="wrap"
+              gap="10px"
+              justifyContent={{ base: 'center', md: 'start' }}
+            >
               {loading && <LoadingSkeleton />}
               {value?.docs.map((list) => (
                 <ListCard
