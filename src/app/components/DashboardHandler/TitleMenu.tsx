@@ -48,16 +48,18 @@ function TitleMenu(props: {
             aria-label="Options"
             icon={
               isOpen ? (
-                <ChevronLeftIcon fontSize="24px" />
+                <ChevronLeftIcon fontSize="26px" />
               ) : (
-                <ChevronRightIcon fontSize="24px" />
+                <ChevronRightIcon fontSize="26px" />
               )
             }
-            border="1px solid"
+            border="2px solid"
             borderRadius="full"
             fontWeight="bold"
+            paddingInline="0 !important"
             transition="0.2s"
             variant="outline"
+            size={{ base: 'sm', md: 'md' }}
             sx={styles.button}
           />
           <MenuList

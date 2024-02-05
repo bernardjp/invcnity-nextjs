@@ -29,6 +29,7 @@ function CardTitle(props: PropType): React.ReactElement {
         inlineSize="18rem"
         lineHeight="1.3rem"
         overflow="hidden"
+        paddingInline="1rem"
         textOverflow="ellipsis"
         textAlign="center"
         whiteSpace="pre-wrap"

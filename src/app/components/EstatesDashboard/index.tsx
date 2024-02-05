@@ -54,6 +54,7 @@ function EstateDashboard(props: EstateProps) {
             Go Back
           </CustomLink>
         }
+        variant={`${listVariant[type as ListType]}Outline` as ThemeVariant}
       />
       {value?.empty ? (
         <EmptyDashboard
@@ -62,7 +63,11 @@ function EstateDashboard(props: EstateProps) {
           actionCallback={() => openModal('create')}
         />
       ) : (
-        <Flex flexWrap="wrap" gap="10px">
+        <Flex
+          flexWrap="wrap"
+          gap="10px"
+          justifyContent={{ base: 'center', md: 'start' }}
+        >
           {loading && <LoadingSkeleton />}
           {value?.docs.map((estate) => {
             const estateData = estate.data() as EstateDoc;

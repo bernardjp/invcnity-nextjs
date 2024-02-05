@@ -1,6 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import ContentWrapper from './ContentWrapper';
+import EstateDetails from '../../components/EstateDetails';
 import EstateCreationModal from '@/app/components/Modal/EstateCreation';
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ function EstatesDetailsPage({ params, searchParams }: Props) {
     <main>
       <EstateCreationModal />
       <section>
-        <ContentWrapper id={params.id} params={searchParams} />
+        <EstateDetails id={params.id} params={searchParams} />
       </section>
     </main>
   );

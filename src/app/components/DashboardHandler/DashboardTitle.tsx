@@ -1,44 +1,43 @@
 'use client';
 import React from 'react';
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex, useStyleConfig } from '@chakra-ui/react';
+import { ThemeVariant } from '@/style/componentsStyleConfig';
 
 type Props = {
   title: string;
   menu?: React.ReactNode;
   actionButton?: React.ReactNode;
+  variant?: ThemeVariant;
 };
 
 function DashboardTitle(props: Props) {
-  const { title, menu, actionButton } = props;
+  const { title, menu, actionButton, variant } = props;
+  const styles = useStyleConfig('VariantText', { variant });
 
   return (
     <Flex
       alignItems="center"
-      flexDirection={{ base: 'column', md: 'row' }}
       gap="2rem"
-      justifyContent={{ base: 'center', md: 'space-between' }}
-      mb="0.5rem"
-      textAlign={{ base: 'center', md: 'left' }}
+      justifyContent="space-between"
+      mb="1.5rem"
     >
-      <Flex alignItems="center">
-        <Flex
-          as="h2"
-          bg="linear-gradient(70deg, rgb(255, 178, 43) 10%, rgb(255, 113, 97) 38%, rgb(255, 113, 97) 62%, rgb(0, 180, 111) 85%)"
-          bgClip="text"
-          color="transparent"
-          flexWrap="wrap"
-          fontSize="2.5rem"
-          fontWeight="bold"
-          gap="1rem"
-          height="fit-content"
-          justifyContent={{ base: 'center', md: 'left' }}
-          mr="0.8rem"
-        >
-          {title}
-        </Flex>
-        {menu}
+      <Flex
+        as="h2"
+        flexWrap="wrap"
+        fontSize="min(7vw, 2.5rem)"
+        fontWeight="bold"
+        height="fit-content"
+        textOverflow="ellipsis"
+        whiteSpace="nowrap"
+        overflow="hidden"
+        __css={styles}
+      >
+        {title}
       </Flex>
-      {actionButton}
+      <Flex alignItems="space-between" gap="0.5rem">
+        {menu}
+        <Box display={{ base: 'none', md: 'block' }}>{actionButton}</Box>
+      </Flex>
     </Flex>
   );
 }
