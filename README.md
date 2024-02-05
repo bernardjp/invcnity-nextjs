@@ -1,4 +1,4 @@
-<!-- <img src="readme/turimundo-banner.webp" style="color:#33394c" border="1px"/> -->
+<img src="readme/readme-banner.webp" style="color:#33394c" border="1px"/>
 
 <br>
 
@@ -10,28 +10,26 @@ The purpose of this project was to get a hands-on experience working with NextJS
 <br>
 
 <h1>Key Features.</h1>
-<p>This site work as a "storage" that helps to keep track of all the user's Real Estates findings and centralize all the information on a single plataform. In current times we are expected to navigate multiple plataforms to find a place to live (Airbnb, MercadoLibre, ZonaProps, even Real Estate Companies owns sites) making it harder to keep track of every single contender we find. This site helps to fill that organizational void and helps to keep the search tight and tidy.</p>
+<p>This site work as a "storage" that helps keeping track of all the user's Real Estates findings centralizing all the information on a single plataform. In current times we are expected to navigate multiple plataforms to find a place to live or rent (Airbnb, MercadoLibre, ZonaProps, even Real Estate companies' sites) making it harder to keep track of every single contender we find. This site helps to fill that organizational void and helps to keep the search tight and tidy.</p>
 <ul>
   <li>Start off by creating a VCNITY: a themed storage unit that can store multiple Real Estate info units.</li>
   <li>Found a interesting house or apartment? Create a Estate inside the VCNITY with all the information about your findings.</li>
   <li>Did you finally visited the Estate? Did you like it enough to consider it a REAL contender? Do you want to rate it? Then do it! Keep all the information updated.</li>
   <li>One of your findings turn out to be no longer an option? Then delete it and make room to new ones!</li>
 </ul>
+<img src="readme/readme-capture-1.webp" alt="create-vcnity-image" width="1014"/>
 
 <br>
-<h2>Navigate</h2>
-<p style="margin-bottom: 1.5rem">The data is stored locally in the project and contains all the information needed about each pack. Each card shows the name and basic info of each pack and can be filtered out to speed up the searching process. Click on the "card" and gain access to the detail page associated with the pack.</p>
-<!-- <img src="readme/navigation-animation.gif" alt="navigation-gif" width="1014"/> -->
+<h2>Create a VCNITY</h2>
+<p style="margin-bottom: 1.5rem">Ever come across that perfect property, only to forget the details later? With IN/VCNITY, you can save your searches, favorite listings, and property notes all in one secure place. Create a VCNITY themed around your interest: a vacation site, a new downtown apartment closer to work, an spacious family condo far from the polluted city's night sky!</p>
+<img src="readme/readme-capture-2.webp" alt="create-vcnity-image" width="1014"/>
 
 <br>
-<h2>Display details</h2>
-<p style="margin-bottom: 1.5rem">In the detail page you will find a wide array of information including price detail, google maps integration, detailed itinerary, etc. Each pack page is generated dynamically making use of the "id" query parameter.</p>
-<!-- <img src="readme/details-animation.gif" alt="details-gif" width="1014"/> -->
+<h2>Create a Estate unit and store its data</h2>
+<p style="margin-bottom: 1.5rem">Stay organized and informed throughout your real estate journey. Create a new Estate unit and fill it with all the relevant information: publication link, price, location, you can even asign it a name to make it easier to find it later on. No more digging through emails or scattered notes. Access everything you need, whenever you need it, for a seamless and stress-free experience.</p>
+<img src="readme/readme-capture-3.webp" alt="vcnity-page" width="1014"/>
 
 <br>
-<h2>Add to Cart and Checkout!</h2>
-<p style="margin-bottom: 1.5rem">Once you added the pack into the cart you can proceed to the checkout page, there you can remove the pack from the shoping cart, go back to the details page, or finish the purchase. The cart stores all its items in the localStorage, and deletes them once the "purchase" is finished.</p>
-<!-- <img src="readme/cart-animation.gif" alt="cart-gif" width="1014"/> -->
-
-<br>
-<br>
+<h2>Keep it up to date!</h2>
+<p style="margin-bottom: 1.5rem">Don't let outdated information hold you back. After touring a property, quickly mark it as "visited" on our platform. This helps you keep track of your progress and avoid revisiting the same places. Update notes, add impressions, and rate your experience to personalize your search journey and make informed decisions.</p>
+<img src="readme/readme-capture-4.webp" alt="estate-details" width="1014"/>
