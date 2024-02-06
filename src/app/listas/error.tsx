@@ -1,5 +1,5 @@
 'use client';
-import ErrorHandling from '../components/ErrorHandling';
+import DefaultError from '../components/ErrorHandling/DefaultError';
 
 type ErrorProps = {
   error: Error & { digest?: string };
@@ -8,7 +8,7 @@ type ErrorProps = {
 
 function Error(props: ErrorProps) {
   const { error, reset } = props;
-  return <ErrorHandling actionCallback={() => reset()} error={error} />;
+  return <DefaultError actionCallback={() => reset()} error={error} />;
 }
 
 export default Error;
