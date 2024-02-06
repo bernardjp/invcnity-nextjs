@@ -3,10 +3,15 @@ import React from 'react';
 import { useCreateResourceModal } from '@/app/hooks/useCreateResourceModal';
 import BaseModal from '../BaseModal';
 import FormInputs from './FormInputs';
-import { EstateFormInfo } from '@/firebase/customTypes';
+import { EstateFormInfo, ParamData } from '@/firebase/customTypes';
 
-function EstateCreationModal(): React.ReactElement {
+function EstateCreationModal({
+  paramData,
+}: {
+  paramData: ParamData;
+}): React.ReactElement {
   const { modalState, closeModal } = useCreateResourceModal('estate');
+  const defaultValues = modalState.defaultValues as EstateFormInfo;
 
   return (
     <BaseModal
@@ -16,8 +21,9 @@ function EstateCreationModal(): React.ReactElement {
       body={
         <FormInputs
           closeModal={closeModal}
-          defaultValues={modalState.defaultValues as EstateFormInfo}
+          defaultValues={defaultValues}
           action={modalState.action}
+          listData={defaultValues ? defaultValues.listData : paramData}
         />
       }
     />

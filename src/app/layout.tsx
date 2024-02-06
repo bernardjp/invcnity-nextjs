@@ -4,7 +4,6 @@ import { RecoilRoot } from 'recoil';
 import { StyleProviders } from '@/style/StyleProvider';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import AuthProvider from './customProviders/AuthProvider';
 
 export default function RootLayout({
   children,
@@ -16,11 +15,9 @@ export default function RootLayout({
       <body>
         <RecoilRoot>
           <StyleProviders>
-            <AuthProvider>
-              <Header />
-              <div id="main-page">{children}</div>
-              <Footer />
-            </AuthProvider>
+            <Header />
+            <div id="main-page">{children}</div>
+            <Footer />
           </StyleProviders>
         </RecoilRoot>
       </body>

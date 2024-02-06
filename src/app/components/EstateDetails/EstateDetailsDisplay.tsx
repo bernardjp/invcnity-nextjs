@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Flex, Stack } from '@chakra-ui/react';
-import { useParams } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { EstateDoc, EstateFormInfo, ListType } from '@/firebase/customTypes';
 import { editEstate } from '@/firebase/firestoreUtils';
@@ -24,21 +23,19 @@ import CardFavoriteIcon from '../Card/CardFavoriteIcon';
 import CardAnchorIcon from '../Card/CardAnchorIcon';
 import StarRatingSlider from '../StarRatingSlider';
 
-function EstateDetailsDisplay(props: { estateData: EstateDoc }) {
-  const { estateData } = props;
-  const params: { id: string } = useParams();
-  const estateID = params.id.split('_')[1];
-
+function EstateDetailsDisplay(props: {
+  estateData: EstateDoc;
+  estateID: string;
+}) {
+  const { estateData, estateID } = props;
   const [userCredentials] = useAuthState(auth);
+  const variant = listVariant[estateData.type];
 
-  const [estateFormData, setFormData] = useState(estateData);
-  const variant = listVariant[estateFormData.type];
-
-  // See if this can be solved with a local context provider.
   const { closeAlert, setAlertState } = useFormAlert();
   const setFavorite = useFavoriteEstate();
 
   // Form state
+  const [estateFormData, setFormData] = useState(estateData);
   const { isDisabled, toggleDisable } = useDisableForm();
   const [formError, setFormError] = useState<EstateFormValidation | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -65,7 +62,7 @@ function EstateDetailsDisplay(props: { estateData: EstateDoc }) {
 
     //Edit the Estate in the Estates Collection and in the Estate-List EstateSnippets.
     try {
-      editEstate(estateFormData, estateID, estateFormData.listID);
+      editEstate(estateFormData, estateID, estateFormData.listData.id);
       setFormError(null);
       toggleDisable(); // close the "edition mode".
     } catch (error) {
@@ -104,7 +101,7 @@ function EstateDetailsDisplay(props: { estateData: EstateDoc }) {
       border="2px solid"
       borderColor={isDisabled ? 'white' : 'brand.teal'}
       borderRadius="24px"
-      boxShadow="0px 10px 20px -3px #6d555552"
+      boxShadow="0px 10px 20px -3px rgba(238, 152, 0, 0.3)"
       padding={{ base: '1rem', sm: '1.5rem' }}
       width="100%"
     >
@@ -113,7 +110,7 @@ function EstateDetailsDisplay(props: { estateData: EstateDoc }) {
           variant={variant}
           isFavorite={estateFormData.isFavorite}
           setFavorite={(isFavorite: boolean) =>
-            setFavorite(estateFormData.listID, estateID, isFavorite)
+            setFavorite(estateFormData.listData.id, estateID, isFavorite)
           }
         />
         {estateFormData.publicationURL && (

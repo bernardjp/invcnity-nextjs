@@ -25,7 +25,7 @@ export type EstateDoc = {
   estateName: string;
   isFavorite?: boolean;
   isVisited?: boolean;
-  listID: string;
+  listData: ParamData;
   location: string;
   locationURL: string;
   price: string;
@@ -34,4 +34,10 @@ export type EstateDoc = {
   type: ListType;
   id: string;
   rating?: string;
+};
+
+export type ParamData = {
+  id: string;
+  type: ListType;
+  name: string;
 };

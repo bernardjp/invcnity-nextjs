@@ -4,7 +4,7 @@ import { Box, Flex, useStyleConfig } from '@chakra-ui/react';
 import { ThemeVariant } from '@/style/componentsStyleConfig';
 
 type Props = {
-  title: string;
+  title: React.ReactNode;
   menu?: React.ReactNode;
   actionButton?: React.ReactNode;
   variant?: ThemeVariant;
@@ -24,7 +24,7 @@ function DashboardTitle(props: Props) {
       <Flex
         as="h2"
         flexWrap="wrap"
-        fontSize="min(7vw, 2.5rem)"
+        fontSize="min(7vw, 2.2rem)"
         fontWeight="bold"
         height="fit-content"
         textOverflow="ellipsis"

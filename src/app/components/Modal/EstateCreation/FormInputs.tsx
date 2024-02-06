@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { useParams } from 'next/navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '@/firebase/clientApp';
 import { createEstate, editEstate } from '@/firebase/firestoreUtils';
-import { ListType, EstateFormInfo } from '@/firebase/customTypes';
+import { EstateFormInfo, ParamData } from '@/firebase/customTypes';
 import { validateEstateForm, EstateFormValidation } from './utils/validation';
 import StyledInput from '../StyledInput';
 import FormImage from '../ListCreation/FormImage';
@@ -17,27 +16,29 @@ const FORM_DEFAULT_VALUES: EstateFormInfo = {
   locationURL: '',
   publicationURL: '',
   type: 'house',
-  listID: '',
+  listData: {
+    id: '',
+    name: '',
+    type: 'house',
+  },
   id: '',
 };
 
 type Props = {
   action: 'create' | 'edit';
   defaultValues?: EstateFormInfo;
+  listData: ParamData;
   closeModal: () => void;
 };
 
 function FormInputs(props: Props): React.ReactElement {
-  const { closeModal, action, defaultValues } = props;
-  const params: { id: string } = useParams();
-  const [type, id] = params.id.split('_');
-
+  const { closeModal, action, defaultValues, listData } = props;
   const [userCredentials] = useAuthState(auth);
   const [estateFormData, setEstateFormData] = useState<EstateFormInfo>(
     defaultValues || {
       ...FORM_DEFAULT_VALUES,
-      type: type as ListType,
-      listID: id,
+      type: listData.type,
+      listData,
     }
   );
 
@@ -81,7 +82,11 @@ function FormInputs(props: Props): React.ReactElement {
 
       if (action === 'edit') {
         // the variable 'id' in the execution context points to the estateID because the edit action is only available inside 'propiedades/[id]' route, so 'id' in this case references the estate and not the estate_list.
-        editEstate(estateFormData, id, estateFormData.listID);
+        editEstate(
+          estateFormData,
+          estateFormData.id,
+          estateFormData.listData.id
+        );
       }
 
       setFormError(null);
@@ -99,7 +104,7 @@ function FormInputs(props: Props): React.ReactElement {
       onSubmit={onSubmitHandler}
       style={{ display: 'flex', flexDirection: 'column' }}
     >
-      <FormImage type={type as ListType} />
+      <FormImage type={listData.type} />
       <BaseLabeledInput label="Choose a name:">
         <StyledInput
           variant="flushed"
