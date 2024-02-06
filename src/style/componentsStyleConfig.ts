@@ -301,6 +301,15 @@ export const VariantText = defineStyleConfig({
       bg: 'brand.lightOrange',
       color: 'brand.darkChocolate',
     },
+    primaryOutline: {
+      color: 'brand.darkRed',
+    },
+    secondaryOutline: {
+      color: 'brand.darkTeal',
+    },
+    tertiaryOutline: {
+      color: 'brand.darkOrange',
+    },
   },
 });
 

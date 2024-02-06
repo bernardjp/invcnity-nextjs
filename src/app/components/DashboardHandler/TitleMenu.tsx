@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 
 export type CustomMenuItemProps = {
+  disabled?: boolean;
   icon: React.ReactElement;
   text: string;
   style: SystemStyleObject;
@@ -18,13 +19,14 @@ export type CustomMenuItemProps = {
 };
 
 const TitleMenuItem = (props: CustomMenuItemProps) => {
-  const { icon, style, text, onClickHandler } = props;
+  const { disabled, icon, style, text, onClickHandler } = props;
   return (
     <MenuItem
       icon={icon}
       borderRadius="8px"
       onClick={onClickHandler}
       sx={style}
+      isDisabled={disabled}
     >
       {text}
     </MenuItem>
@@ -46,16 +48,18 @@ function TitleMenu(props: {
             aria-label="Options"
             icon={
               isOpen ? (
-                <ChevronLeftIcon fontSize="24px" />
+                <ChevronLeftIcon fontSize="26px" />
               ) : (
-                <ChevronRightIcon fontSize="24px" />
+                <ChevronRightIcon fontSize="26px" />
               )
             }
-            border="1px solid"
+            border="2px solid"
             borderRadius="full"
             fontWeight="bold"
+            paddingInline="0 !important"
             transition="0.2s"
             variant="outline"
+            size={{ base: 'sm', md: 'md' }}
             sx={styles.button}
           />
           <MenuList

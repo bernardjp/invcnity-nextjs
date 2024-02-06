@@ -2,7 +2,6 @@ import React from 'react';
 import { Metadata } from 'next';
 import ListCreationModal from '../components/Modal/ListCreation';
 import ListsDashboard from '../components/ListsDashboard';
-import DashboardTitle from '../components/DashboardHandler/DashboardTitle';
 
 export const metadata: Metadata = {
   title: 'VCNITIES List | IN/V',
@@ -14,7 +13,6 @@ function ListPage(): React.ReactElement {
     <main>
       <ListCreationModal />
       <section>
-        <DashboardTitle title="VCNITIES" />
         <ListsDashboard />
       </section>
     </main>

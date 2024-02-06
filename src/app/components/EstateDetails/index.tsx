@@ -1,267 +1,66 @@
-import React, { useState, useEffect } from 'react';
-import { Flex, Stack } from '@chakra-ui/react';
-import { useParams } from 'next/navigation';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { EstateDoc, EstateFormInfo, ListType } from '@/firebase/customTypes';
-import { editEstate } from '@/firebase/firestoreUtils';
-import { auth } from '@/firebase/clientApp';
-import { useDisableForm } from '@/app/hooks/useDisableForm';
-import useFormAlert from '@/app/hooks/useFormAlert';
-import { useFavoriteEstate } from '@/app/hooks/useSetFavorite.';
-import { AlertState } from '@/recoil/FormAlertAtom';
-import { listVariant } from '@/style/componentsStyleConfig';
-import StyledInput from '../Modal/StyledInput';
-import BaseLabeledInput from '../Modal/BaseLabeledInput';
-import StyledSubmitButton from '../Modal/StyledSubmitButton';
-import FormImage from '../Modal/ListCreation/FormImage';
-import RadioTypeTabs from '../Modal/ListCreation/RadioInputs';
-import VisitedRadioInput from '../Modal/EstateCreation/VisitedRadioInput';
-import {
-  EstateFormValidation,
-  validateEstateForm,
-} from '../Modal/EstateCreation/utils/validation';
-import CardFavoriteIcon from '../Card/CardFavoriteIcon';
-import CardAnchorIcon from '../Card/CardAnchorIcon';
-import StarRatingSlider from '../StarRatingSlider';
+'use client';
+import React from 'react';
+import { doc } from 'firebase/firestore';
+import { useDocument } from 'react-firebase-hooks/firestore';
+import { EstateDoc, ListType } from '@/firebase/customTypes';
+import { firestore } from '@/firebase/clientApp';
+import DashboardTitle from '@/app/components/DashboardHandler/DashboardTitle';
+import EstateTitleMenu from '@/app/components/DashboardHandler/EstateTitleMenu';
+import EstateDetails from '@/app/components/EstateDetails/EstateDetailsDisplay';
+import LoadingSkeleton from '@/app/components/EstateDetails/LoadingSkeleton';
+import { Flex } from '@chakra-ui/react';
+import FormAlert from '@/app/components/FormAlert/FormAlert';
+import CustomLink from '@/app/components/Utils/CustomLink';
+import NotFoundWrapper from '@/app/components/ErrorHandling/NotFoundWrapper';
+import { ThemeVariant, listVariant } from '@/style/componentsStyleConfig';
 
-function EstateDetails(props: { estateData: EstateDoc }) {
-  const { estateData } = props;
-  const params: { id: string } = useParams();
-  const estateID = params.id.split('_')[1];
-
-  const [userCredentials] = useAuthState(auth);
-
-  const [estateFormData, setFormData] = useState(estateData);
-  const variant = listVariant[estateFormData.type];
-
-  // See if this can be solved with a local context provider.
-  const { closeAlert, setAlertState } = useFormAlert();
-  const setFavorite = useFavoriteEstate();
-
-  // Form state
-  const { isDisabled, toggleDisable } = useDisableForm();
-  const [formError, setFormError] = useState<EstateFormValidation | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  // Resets the form to its default values when it's disabled.
-  useEffect(() => {
-    if (isDisabled) setFormData(estateData);
-  }, [isDisabled, estateData]);
-
-  const onSubmitHandler = () => {
-    setFormError(null); // Reset the validation errors.
-    setLoading(true);
-
-    // Validates the states of the current user. Accessing the uid is key to create the estate.
-    const userId = userCredentials?.uid;
-    if (!userId) return;
-
-    // Validate the format of the data.
-    const formValidation = validateEstateForm(estateFormData);
-    if (!formValidation.isValidated) {
-      setFormError(formValidation);
-      return;
-    }
-
-    //Edit the Estate in the Estates Collection and in the Estate-List EstateSnippets.
-    try {
-      editEstate(estateFormData, estateID, estateFormData.listID);
-      setFormError(null);
-      toggleDisable(); // close the "edition mode".
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+type DetailsProps = {
+  id: string;
+  params: {
+    name: string;
+    type: string;
   };
+};
 
-  const onResetHandler = () => {
-    const alertMessage: AlertState = {
-      isOpen: true,
-      title: 'Discard Changes?',
-      dialog: 'Are you sure you want to discard all the changes?',
-      submitHandler: () => {
-        setFormData(estateData);
-        closeAlert();
-      },
-    };
-    setAlertState(alertMessage);
-  };
-
-  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
-  };
-
-  const radioInputsHandler = (value: ListType) => {
-    setFormData((prev: EstateFormInfo) => ({ ...prev, type: value }));
-  };
+function ContentWrapper(props: DetailsProps) {
+  const {
+    id,
+    params: { name, type },
+  } = props;
+  const [snapshot, loading, error] = useDocument(doc(firestore, 'estates', id));
+  const estateData = snapshot?.exists() && (snapshot.data() as EstateDoc);
 
   return (
-    <Flex
-      bg="white"
-      border="2px solid"
-      borderColor={isDisabled ? 'white' : 'brand.teal'}
-      borderRadius="24px"
-      boxShadow="0px 10px 20px -3px #6d555552"
-      padding={{ base: '1rem', sm: '1.5rem' }}
-      width="100%"
-    >
-      <Flex position="absolute" gap={1}>
-        <CardFavoriteIcon
-          variant={variant}
-          isFavorite={estateFormData.isFavorite}
-          setFavorite={(isFavorite: boolean) =>
-            setFavorite(estateFormData.listID, estateID, isFavorite)
-          }
-        />
-        {estateFormData.publicationURL && (
-          <CardAnchorIcon
-            label="Go to PUBLICATION"
-            variant={variant}
-            type="publication"
-            pageURL={estateFormData.publicationURL}
-          />
-        )}
-        {estateFormData.locationURL && (
-          <CardAnchorIcon
-            label="Go to LOCATION"
-            variant={variant}
-            type="location"
-            pageURL={estateFormData.locationURL}
-          />
-        )}
+    <NotFoundWrapper notFound={Boolean(error?.message)}>
+      <FormAlert />
+      <DashboardTitle
+        title={!loading && estateData ? name : 'Loading...'}
+        menu={
+          estateData && (
+            <EstateTitleMenu
+              type={type as ListType}
+              estateID={id}
+              listID={estateData.listID}
+              resource={'estate'}
+            />
+          )
+        }
+        actionButton={
+          <CustomLink
+            url="/listas"
+            variant={`${listVariant[type as ListType]}Outline` as ThemeVariant}
+          >
+            Go Back
+          </CustomLink>
+        }
+        variant={`${listVariant[type as ListType]}Outline` as ThemeVariant}
+      />
+      <Flex justifyContent="center">
+        {estateData && <EstateDetails estateData={estateData} />}
+        {loading && <LoadingSkeleton />}
       </Flex>
-      <form style={{ width: '100%' }}>
-        <Flex
-          justifyContent="space-between"
-          direction={{ base: 'column', md: 'row' }}
-        >
-          <Stack minW="48%" maxH="312px">
-            <FormImage type={estateFormData.type} />
-            <RadioTypeTabs
-              defaultValue={estateFormData.type}
-              isDisabled={isDisabled}
-              onChangeHandler={radioInputsHandler}
-            />
-          </Stack>
-          <Stack justifyContent="end" minW="48%">
-            <BaseLabeledInput label="Estate Name">
-              <StyledInput
-                type="text"
-                variant="flushed"
-                name="estateName"
-                placeholder="Choose a name for the Estate"
-                validation={formError?.estateName}
-                value={estateFormData.estateName}
-                onChange={onChangeHandler}
-                isDisabled={isDisabled}
-              />
-            </BaseLabeledInput>
-            <BaseLabeledInput label="Price">
-              <StyledInput
-                type="number"
-                variant="flushed"
-                name="price"
-                placeholder="0.00"
-                validation={formError?.price}
-                value={estateFormData.price}
-                onChange={onChangeHandler}
-                isDisabled={isDisabled}
-              />
-            </BaseLabeledInput>
-            <BaseLabeledInput label="Location">
-              <StyledInput
-                type="text"
-                variant="flushed"
-                name="location"
-                placeholder="Set the location (city or state)"
-                validation={formError?.location}
-                value={estateFormData.location}
-                onChange={onChangeHandler}
-                isDisabled={isDisabled}
-              />
-            </BaseLabeledInput>
-
-            <Flex direction={{ base: 'column', lg: 'row' }}>
-              <BaseLabeledInput label="Rating">
-                <StarRatingSlider
-                  value={estateFormData.rating}
-                  onChange={onChangeHandler}
-                  isDisabled={isDisabled}
-                />
-              </BaseLabeledInput>
-              <BaseLabeledInput label="Visited?">
-                <VisitedRadioInput
-                  value={Boolean(estateFormData.isVisited)}
-                  variant={variant}
-                  onChange={(val) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      isVisited: val === 'true',
-                    }))
-                  }
-                  isDisabled={isDisabled}
-                />
-              </BaseLabeledInput>
-            </Flex>
-          </Stack>
-        </Flex>
-
-        <Flex
-          justifyContent="space-between"
-          direction={{ base: 'column', md: 'row' }}
-        >
-          <Flex width={{ base: '100%', md: '48%' }}>
-            <BaseLabeledInput label="Ubication">
-              <StyledInput
-                type="text"
-                variant="flushed"
-                name="locationURL"
-                placeholder="Link to the Estate's ubication"
-                validation={formError?.locationURL}
-                value={estateFormData.locationURL}
-                onChange={onChangeHandler}
-                isDisabled={isDisabled}
-              />
-            </BaseLabeledInput>
-          </Flex>
-          <Flex width={{ base: '100%', md: '48%' }}>
-            <BaseLabeledInput label="Publication">
-              <StyledInput
-                type="text"
-                variant="flushed"
-                name="publicationURL"
-                placeholder="Link to the Estate's publication"
-                validation={formError?.publicationURL}
-                value={estateFormData.publicationURL}
-                onChange={onChangeHandler}
-                isDisabled={isDisabled}
-              />
-            </BaseLabeledInput>
-          </Flex>
-        </Flex>
-
-        {!isDisabled && (
-          <Flex gap={5} mt={6}>
-            <StyledSubmitButton
-              loading={loading}
-              type={'reset'}
-              text="Reset Estate"
-              onClickHandler={onResetHandler}
-            />
-            <StyledSubmitButton
-              loading={loading}
-              type={'submit'}
-              text="Update Estate"
-              onClickHandler={onSubmitHandler}
-            />
-          </Flex>
-        )}
-      </form>
-    </Flex>
+    </NotFoundWrapper>
   );
 }
 
-export default EstateDetails;
+export default ContentWrapper;

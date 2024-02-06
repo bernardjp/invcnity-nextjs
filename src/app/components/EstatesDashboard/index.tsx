@@ -1,22 +1,37 @@
 'use client';
 import React from 'react';
 import EstateCard from './EstateCard';
-import DashboardHandler from '../DashboardHandler';
 import { firestore } from '@/firebase/clientApp';
 import { collection } from 'firebase/firestore';
 import { EstateDoc, ListType } from '@/firebase/customTypes';
 import { useCollection } from 'react-firebase-hooks/firestore';
-import { useParams } from 'next/navigation';
 import { useFavoriteEstate } from '@/app/hooks/useSetFavorite.';
 import { useCreateResourceModal } from '@/app/hooks/useCreateResourceModal';
 import EmptyDashboard from '../DashboardHandler/EmptyDashboard';
 import EmptyCard from '../Card/EmptyCard';
 import { AddIcon } from '@chakra-ui/icons';
 import { Flex, Text } from '@chakra-ui/react';
+import { listVariant, ThemeVariant } from '@/style/componentsStyleConfig';
+import DashboardTitle from '../DashboardHandler/DashboardTitle';
+import ListTitleMenu from '../DashboardHandler/ListTitleMenu';
+import CustomLink from '../Utils/CustomLink';
+import LoadingSkeleton from '../DashboardHandler/LoadingSkeleton';
+import NotFoundWrapper from '../ErrorHandling/NotFoundWrapper';
 
-function EstateDashboard() {
-  const params: { id: string } = useParams();
-  const [type, id] = params.id.split('_');
+type EstateProps = {
+  id: string;
+  params: {
+    type: string;
+    name: string;
+  };
+};
+
+function EstateDashboard(props: EstateProps) {
+  const {
+    id,
+    params: { name, type },
+  } = props;
+
   const [value, loading, error] = useCollection(
     collection(firestore, `estate_lists/${id}/estateSnippets`)
   );
@@ -24,7 +39,23 @@ function EstateDashboard() {
   const { openModal } = useCreateResourceModal('estate');
 
   return (
-    <DashboardHandler loading={loading} error={error?.message}>
+    <NotFoundWrapper notFound={Boolean(error?.message)}>
+      <DashboardTitle
+        title={name || 'VCNITY Estates'}
+        menu={<ListTitleMenu type={type as ListType} listID={id} />}
+        actionButton={
+          <CustomLink
+            url="/listas"
+            variant={
+              (`${listVariant[type as ListType]}Outline` as ThemeVariant) ||
+              'primaryOutline'
+            }
+          >
+            Go Back
+          </CustomLink>
+        }
+        variant={`${listVariant[type as ListType]}Outline` as ThemeVariant}
+      />
       {value?.empty ? (
         <EmptyDashboard
           title="This VCNITY is Empty!"
@@ -32,7 +63,12 @@ function EstateDashboard() {
           actionCallback={() => openModal('create')}
         />
       ) : (
-        <>
+        <Flex
+          flexWrap="wrap"
+          gap="10px"
+          justifyContent={{ base: 'center', md: 'start' }}
+        >
+          {loading && <LoadingSkeleton />}
           {value?.docs.map((estate) => {
             const estateData = estate.data() as EstateDoc;
             return (
@@ -63,9 +99,9 @@ function EstateDashboard() {
             </Flex>
             <Text mt={4}>Create a new VCNITY</Text>
           </EmptyCard>
-        </>
+        </Flex>
       )}
-    </DashboardHandler>
+    </NotFoundWrapper>
   );
 }
 

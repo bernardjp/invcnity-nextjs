@@ -1,7 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { ListType } from '@/firebase/customTypes';
-import ContentWrapper from './ContentWrapper';
+import EstateDetails from '../../components/EstateDetails';
 import EstateCreationModal from '@/app/components/Modal/EstateCreation';
 
 export const metadata: Metadata = {
@@ -10,23 +9,17 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-  params: {
-    id: string;
-  };
+  params: { id: string };
+  searchParams: { type: string; name: string };
 };
 
-function EstatesDetailsPage(props: Props) {
-  const { params } = props;
-  const [listType, id] = params.id.split('_');
-
+function EstatesDetailsPage({ params, searchParams }: Props) {
   return (
     <main>
       <EstateCreationModal />
-      <ContentWrapper
-        id={id}
-        resourceType="estate"
-        listType={listType as ListType}
-      />
+      <section>
+        <EstateDetails id={params.id} params={searchParams} />
+      </section>
     </main>
   );
 }
