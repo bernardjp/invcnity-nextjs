@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import EstateCreationModal from '@/app/components/Modal/EstateCreation';
 import ListCreationModal from '@/app/components/Modal/ListCreation';
 import EstatesDashboard from '@/app/components/EstatesDashboard';
+import { ListType } from '@/firebase/customTypes';
 
 export const metadata: Metadata = {
   title: 'VCNITY Dashboard | IN/V',
@@ -11,16 +12,16 @@ export const metadata: Metadata = {
 
 type Props = {
   params: { id: string };
-  searchParams: { type: string; name: string };
+  searchParams: { type: ListType; name: string };
 };
 
 function ListPage({ params, searchParams }: Props) {
   return (
     <main>
-      <EstateCreationModal />
+      <EstateCreationModal paramData={{ ...params, ...searchParams }} />
       <ListCreationModal />
       <section>
-        <EstatesDashboard id={params.id} params={searchParams} />
+        <EstatesDashboard listData={{ ...params, ...searchParams }} />
       </section>
     </main>
   );

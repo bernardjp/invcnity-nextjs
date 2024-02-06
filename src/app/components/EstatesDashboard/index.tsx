@@ -3,7 +3,7 @@ import React from 'react';
 import EstateCard from './EstateCard';
 import { firestore } from '@/firebase/clientApp';
 import { collection } from 'firebase/firestore';
-import { EstateDoc, ListType } from '@/firebase/customTypes';
+import { EstateDoc, ParamData, ListType } from '@/firebase/customTypes';
 import { useCollection } from 'react-firebase-hooks/firestore';
 import { useFavoriteEstate } from '@/app/hooks/useSetFavorite.';
 import { useCreateResourceModal } from '@/app/hooks/useCreateResourceModal';
@@ -17,26 +17,17 @@ import ListTitleMenu from '../DashboardHandler/ListTitleMenu';
 import CustomLink from '../Utils/CustomLink';
 import LoadingSkeleton from '../DashboardHandler/LoadingSkeleton';
 import NotFoundWrapper from '../ErrorHandling/NotFoundWrapper';
+import { usePageTitle } from '@/app/hooks/usePageTitle';
 
-type EstateProps = {
-  id: string;
-  params: {
-    type: string;
-    name: string;
-  };
-};
-
-function EstateDashboard(props: EstateProps) {
-  const {
-    id,
-    params: { name, type },
-  } = props;
+function EstateDashboard({ listData }: { listData: ParamData }) {
+  const { id, name, type } = listData;
 
   const [value, loading, error] = useCollection(
     collection(firestore, `estate_lists/${id}/estateSnippets`)
   );
   const setFavorite = useFavoriteEstate();
   const { openModal } = useCreateResourceModal('estate');
+  usePageTitle(name);
 
   return (
     <NotFoundWrapper notFound={Boolean(error?.message)}>
@@ -85,7 +76,7 @@ function EstateDashboard(props: EstateProps) {
                 isFavorite={estateData.isFavorite}
                 rating={estateData.rating}
                 setFavoriteHandler={(isFavorite: boolean) =>
-                  setFavorite(estateData.listID, estate.id, isFavorite)
+                  setFavorite(estateData.listData.id, estate.id, isFavorite)
                 }
               />
             );

@@ -146,7 +146,7 @@ function createEstateSnippet(
 ) {
   const estateSnippetDocRef = doc(
     firestore,
-    `estate_lists/${estateData.listID}/estateSnippets`,
+    `estate_lists/${estateData.listData.id}/estateSnippets`,
     estateID
   );
   transaction.set(estateSnippetDocRef, estateData);
